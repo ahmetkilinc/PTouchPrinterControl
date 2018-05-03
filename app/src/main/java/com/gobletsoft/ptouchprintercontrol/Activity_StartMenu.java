@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -50,6 +52,11 @@ public class Activity_StartMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_startmenu);
         init();
         setListView();
@@ -247,6 +254,7 @@ public class Activity_StartMenu extends Activity {
      * set the launcher's items
      */
     private void setListView() {
+
         final Map<Object, Object> activityClass = new HashMap<Object, Object>();
         activityClass.put(0, Activity_PrintImage.class);
         activityClass.put(1, Activity_PrintPdf.class);
@@ -257,15 +265,16 @@ public class Activity_StartMenu extends Activity {
         List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         ArrayList<String> mListItems = new ArrayList<String>();
         mListItems.add(getString(R.string.text_print_image));
-        mListItems.add(getString(R.string.text_print_pdf));
-        mListItems.add(getString(R.string.text_print_template));
-        mListItems.add(getString(R.string.text_transfer_manager));
-        mListItems.add(getString(R.string.text_device_setting));
+        //mListItems.add(getString(R.string.text_print_pdf));
+        //mListItems.add(getString(R.string.text_print_template));
+        //mListItems.add(getString(R.string.text_transfer_manager));
+        //mListItems.add(getString(R.string.text_device_setting));
 
         int count = mListItems.size();
         Map<String, Object> listItem;
 
         for (int i = 0; i < count; i++) {
+
             listItem = new HashMap<String, Object>();
             listItem.put(Common.INTENT_FILE_NAME, mListItems.get(i));
             listItems.add(listItem);

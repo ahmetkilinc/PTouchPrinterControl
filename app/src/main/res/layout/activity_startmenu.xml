@@ -1,22 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TableRow
+    <ListView
+        android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@drawable/divider"
-            android:dividerHeight="2dp" />
+        android:layout_marginTop="300dp"
+        android:dividerHeight="2dp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-    </TableRow>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/radsanjustlogo" />
 
 </RelativeLayout>
