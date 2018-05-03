@@ -42,12 +42,12 @@
     <string name="text_pdf_pages_end">End Page:</string>
     <string name="chkbox_multiple_select">Multiple Select</string>
     <string name="chkbox_all_pages">All pages</string>
-    <string name="text_print_image">Print Image/Prn File</string>
+    <string name="text_print_image">Image Yazdır</string>
     <string name="text_print_pdf">Print Pdf File</string>
     <string name="text_print_template">Print Template</string>
     <string name="text_transfer_manager">Manage Templates</string>
     <string name="text_transfer_pdz">Transfer Template File</string>
-    <string name="text_device_setting">Device Settings</string>
+    <string name="text_device_setting">Ayarlar</string>
     <string name="text_remove_template">Remove Template File</string>
     <string name="text_not_exit_template">Template does not exit.</string>
     <string name="unable_access">Unable Access…</string>
