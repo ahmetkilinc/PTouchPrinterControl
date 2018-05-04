@@ -17,6 +17,7 @@ public class TemplatePrint extends BasePrint {
     private String mEncoding = null;
 
     public TemplatePrint(Context context, MsgHandle mHandle, MsgDialog mDialog) {
+
         super(context, mHandle, mDialog);
     }
 
@@ -34,13 +35,15 @@ public class TemplatePrint extends BasePrint {
     public void setEncoding(String encoding) {
 
         if (encoding.equalsIgnoreCase(Common.ENCODING_JPN)) {
+
             mEncoding = "SJIS";
         } else if (encoding.equalsIgnoreCase(Common.ENCODING_CHN)) {
+
             mEncoding = "GB18030";
         } else {
+
             mEncoding = null;
         }
-
     }
 
     /**
@@ -54,9 +57,11 @@ public class TemplatePrint extends BasePrint {
         boolean printError = false;
 
         for (int i = 0; i < count && !mCancel; i++) {
+
             mapData = mPrintData.get(i);
             switch (Integer.parseInt(mapData.get(Common.TEMPLATE_REPLACE_TYPE)
                     .toString())) {
+
                 case Common.TEMPLATE_REPLACE_TYPE_START: // start for the pdz print
                     int templateKey = Integer.parseInt(mapData.get(
                             Common.TEMPLATE_KEY).toString());
@@ -68,6 +73,7 @@ public class TemplatePrint extends BasePrint {
 
                     // if error, stop the next print
                     if (mPrintResult.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
+
                         printError = true;
                     }
                     break;
@@ -96,10 +102,12 @@ public class TemplatePrint extends BasePrint {
             }
 
             if (printError) {
+
                 break;
             }
         }
         if (mCancel && PrinterInfo.ErrorCode.ERROR_NONE == mPrintResult.errorCode) {
+
             mPrintResult.errorCode = PrinterInfo.ErrorCode.ERROR_CANCEL;
         }
     }
