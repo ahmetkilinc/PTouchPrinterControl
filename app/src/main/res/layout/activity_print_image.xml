@@ -11,10 +11,10 @@
 
         <Button
             android:id="@+id/btnSelectFile"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="@android:color/holo_blue_light"
             android:enabled="true"
             android:text="@string/button_select_file" />
@@ -27,10 +27,10 @@
 
         <Button
             android:id="@+id/btnPrinterStatus"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="@android:color/holo_blue_light"
             android:enabled="true"
             android:text="@string/button_printer_status" />
@@ -45,10 +45,10 @@
 
         <Button
             android:id="@+id/btnPrinterSettings"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="@android:color/holo_blue_light"
             android:enabled="true"
             android:text="@string/button_printer_settings" />
@@ -61,10 +61,10 @@
 
         <Button
             android:id="@+id/btnPrint"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="@android:color/holo_blue_light"
             android:enabled="true"
             android:text="@string/button_print" />
