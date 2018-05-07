@@ -22,8 +22,8 @@
     <string name="button_bluetooth_settings">Bluetooth Settings</string>
     <string name="button_network_settings">Network Settings</string>
     <string name="button_device_settings">Device Settings</string>
-    <string name="supported_device">PJ-7XX/RJ-4030Ai/RJ-2XXX</string>
-    <string name="mw_series">MW Series</string>
+    <string name="supported_device" translatable="false">PJ-7XX/RJ-4030Ai/RJ-2XXX</string>
+    <string name="mw_series" translatable="false">MW Series</string>
     <string name="file_explorer_title">File Explorer</string>
     <string name="button_printer_status">Printer Status</string>
     <string name="button_send_binfile">Send File</string>
@@ -41,12 +41,12 @@
     <string name="text_pdf_pages_end">End Page:</string>
     <string name="chkbox_multiple_select">Multiple Select</string>
     <string name="chkbox_all_pages">All pages</string>
-    <string name="text_print_image">Image Yazdır</string>
+    <string name="text_print_image">Image Print</string>
     <string name="text_print_pdf">Print Pdf File</string>
     <string name="text_print_template">Print Template</string>
     <string name="text_transfer_manager">Manage Templates</string>
     <string name="text_transfer_pdz">Transfer Template File</string>
-    <string name="text_device_setting">Ayarlar</string>
+    <string name="text_device_setting">Device Settings</string>
     <string name="text_remove_template">Remove Template File</string>
     <string name="text_not_exit_template">Template does not exit.</string>
     <string name="unable_access">Unable Access…</string>
@@ -56,8 +56,8 @@
     <string name="printer_text">Select a destination printer</string>
     <string name="setting_label">Settings</string>
     <string name="about_label">About</string>
-    <string name="about_title">Brother Print Sdk Demo</string>
-    <string name="about_text">Ver.3.0.9\n© 2016 Brother Industries, Ltd.\n</string>
+    <string name="about_title">Radsan P-Touch E550w Controller</string>
+    <string name="about_text">Ver.1.0.0 Brother Printer P-touch E550w - Radsan Kontrol Uygulaması</string>
     <string name="netPrinterListTitle_label">Net Printer</string>
     <string name="progress_dialog_message_preparing_connection">Preparing the connection…</string>
     <string name="progress_dialog_message_createData">Creating the data</string>
@@ -70,7 +70,7 @@
     <string name="progress_dialog_message_set_paper">Please Set Paper</string>
     <string name="progress_dialog_message_cooling_start">Printer cooling start</string>
     <string name="progress_dialog_message_cooling_end">Printer cooling end</string>
-    <string name="progress_dialog_message_waiting_peel">Wait for peeling label</string>
+    <string name="progress_dialog_message_waiting_peel" translatable="false">Wait for peeling label</string>
     <string name="progress_dialog_message_sending_template">File transferring</string>
     <string name="progress_dialog_message_getting_bluetooth_setting">Getting Bluetooth settings </string>
     <string name="progress_dialog_message_setting_bluetooth_setting">Transferring Bluetooth settings </string>
@@ -92,8 +92,8 @@
     <string name="paper_size_value">Select the paper size </string>
     <string name="orientation_title">Printing orientation</string>
     <string name="orientation_value">Select the printing orientation </string>
-    <string name="trim_tape_after_data_title">Cutting zero lines </string>
-    <string name="trim_tape_after_data_value">Select the cutting zero lines</string>
+    <string name="trim_tape_after_data_title" translatable="false">Cutting zero lines </string>
+    <string name="trim_tape_after_data_value" translatable="false">Select the cutting zero lines</string>
 
     <string name="tethering_title">Tethering</string>
     <string name="tethering_value">Select the tethering</string>
@@ -176,7 +176,7 @@
     </string-array>
 
 
-    <string name="is_carbon_title">Carbon</string>
+    <string name="is_carbon_title" translatable="false">Carbon</string>
     <string name="is_carbon_value">Select the carbon</string>
     <string name="pj_density_title">PJ Density</string>
     <string name="pj_density_value">Select the PJ density</string>
@@ -249,8 +249,8 @@
         <item>RIGHT</item>
     </string-array>
 
-    <string name="valign_title">Valign</string>
-    <string name="valign_value">Select the valign</string>
+    <string name="valign_title" translatable="false">Valign</string>
+    <string name="valign_value" translatable="false">Select the valign</string>
 
     <string-array name="valign">
         <item>TOP</item>
@@ -306,8 +306,8 @@
     </string-array>
 
 
-    <string name="dash_line_title">Dash Line Print</string>
-    <string name="dash_line_value">Dash Line Print</string>
+    <string name="dash_line_title" translatable="false">Dash Line Print</string>
+    <string name="dash_line_value" translatable="false">Dash Line Print</string>
 
 
     <string name="is_end_cut_title">End Cut</string>
@@ -343,30 +343,30 @@
     <string name="text_net_priority_ipv6">	Priority on IPv6 address	</string>
     <string name="text_net_ip4_staticmode">	Enable static IP Address	</string>
     <string name="text_net_ipv4_static_address">	IP Address	</string>
-    <string name="text_net_subnetmask">	Subnet Mask	</string>
-    <string name="text_net_gateway">	Gateway	</string>
-    <string name="text_net_dns_ipv4_bootmethod">	Boot Method	</string>
-    <string name="text_net_primary_dns_ipv4address">	Primary DNS Server IP Address	</string>
-    <string name="text_net_second_dns_ipv4address">	Secondary DNS Server IP Address	</string>
-    <string name="text_ipv6_setting">	IPv6 settings</string>
-    <string name="text_net_ip6_staticmode">	Enable Static IPv6 Address	</string>
-    <string name="text_net_ipv6_static_address">	Static IPv6 Address	</string>
-    <string name="text_net_primary_dns_ipv6address">	Primary DNS Server IPv6 Address	</string>
-    <string name="text_net_second_dns_ipv6address">	Secondary DNS Server IPv6 Address	</string>
-    <string name="text_net_ipv6address_list">	IPv6 Address List(Read only)		</string>
+    <string name="text_net_subnetmask" translatable="false">	Subnet Mask	</string>
+    <string name="text_net_gateway" translatable="false">	Gateway	</string>
+    <string name="text_net_dns_ipv4_bootmethod" translatable="false">	Boot Method	</string>
+    <string name="text_net_primary_dns_ipv4address" translatable="false">	Primary DNS Server IP Address	</string>
+    <string name="text_net_second_dns_ipv4address" translatable="false">	Secondary DNS Server IP Address	</string>
+    <string name="text_ipv6_setting" translatable="false">	IPv6 settings</string>
+    <string name="text_net_ip6_staticmode" translatable="false">	Enable Static IPv6 Address	</string>
+    <string name="text_net_ipv6_static_address" translatable="false">	Static IPv6 Address	</string>
+    <string name="text_net_primary_dns_ipv6address" translatable="false">	Primary DNS Server IPv6 Address	</string>
+    <string name="text_net_second_dns_ipv6address" translatable="false">	Secondary DNS Server IPv6 Address	</string>
+    <string name="text_net_ipv6address_list" translatable="false">	IPv6 Address List(Read only)		</string>
     <string name="text_net_communication_mode">	Communication Mode	</string>
     <string name="text_net_ssid">	SSID	</string>
     <string name="text_net_channel">	Channel	</string>
     <string name="text_net_authentication_method">	Authentication Method	</string>
     <string name="text_net_encryption_mode">	Encryption Mode	</string>
-    <string name="text_net_wepkey">	WEP Key(Write only)	</string>
-    <string name="text_net_passphrase">	Passphrase(Write only)	</string>
-    <string name="text_net_user_Id">	User ID(Write only)	</string>
-    <string name="text_net_password">	Password(Write only)	</string>
-    <string name="text_net_nodenam">	Node Name	</string>
-    <string name="text_wirelessdirect_key_create_mode">	SSID/Network Key Generation(BT/USB)	</string>
-    <string name="text_wirelessdirect_ssid">	SSID(BT/USB)	</string>
-    <string name="text_wirelessdirect_network_key">	Network Key(Write only)(BT/USB)</string>
+    <string name="text_net_wepkey" translatable="false">	WEP Key(Write only)	</string>
+    <string name="text_net_passphrase" translatable="false">	Passphrase(Write only)	</string>
+    <string name="text_net_user_Id" translatable="false">	User ID(Write only)	</string>
+    <string name="text_net_password" translatable="false">	Password(Write only)	</string>
+    <string name="text_net_nodenam" translatable="false">	Node Name	</string>
+    <string name="text_wirelessdirect_key_create_mode" translatable="false">	SSID/Network Key Generation(BT/USB)	</string>
+    <string name="text_wirelessdirect_ssid" translatable="false">	SSID(BT/USB)	</string>
+    <string name="text_wirelessdirect_network_key" translatable="false">	Network Key(Write only)(BT/USB)</string>
     <string name="text_printer_power_off_time">	Auto Power Off	</string>
     <string name="text_printer_power_off_time_battery">	Auto Power Off(Li-ion)	</string>
     <string name="text_print_jpeg_halftone">	JPEG Printing Halftone(BT/USB)	</string>
@@ -377,7 +377,7 @@
     <string name="text_bt_devicename">	Bluetooth Device Name(BT/USB)	</string>
     <string name="text_bt_auto_connection">Bluetooth Auto Connection(BT/USB)</string>
 
-    <string name="text_bt_bootmode">	Bluetooth on Power On(BT/USB)	</string>
+    <string name="text_bt_bootmode" translatable="false">	Bluetooth on Power On(BT/USB)	</string>
     <string name="text_wifi_setting">WiFi settings</string>
     <string name="text_wirelessdirect_setting">Wireless Direct settings</string>
     <string name="text_printer_setting">Printer settings</string>
@@ -697,12 +697,12 @@
 
     <string name="half_cut_title">Half Cut(PT Only)</string>
     <string name="half_cut_value">do half cut or not</string>
-    <string name="special_tape_title">Special tape paper(PT Only)</string>
-    <string name="special_tape_value">is special tape paper</string>
-    <string name="cut_mark_title">Cut Mark</string>
-    <string name="cut_mark_value">do cut mark or not</string>
-    <string name="label_margin_title">Mergine</string>
-    <string name="label_margin_value">Select Mergine</string>
+    <string name="special_tape_title" translatable="false">Special tape paper(PT Only)</string>
+    <string name="special_tape_value" translatable="false">is special tape paper</string>
+    <string name="cut_mark_title" translatable="false">Cut Mark</string>
+    <string name="cut_mark_value" translatable="false">do cut mark or not</string>
+    <string name="label_margin_title" translatable="false">Mergine</string>
+    <string name="label_margin_value" translatable="false">Select Mergine</string>
 
 
     <string name="save_prn_path_title">Save prn file</string>
@@ -715,23 +715,23 @@
     <string name="raw_mode_value">Select the raw mode</string>
 
 
-    <string name="soft_focusing_title">Lighter</string>
-    <string name="soft_focusing_value">Select the lighter</string>
+    <string name="soft_focusing_title" translatable="false">Lighter</string>
+    <string name="soft_focusing_value" translatable="false">Select the lighter</string>
 
     <string name="timeout_title">Timeout</string>
     <string name="timeout_text">Set the timeout </string>
     <string name="processTimeout_value">Time-out period</string>
     <string name="processTimeout_title">Set overall time-out time </string>
-    <string name="sendTimeout_value">Set transmission waiting time</string>
-    <string name="sendTimeout_title">Transmission waiting time</string>
-    <string name="receiveTimeout_title">Reception waiting time</string>
-    <string name="receiveTimeout_value">Set reception waiting time </string>
+    <string name="sendTimeout_value" translatable="false">Set transmission waiting time</string>
+    <string name="sendTimeout_title" translatable="false">Transmission waiting time</string>
+    <string name="receiveTimeout_title" translatable="false">Reception waiting time</string>
+    <string name="receiveTimeout_value" translatable="false">Set reception waiting time </string>
     <string name="connectionTimeout_title">Connect waiting time</string>
     <string name="connectionTimeout_value">Set connect waiting time </string>
-    <string name="close_wait_time_value">Close Time-out period</string>
-    <string name="close_wait_time_title">Set close waiting time</string>
+    <string name="close_wait_time_value" translatable="false">Close Time-out period</string>
+    <string name="close_wait_time_title" translatable="false">Set close waiting time</string>
 
-    <string name="work_path_value">Select the work path</string>
+    <string name="work_path_value" translatable="false">Select the work path</string>
     <string name="work_path_title">Work Folder</string>
 
     <string-array name="work_path_entries">
