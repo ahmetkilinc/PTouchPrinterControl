@@ -138,11 +138,14 @@ public class Activity_StartMenu extends Activity {
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_WRITE_EXTERNAL_STORAGE: {
+
                 if (grantResults.length == 0
                         || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
                     Toast.makeText(this, getString(R.string.unable_access),
                             Toast.LENGTH_SHORT).show();
                 } else {
+
                     init();
                 }
             }
@@ -151,17 +154,19 @@ public class Activity_StartMenu extends Activity {
     }
 
     private void setPreferences() {
+
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         // initialization for print
         Printer printer = new Printer();
         PrinterInfo printerInfo = printer.getPrinterInfo();
         if (printerInfo == null) {
+
             printerInfo = new PrinterInfo();
             printer.setPrinterInfo(printerInfo);
-
         }
         if (sharedPreferences.getString("printerModel", "").equals("")) {
+
             String printerModel = printerInfo.printerModel.toString();
             PrinterModelInfo.Model model = PrinterModelInfo.Model.valueOf(printerModel);
 
@@ -256,7 +261,7 @@ public class Activity_StartMenu extends Activity {
     private void setListView() {
 
         final Map<Object, Object> activityClass = new HashMap<Object, Object>();
-        activityClass.put(0, Activity_PrintImage.class);
+        activityClass.put(0, LabelOlustur.class);
         activityClass.put(1, Activity_PrintPdf.class);
         activityClass.put(2, Activity_PrintTemplate.class);
         activityClass.put(3, Activity_ManageTemplate.class);
@@ -414,36 +419,43 @@ public class Activity_StartMenu extends Activity {
 
                 Uri uri = intent.getData();
                 if (uri == null) {
+
                     return;
                 }
                 fileName = uri.toString();
                 if (fileName == null) {
+
                     return;
                 }
                 fileName = parseFileName(fileName);
             }
             if (fileName == null || "".equals(fileName)) {
+
                 fileName = saveDataFromIntent(intent);
             }
 
             if (fileName == null || fileName.equals("")) {
+
                 return;
             }
             // launch the PrintImage Activity when it is a image file or prn
             // file
             if (Common.isImageFile(fileName) || Common.isPrnFile(fileName)) {
+
                 Intent printerList = new Intent(this, Activity_PrintImage.class);
                 printerList.putExtra(Common.INTENT_FILE_NAME, fileName);
                 startActivity(printerList);
             }
             // launch the PrintPdf Activity when it is a pdf file
             else if (Common.isPdfFile(fileName)) {
+
                 Intent printerList = new Intent(this, Activity_PrintPdf.class);
                 printerList.putExtra(Common.INTENT_FILE_NAME, fileName);
                 startActivity(printerList);
             }
             // launch the TransferPdz Activity when it is a pdz file
             else if (Common.isTemplateFile(fileName)) {
+
                 Intent printerList = new Intent(this,
                         Activity_TransferPdz.class);
                 printerList.putExtra(Common.INTENT_FILE_NAME, fileName);
@@ -457,6 +469,7 @@ public class Activity_StartMenu extends Activity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainmenu_option, menu);
         return super.onCreateOptionsMenu(menu);
@@ -467,7 +480,9 @@ public class Activity_StartMenu extends Activity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.option_menu_setting: // printer settings
                 startActivity(new Intent(this, Activity_Settings.class));
                 break;
@@ -487,6 +502,7 @@ public class Activity_StartMenu extends Activity {
      */
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
@@ -498,6 +514,7 @@ public class Activity_StartMenu extends Activity {
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
             showTips();
         }
         return false;
@@ -514,6 +531,7 @@ public class Activity_StartMenu extends Activity {
                 .setCancelable(false)
                 .setPositiveButton(R.string.button_ok,
                         new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(final DialogInterface dialog,
                                                 final int which) {
@@ -523,9 +541,11 @@ public class Activity_StartMenu extends Activity {
                         })
                 .setNegativeButton(R.string.button_cancel,
                         new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(final DialogInterface dialog,
                                                 final int which) {
+
                             }
                         }).create();
         alertDialog.show();

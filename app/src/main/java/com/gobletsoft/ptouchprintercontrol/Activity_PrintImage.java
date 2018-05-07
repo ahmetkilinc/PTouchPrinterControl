@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +27,7 @@ import com.gobletsoft.ptouchprintercontrol.common.MsgHandle;
 import com.gobletsoft.ptouchprintercontrol.printprocess.ImagePrint;
 import com.gobletsoft.ptouchprintercontrol.printprocess.MultiImagePrint;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class Activity_PrintImage extends BaseActivity {
@@ -33,6 +36,8 @@ public class Activity_PrintImage extends BaseActivity {
     private ImageView mImageView;
     private Button mBtnPrint;
     private Button mMultiPrint;
+
+    private String tempString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,46 +51,65 @@ public class Activity_PrintImage extends BaseActivity {
         setContentView(R.layout.activity_print_image);
 
 
+        //bitmap dosyasını bu taraftan al
+       /* Intent intent = getIntent();
+        final Bitmap bitmap11 = (Bitmap) intent.getParcelableExtra("bitmap");
+
+        final BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap11);*/
+
+        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap11.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b = baos.toByteArray();
+        tempString = Base64.encodeToString(b, Base64.DEFAULT);*/
+
+
         Button btnSelectFile = (Button) findViewById(R.id.btnSelectFile);
         btnSelectFile.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 selectFileButtonOnClick();
             }
         });
 
         Button btnPrinterSettings = (Button) findViewById(R.id.btnPrinterSettings);
         btnPrinterSettings.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                printerSettingsButtonOnClick();
 
+                printerSettingsButtonOnClick();
             }
         });
 
         Button btnPrinterStatus = (Button) findViewById(R.id.btnPrinterStatus);
         btnPrinterStatus.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 printerStatusButtonOnClick();
 
             }
         });
         Button btnSendFile = (Button) findViewById(R.id.btnSendFile);
         btnSendFile.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                sendFileButtonOnClick();
 
+                sendFileButtonOnClick();
             }
         });
 
         mMultiPrint = (Button) findViewById(R.id.btnMultiPrint);
         mMultiPrint.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                printMultiFileButtonOnClick();
 
+                printMultiFileButtonOnClick();
             }
         });
 
@@ -94,10 +118,11 @@ public class Activity_PrintImage extends BaseActivity {
         // initialization for Activity
         mBtnPrint = (Button) findViewById(R.id.btnPrint);
         mBtnPrint.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                printButtonOnClick();
 
+                printButtonOnClick();
             }
         });
 
@@ -107,18 +132,23 @@ public class Activity_PrintImage extends BaseActivity {
                 .findViewById(R.id.chkMultipleSelect);
         chkMutilSelect
                 .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
                     @Override
                     public void onCheckedChanged(CompoundButton arg0,
                                                  boolean arg1) {
+
                         showMultiSelect(arg1);
                     }
                 });
 
         mImageView = (ImageView) this.findViewById(R.id.imageView);
 
+        //mImageView.setBackground(drawable);
+
         // get data from other application by way of intent sending
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
+
             String file = extras.getString(Common.INTENT_FILE_NAME);
             setDisplayFile(file);
             mBtnPrint.setEnabled(true);
@@ -137,7 +167,7 @@ public class Activity_PrintImage extends BaseActivity {
     /**
      * Called when [select file] button is tapped
      */
-    @Override
+   @Override
     public void selectFileButtonOnClick() {
 
         SharedPreferences prefs = PreferenceManager
@@ -158,6 +188,10 @@ public class Activity_PrintImage extends BaseActivity {
      */
     @Override
     public void printButtonOnClick() {
+
+        //String tempString = ;
+       // mFiles.add(tempString);
+
         // set the printing data
         ((ImagePrint) myPrint).setFiles(mFiles);
 
@@ -243,6 +277,7 @@ public class Activity_PrintImage extends BaseActivity {
      * set the image/prn file
      */
     private void setImageOrPrnFile(String file) {
+
         CheckBox chkMultiSelect = (CheckBox) this
                 .findViewById(R.id.chkMultipleSelect);
         TextView tvSelectedFiles = (TextView) findViewById(R.id.tvSelectedFiles);

@@ -13,6 +13,7 @@ public class ImagePrint extends BasePrint {
     private ArrayList<String> mImageFiles;
 
     public ImagePrint(Context context, MsgHandle mHandle, MsgDialog mDialog) {
+
         super(context, mHandle, mDialog);
     }
 
