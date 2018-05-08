@@ -229,4 +229,16 @@
     <string name="connectionTimeout_title">Bağlantı Bekleme Zamanı</string>
     <string name="connectionTimeout_value">Bağlantı Bekleme Zaman Ayarı</string>
     <string name="work_path_title">Çalışma Klasörü</string>
+    <string name="text_net_primary_dns_ipv4address">Birincil DNS Sunucu IP Adresi</string>
+    <string name="text_net_second_dns_ipv4address" translatable="false">İkincil DNS Sunucu IP Adresi</string>
+    <string name="text_ipv6_setting">IPv6 Ayarları</string>
+    <string name="text_net_ip6_staticmode">Statik IPv6 Adresini Etkinleştir</string>
+    <string name="text_net_ipv6_static_address">Statik IPv6 Adresi</string>
+    <string name="text_net_primary_dns_ipv6address">Birincil DNS Sunucu IPv6 Adresi</string>
+    <string name="text_net_second_dns_ipv6address" translatable="false">İkincil DNS Sunucu IPv6 Adresi</string>
+    <string name="text_net_ipv6address_list">IPv6 Adres Listesi (Sadece Okuma)</string>
+    <string name="text_net_wepkey">WEP Anahtarı (Sadece Yazma)</string>
+    <string name="text_net_user_Id">Kullanıcı ID (Sadece Yazma)</string>
+    <string name="text_net_password">Şifre (Sadece Yazma)</string>
+    <string name="text_wirelessdirect_network_key">Ağ Anahtarı (Sadece Yazma) (BT/USB)</string>
 </resources>

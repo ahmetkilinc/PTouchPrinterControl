@@ -10,8 +10,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 public class LabelOlustur extends AppCompatActivity {
 
@@ -127,8 +132,8 @@ public class LabelOlustur extends AppCompatActivity {
                     c.drawText(textOlcumDegeri, (0), yPos, p);
                     c.drawText(textAciklama, (0), yPosAciklama, p1);
                     c.drawText(textAciklama2, (0), yPosAciklama2, p2);
-                    c.drawText(Tarih, (123), yPosAciklama3, p3);
-                    c.drawText(saat, (123), yPosAciklama4, p4);
+                    c.drawText(Tarih, (130), yPosAciklama3, p3);
+                    c.drawText(saat, (130), yPosAciklama4, p4);
 
                     final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
 
@@ -140,29 +145,37 @@ public class LabelOlustur extends AppCompatActivity {
 
 
 
-                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                    // path to /data/data/yourapp/app_data/imageDir
-                    File directory = cw.getDir("Images", Context.MODE_PRIVATE);
-                    // Create imageDir
-                    File mypath = new File(directory,"radsan-label.jpg");
+                    String root = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES).toString();
+                    File myDir = new File(root + "/saved_images");
+                    myDir.mkdirs();
+                    Random generator = new Random();
 
-                    FileOutputStream fos = null;
+                    int n = 10000;
+                    n = generator.nextInt(n);
+                    String fname = "Image-"+ n +".png";
+                    File file = new File (myDir, fname);
+                    if (file.exists ()) file.delete ();
                     try {
-                        fos = new FileOutputStream(mypath);
-                        // Use the compress method on the BitMap object to write image to the OutputStream
-                        bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        FileOutputStream out = new FileOutputStream(file);
+                        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+                        // sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+                        //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+                        out.flush();
+                        out.close();
+
                     } catch (Exception e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            fos.close();
-
-
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
+                    // Tell the media scanner about the new file so that it is
+                    // immediately available to the user.
+                    MediaScannerConnection.scanFile(LabelOlustur.this, new String[]{file.toString()}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("ExternalStorage", "Scanned " + path + ":");
+                                    Log.i("ExternalStorage", "-> uri=" + uri);
+                                }
+                            });
 
 
 
