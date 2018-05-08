@@ -14,9 +14,9 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/radsan_logo" />
+        app:layout_constraintVertical_bias="0.42"
+        app:srcCompat="@drawable/radsanjustlogo" />
 </android.support.constraint.ConstraintLayout>

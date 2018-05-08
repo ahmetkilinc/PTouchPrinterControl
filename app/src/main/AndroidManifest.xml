@@ -102,7 +102,9 @@
             android:name=".Activity_PrinterPreference"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
             android:label="@string/text_device_setting" />
-        <activity android:name=".LabelOlustur"></activity>
+        <activity
+            android:name=".LabelOlustur"
+            android:label="Label Olustur" />
     </application>
 
 </manifest>

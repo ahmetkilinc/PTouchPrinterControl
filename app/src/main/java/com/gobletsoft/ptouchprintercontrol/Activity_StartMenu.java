@@ -270,10 +270,10 @@ public class Activity_StartMenu extends Activity {
         List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         ArrayList<String> mListItems = new ArrayList<String>();
         mListItems.add(getString(R.string.text_print_image));
-        mListItems.add(getString(R.string.text_print_pdf));
-        mListItems.add(getString(R.string.text_print_template));
-        mListItems.add(getString(R.string.text_transfer_manager));
-        mListItems.add(getString(R.string.text_device_setting));
+        //mListItems.add(getString(R.string.text_print_pdf));
+        //mListItems.add(getString(R.string.text_print_template));
+        //mListItems.add(getString(R.string.text_transfer_manager));
+        //mListItems.add(getString(R.string.text_device_setting));
 
         int count = mListItems.size();
         Map<String, Object> listItem;
