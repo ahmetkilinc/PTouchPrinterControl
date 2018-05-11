@@ -12,7 +12,7 @@
         android:layout_height="28dp"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="Ölçüm Değeri:"
+        android:text="@string/calc_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_marginEnd="92dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="OHM"
+        android:text="@string/ohm"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewAciklama1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="Açıklama 1 (Ölçülen Yer Adı):"
+        android:text="@string/desc_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextOlcumDegeri" />
@@ -81,7 +81,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="Açıklama 2 (Firma Adı):"
+        android:text="@string/desc_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAciklama1" />
@@ -104,28 +104,17 @@
         android:id="@+id/buttonGonder"
         android:layout_width="359dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
-        android:background="@null"
-        android:text="Gönder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAciklama2" />
-
-    <ImageView
-        android:id="@+id/imageViewBm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/colorAccent"
+        android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGonder"
-        app:srcCompat="@null" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAciklama2"
+        app:layout_constraintVertical_bias="0.038" />
 
 </android.support.constraint.ConstraintLayout>

@@ -38,7 +38,7 @@
     <string name="text_pdf_pages_end">Bitiş Sayfası</string>
     <string name="chkbox_multiple_select">Çoklu Seçim</string>
     <string name="chkbox_all_pages">Tüm Sayfalar</string>
-    <string name="text_print_image">Görüntü Yazdır</string>
+    <string name="text_print_image">Etiket Verilerini Girmek için Tıklayın</string>
     <string name="text_print_pdf">Pdf Dosyası Yazdır</string>
     <string name="text_print_template">Taslak Yazdır</string>
     <string name="text_transfer_manager">Taslakları Yönet</string>
@@ -241,4 +241,8 @@
     <string name="text_net_user_Id">Kullanıcı ID (Sadece Yazma)</string>
     <string name="text_net_password">Şifre (Sadece Yazma)</string>
     <string name="text_wirelessdirect_network_key">Ağ Anahtarı (Sadece Yazma) (BT/USB)</string>
+    <string name="calc_value">Ölçülen Değer</string>
+    <string name="desc_1">Açıklama 1 (Ölçülen Yer Adı):</string>
+    <string name="desc_2">Açıklama 2 (Firma Adı):</string>
+    <string name="send">Gönder</string>
 </resources>

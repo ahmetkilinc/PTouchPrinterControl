@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_select_file" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_printer_status" />
 
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_printer_settings" />
     </LinearLayout>
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_print" />
     </LinearLayout>
