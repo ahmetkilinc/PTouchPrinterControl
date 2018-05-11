@@ -41,7 +41,7 @@
     <string name="text_pdf_pages_end">End Page:</string>
     <string name="chkbox_multiple_select">Multiple Select</string>
     <string name="chkbox_all_pages">All pages</string>
-    <string name="text_print_image">Image Print</string>
+    <string name="text_print_image">Click to Enter Label Values</string>
     <string name="text_print_pdf">Print Pdf File</string>
     <string name="text_print_template">Print Template</string>
     <string name="text_transfer_manager">Manage Templates</string>
@@ -725,6 +725,12 @@
         <item>In-app folder</item>
         <item>External folder </item>
     </string-array>
+
+    <string name="calc_value">Calculation Value</string>
+    <string name="ohm" translatable="false">OHM</string>
+    <string name="desc_1">Description 1 (Measured Location Name):</string>
+    <string name="desc_2">Description 2 (Company Name):</string>
+    <string name="send">Send</string>
 
 
 </resources>

@@ -50,19 +50,6 @@ public class Activity_PrintImage extends BaseActivity {
 
         setContentView(R.layout.activity_print_image);
 
-
-        //bitmap dosyasını bu taraftan al
-       /* Intent intent = getIntent();
-        final Bitmap bitmap11 = (Bitmap) intent.getParcelableExtra("bitmap");
-
-        final BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap11);*/
-
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap11.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b = baos.toByteArray();
-        tempString = Base64.encodeToString(b, Base64.DEFAULT);*/
-
-
         Button btnSelectFile = (Button) findViewById(R.id.btnSelectFile);
         btnSelectFile.setOnClickListener(new View.OnClickListener() {
 

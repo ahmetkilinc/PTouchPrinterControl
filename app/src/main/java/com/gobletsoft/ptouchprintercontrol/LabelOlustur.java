@@ -50,7 +50,7 @@ public class LabelOlustur extends AppCompatActivity {
         final EditText etAciklama1 = findViewById(R.id.editTextAciklama1);
         final EditText etAciklama2 = findViewById(R.id.editTextAciklama2);
 
-        final ImageView ivBitmap = findViewById(R.id.imageViewBm);
+        //final ImageView ivBitmap = findViewById(R.id.imageViewBm);
 
 
         Calendar c = Calendar.getInstance();
@@ -86,58 +86,58 @@ public class LabelOlustur extends AppCompatActivity {
                     final Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                     final Canvas c = new Canvas(bmp);
 
-                    String textOlcumDegeri = olcumDegeri + " OHM";
+                    String textOlcumDegeri = olcumDegeri + "";
                     Paint p = new Paint();
-                    p.setTypeface(Typeface.DEFAULT);
-                    p.setTextSize(10);
+                    p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    p.setTextSize(160);
                     p.setColor(Color.BLACK);
 
-                    int yPos = (int) (-20 + (c.getHeight() / (3 / 2)));
+                    //yazının fotoda nerede olacağı (aşağı yukarı)
+                    int yPos = (int) (c.getHeight() / 1.65);
                     //- ((p.descent() + p.ascent()) / 2) - 10);
-
 
                     String textAciklama = aciklama1;
                     Paint p1 = new Paint();
-                    p1.setTypeface(Typeface.DEFAULT);
-                    p1.setTextSize(10);
+                    p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    p1.setTextSize(160);
                     p1.setColor(Color.BLACK);
 
-                    int yPosAciklama = (int) (-10 + (c.getHeight() / (3 / 2)));
+                    int yPosAciklama = (int) (c.getHeight() / 1.28);
 
                     String textAciklama2 = aciklama2;
                     Paint p2 = new Paint();
-                    p2.setTypeface(Typeface.DEFAULT);
-                    p2.setTextSize(10);
+                    p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    p2.setTextSize(160);
                     p2.setColor(Color.BLACK);
 
-                    int yPosAciklama2 = (int) (0 + (c.getHeight() / (3 / 2)));
+                    int yPosAciklama2 = (int) (c.getHeight() / 1.04);
 
                     String Tarih = formattedDate;
                     Paint p3 = new Paint();
-                    p3.setTypeface(Typeface.DEFAULT);
-                    p3.setTextSize(5);
+                    p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    p3.setTextSize(130);
                     p3.setColor(Color.BLACK);
 
-                    int yPosAciklama3 = (int) (-52 + (c.getHeight() / (3 / 2)));
+                    int yPosAciklama3 = (int) (c.getHeight() / 4);
 
 
                     String saat = formattedSaat;
                     Paint p4 = new Paint();
-                    p4.setTypeface(Typeface.DEFAULT);
-                    p4.setTextSize(5);
+                    p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    p4.setTextSize(130);
                     p4.setColor(Color.BLACK);
 
-                    int yPosAciklama4 = (int) (-42 + (c.getHeight() / (3 / 2)));
+                    int yPosAciklama4 = (int)  (c.getHeight() / 2.7 );
 
-                    c.drawText(textOlcumDegeri, (0), yPos, p);
-                    c.drawText(textAciklama, (0), yPosAciklama, p1);
-                    c.drawText(textAciklama2, (0), yPosAciklama2, p2);
-                    c.drawText(Tarih, (130), yPosAciklama3, p3);
-                    c.drawText(saat, (130), yPosAciklama4, p4);
+                    c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
+                    c.drawText(textAciklama, (c.getWidth() / 6), yPosAciklama, p1);
+                    c.drawText(textAciklama2, (c.getWidth() / 6), yPosAciklama2, p2);
+                    c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama3, p3);
+                    c.drawText(saat, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama4, p4);
 
                     final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
 
-                    ivBitmap.setBackground(drawable);
+                    //ivBitmap.setBackground(drawable);
 
 
 
@@ -160,7 +160,7 @@ public class LabelOlustur extends AppCompatActivity {
                         FileOutputStream out = new FileOutputStream(file);
                         bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
                         // sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-                        //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+                        // Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
                         out.flush();
                         out.close();
 
@@ -189,7 +189,7 @@ public class LabelOlustur extends AppCompatActivity {
 
 
                     Intent i = new Intent(LabelOlustur.this, Activity_PrintImage.class);
-                    i.putExtra("bitmap", bmp);
+                    //i.putExtra("bitmap", bmp);
                     startActivity(i);
                     //(new Intent(LabelOlustur.this, Activity_PrintImage.class));
                 }
