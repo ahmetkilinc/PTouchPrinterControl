@@ -23,6 +23,7 @@ dependencies {
     implementation fileTree(dir: "$buildDir/native-libs", include: 'native-libs.jar')
 
     task nativeLibsToJar(type: Jar, description: 'create a jar archive of the native libs') {
+
         destinationDir file("$buildDir/native-libs")
         baseName 'native-libs'
         from fileTree(dir: 'libs', include: '**/*.so')
@@ -30,11 +31,23 @@ dependencies {
     }
 
     tasks.withType(JavaCompile) {
+
         compileTask -> compileTask.dependsOn(nativeLibsToJar)
     }
 
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+
+        transitive = true
+    }
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:support-annotations:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+
+    compile 'com.github.bumptech.glide:glide:3.5.2'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

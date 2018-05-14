@@ -25,12 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
+            android:background="@color/colorAccent"
             android:text="@string/save_folder_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="20dp"
             android:text="@string/save_file_title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -57,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:text="@android:string/ok" />
 
         <Button
@@ -65,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:text="@android:string/cancel" />
     </LinearLayout>
 

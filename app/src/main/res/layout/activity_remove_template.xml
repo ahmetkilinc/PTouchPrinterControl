@@ -7,7 +7,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/black"
         android:orientation="horizontal"
         android:padding="3dp">
 
@@ -15,7 +14,8 @@
             android:id="@+id/btnPrinterSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
+            android:background="@color/colorAccent"
             android:text="@string/button_printer_settings" />
     </LinearLayout>
 
@@ -46,7 +46,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/black"
         android:orientation="horizontal"
         android:padding="6dp">
 
@@ -55,6 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:text="@string/button_delete" />
 
@@ -63,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:text="@string/button_get_list" />
     </LinearLayout>

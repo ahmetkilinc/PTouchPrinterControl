@@ -1,5 +1,4 @@
 package com.gobletsoft.ptouchprintercontrol;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
 
 import com.brother.ptouch.sdk.NetPrinter;
 import com.brother.ptouch.sdk.Printer;
@@ -40,21 +40,23 @@ public class Activity_NetPrinterList extends ListActivity {
         modelName = extras.getString(Common.MODEL_NAME);
         setContentView(R.layout.activity_netprinterlist);
 
-
-        Button btnRefresh = (Button) findViewById(R.id.btnRefresh);
+        Button btnRefresh = findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 refreshButtonOnClick();
 
             }
         });
 
-
-        Button btPrinterSettings = (Button) findViewById(R.id.btPrinterSettings);
+        Button btPrinterSettings = findViewById(R.id.btPrinterSettings);
         btPrinterSettings.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 settingsButtonOnClick();
 
             }
@@ -84,6 +86,7 @@ public class Activity_NetPrinterList extends ListActivity {
      * Called when [Refresh] button is tapped
      */
     private void refreshButtonOnClick() {
+
         setDialog();
         searchPrinter = new SearchThread();
         searchPrinter.start();
@@ -96,6 +99,7 @@ public class Activity_NetPrinterList extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == Common.ACTION_WIFI_SETTINGS) {
+
             setDialog();
             searchPrinter = new SearchThread();
             searchPrinter.start();
@@ -135,6 +139,7 @@ public class Activity_NetPrinterList extends ListActivity {
         try {
             // clear the item list
             if (mItems != null) {
+
                 mItems.clear();
             }
 
@@ -164,8 +169,8 @@ public class Activity_NetPrinterList extends ListActivity {
                     mItems.add(dispBuff[i]);
                 }
             } else if (netPrinterCount == 0
-                    && times == (Common.SEARCH_TIMES - 1)) { // when no printer
-                // is found
+                    && times == (Common.SEARCH_TIMES - 1)) { //when no printer
+
                 String dispBuff[] = new String[1];
                 dispBuff[0] = getString(R.string.no_network_device);
                 mItems.add(dispBuff[0]);
@@ -175,8 +180,10 @@ public class Activity_NetPrinterList extends ListActivity {
             if (searchEnd) {
                 // list the result of searching for net printer
                 this.runOnUiThread(new Runnable() {
+
                     @Override
                     public void run() {
+
                         final ArrayAdapter<String> fileList = new ArrayAdapter<String>(
                                 Activity_NetPrinterList.this,
                                 android.R.layout.test_list_item, mItems);
@@ -185,6 +192,7 @@ public class Activity_NetPrinterList extends ListActivity {
                 });
             }
         } catch (Exception e) {
+
         }
 
         return searchEnd;
@@ -209,8 +217,10 @@ public class Activity_NetPrinterList extends ListActivity {
         public void run() {
 
             for (int i = 0; i < Common.SEARCH_TIMES; i++) {
+
                 // search for net printer.
                 if (netPrinterList(i)) {
+
                     msgDialog.close();
                     break;
                 }

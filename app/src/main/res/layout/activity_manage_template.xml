@@ -16,6 +16,7 @@
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_transfer_template" />
 
@@ -25,6 +26,7 @@
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:enabled="true"
             android:text="@string/button_remove_template" />
     </LinearLayout>

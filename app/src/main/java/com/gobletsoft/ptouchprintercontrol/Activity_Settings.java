@@ -10,6 +10,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.gobletsoft.ptouchprintercontrol.common.Common;
 import com.gobletsoft.ptouchprintercontrol.printprocess.PrinterModelInfo;
@@ -25,7 +27,12 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.settings);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -118,7 +125,6 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
         setPreferenceValue("halfCut");
         setPreferenceValue("cutMark");
         setPreferenceValue("trimTapeAfterData");
-
 
         setEditValue("labelMargin");
         // initialization for printer

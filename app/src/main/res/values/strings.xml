@@ -347,7 +347,7 @@
     <string name="text_net_gateway" translatable="false">	Gateway	</string>
     <string name="text_net_dns_ipv4_bootmethod" translatable="false">	Boot Method	</string>
     <string name="text_net_primary_dns_ipv4address">	Primary DNS Server IP Address	</string>
-    <string name="text_net_second_dns_ipv4address">	Secondary DNS Server IP Address	</string>
+    <string name="text_net_second_dns_ipv4address">Secondary DNS Server IP Address\t</string>
     <string name="text_ipv6_setting">	IPv6 settings</string>
     <string name="text_net_ip6_staticmode">	Enable Static IPv6 Address	</string>
     <string name="text_net_ipv6_static_address">	Static IPv6 Address	</string>
@@ -726,11 +726,12 @@
         <item>External folder </item>
     </string-array>
 
-    <string name="calc_value">Calculation Value</string>
+    <string name="calc_value">Calculation Value:</string>
     <string name="ohm" translatable="false">OHM</string>
     <string name="desc_1">Description 1 (Measured Location Name):</string>
     <string name="desc_2">Description 2 (Company Name):</string>
     <string name="send">Send</string>
 
+    <string name="toast_message_label_olustur">To Continue Please Fill All The Blank Fields.</string>
 
 </resources>

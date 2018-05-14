@@ -12,7 +12,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="left">
+            android:gravity="start">
 
             <TextView
                 android:id="@+id/tvSelectedPdf"
@@ -27,13 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:background="@color/colorAccent"
                 android:text="@string/button_select" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left">
+            android:gravity="start">
 
             <CheckBox
                 android:id="@+id/chkAllPages"
@@ -88,6 +89,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:enabled="true"
                 android:text="@string/button_printer_settings" />
 
@@ -97,6 +99,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:enabled="true"
                 android:text="@string/button_print" />
         </LinearLayout>

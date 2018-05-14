@@ -4,17 +4,20 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,15 +26,30 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.brother.ptouch.sdk.Printer;
 import com.brother.ptouch.sdk.PrinterInfo;
+import com.bumptech.glide.Glide;
 import com.gobletsoft.ptouchprintercontrol.common.Common;
 import com.gobletsoft.ptouchprintercontrol.common.MsgDialog;
 import com.gobletsoft.ptouchprintercontrol.printprocess.PrinterModelInfo;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -48,6 +66,9 @@ public class Activity_StartMenu extends Activity {
 
     private final int PERMISSION_WRITE_EXTERNAL_STORAGE = 10001;
 
+    private AccountHeader headerResult = null;
+    Drawer result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,6 +84,161 @@ public class Activity_StartMenu extends Activity {
         getDataFromIntent();
         // initialize the SharedPreferences
         setPreferences();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //navigation drawer header
+
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
+                Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+
+                Glide.clear(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx, String tag) {
+                //define different placeholders for different imageView targets
+                //default tags are accessible via the DrawerImageLoader.Tags
+                //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
+                if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
+                    return DrawerUIUtils.getPlaceHolder(ctx);
+                } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(com.mikepenz.materialdrawer.R.color.primary).sizeDp(56);
+                } else if ("customUrlItem".equals(tag)) {
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
+                }
+
+                //we use the default one for
+                //DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name()
+
+                return super.placeholder(ctx, tag);
+            }
+        });
+        //image loader logic.
+
+        //profil eklendiği zaman düzenle. ->
+
+        //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
+
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withTranslucentStatusBar(true)
+                .withHeaderBackground(R.drawable.headerradsan)
+                .addProfiles(
+                        //profile
+
+                        //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
+                        //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
+                        //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
+                )
+                .withSavedInstance(savedInstanceState)
+                .build();
+
+
+        //adding navigation drawer
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new DrawerBuilder().withActivity(this).build();
+
+        //if you want to update the items at a later time it is recommended to keep it in a variable
+        PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
+
+        PrimaryDrawerItem itemBasaDon = new PrimaryDrawerItem().withIdentifier(1).withName("1").withSelectable(false).withIcon(
+                R.drawable.basadon);
+
+        PrimaryDrawerItem itemTumSonuclariGor = new PrimaryDrawerItem().withIdentifier(2).withName("2").withSelectable(false).withIcon(
+                R.drawable.sonuclar);
+
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName("3").withSelectable(false).withIcon(
+                R.drawable.ayarlar);
+
+        PrimaryDrawerItem itemCikisYap = new PrimaryDrawerItem().withIdentifier(4).withName("4").withSelectable(false).withIcon(
+                R.drawable.cikis);
+        //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
+
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        itemText,
+                        itemBasaDon,
+                        itemTumSonuclariGor,
+                        new DividerDrawerItem(),
+                        itemAyarlar,
+                        itemCikisYap
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+
+                        if (drawerItem != null){
+
+                            if (drawerItem.getIdentifier() == 1){
+
+                            }
+
+                            else if(drawerItem.getIdentifier() == 2){
+
+                            }
+
+                            else if(drawerItem.getIdentifier() == 3){
+
+                            }
+
+                            else if (drawerItem.getIdentifier() == 4){
+
+                            }
+                        }
+                        //istenilen event gerçekleştikten sonra drawer'ı kapat ->
+                        return false;
+                    }
+                })
+                .build();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private void init() {
@@ -72,6 +248,7 @@ public class Activity_StartMenu extends Activity {
          * Tool which can be downloaded from the Brother Net Site
          */
         try {
+
             raw2file("RJ4030_102mm.bin", R.raw.rj4030_102mm);
             raw2file("RJ4030_102mm152mm.bin", R.raw.rj4030_102mm152mm);
             raw2file("RJ4040_102mm.bin", R.raw.rj4040_102mm);
@@ -114,8 +291,10 @@ public class Activity_StartMenu extends Activity {
     private boolean isPermitWriteStorage() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
+
                 return false;
             }
         }
@@ -125,8 +304,10 @@ public class Activity_StartMenu extends Activity {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onStart() {
+
         super.onStart();
         if (!isPermitWriteStorage()) {
+
             requestPermissions(
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSION_WRITE_EXTERNAL_STORAGE);
@@ -137,6 +318,7 @@ public class Activity_StartMenu extends Activity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
+
             case PERMISSION_WRITE_EXTERNAL_STORAGE: {
 
                 if (grantResults.length == 0
@@ -160,11 +342,13 @@ public class Activity_StartMenu extends Activity {
         // initialization for print
         Printer printer = new Printer();
         PrinterInfo printerInfo = printer.getPrinterInfo();
+
         if (printerInfo == null) {
 
             printerInfo = new PrinterInfo();
             printer.setPrinterInfo(printerInfo);
         }
+
         if (sharedPreferences.getString("printerModel", "").equals("")) {
 
             String printerModel = printerInfo.printerModel.toString();
@@ -252,7 +436,6 @@ public class Activity_StartMenu extends Activity {
 
             editor.apply();
         }
-
     }
 
     /**
@@ -270,6 +453,8 @@ public class Activity_StartMenu extends Activity {
         List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         ArrayList<String> mListItems = new ArrayList<String>();
         mListItems.add(getString(R.string.text_print_image));
+        mListItems.add(getString(R.string.button_printer_settings));
+        mListItems.add("Genel Ayarlar");
         //mListItems.add(getString(R.string.text_print_pdf));
         //mListItems.add(getString(R.string.text_print_template));
         //mListItems.add(getString(R.string.text_transfer_manager));
@@ -290,49 +475,75 @@ public class Activity_StartMenu extends Activity {
                 new String[]{Common.INTENT_FILE_NAME},
                 new int[]{R.id.text});
 
-        ListView lvFiles = (ListView) this.findViewById(R.id.list);
+        ListView lvFiles = this.findViewById(R.id.list);
         lvFiles.setAdapter(adapter);
         lvFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
+
                 if (!isPermitWriteStorage()) {
+
                     requestPermissions(
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             PERMISSION_WRITE_EXTERNAL_STORAGE);
                     return;
                 }
 
-                Intent intent = new Intent(arg0.getContext(),
-                        (Class<?>) activityClass.get(arg2));
-                arg0.getContext().startActivity(intent);
+                if (arg2 == 1){
+
+                    startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                }
+
+                else if (arg2 == 2){
+
+                    Toast.makeText(getApplicationContext(), "Kullanıcı Ayarları Burada Olacak.", Toast.LENGTH_LONG).show();
+                }
+
+                else{
+
+                    Intent intent = new Intent(arg0.getContext(),
+                            (Class<?>) activityClass.get(arg2));
+                    arg0.getContext().startActivity(intent);
+                }
             }
         });
     }
 
     private String parseFileName(String fileName) {
+
         if (fileName.contains("content://")) {
+
             if (getIntent().getExtras() == null) {
+
                 return "";
             }
             final Uri imageUri = Uri.parse(
                     getIntent().getExtras().get("android.intent.extra.STREAM").toString());
             String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(imageUri, projection, null, null, null);
+
             if (cursor == null) {
+
                 return "";
             }
             int columnIndex = 0;
+
             try {
+
                 columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             } catch (IllegalArgumentException e) {
+
                 return "";
             }
+
             cursor.moveToFirst();
             fileName = cursor.getString(columnIndex);
             cursor.close();
         } else if (fileName.contains("file://")) {
+
             fileName = Uri.decode(fileName);
             fileName = fileName.substring(7);
         }
@@ -340,22 +551,31 @@ public class Activity_StartMenu extends Activity {
     }
 
     private String saveDataFromIntent(Intent intent) {
+
         String fileName = "";
 
         try {
+
             Uri uri;
             if (Intent.ACTION_SEND.equals(intent.getAction())) {
+
                 uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-            } else {
+            }
+            else {
+
                 uri = getIntent().getData();
             }
+
             if (uri == null) {
                 return "";
             }
+
             Cursor cursor = getContentResolver().query(uri, new String[]{
                     MediaStore.MediaColumns.DISPLAY_NAME
             }, null, null, null);
+
             if (cursor == null) {
+
                 return "";
             }
             cursor.moveToFirst();
@@ -364,11 +584,14 @@ public class Activity_StartMenu extends Activity {
             String folder = Environment.getExternalStorageDirectory()
                     .toString() + "/com.brother.ptouch.sdk/";
             File newdir = new File(folder);
+
             if (!newdir.exists()) {
+
                 newdir.mkdir();
             }
 
             if (nameIndex >= 0) {
+
                 fileName = folder + cursor.getString(nameIndex);
             }
             cursor.close();
@@ -380,11 +603,13 @@ public class Activity_StartMenu extends Activity {
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
             int n;
             while (-1 != (n = input.read(buffer))) {
+
                 output.write(buffer, 0, n);
             }
             input.close();
             output.close();
         } catch (IOException e) {
+
             fileName = "";
         }
 
@@ -399,6 +624,7 @@ public class Activity_StartMenu extends Activity {
 
         Intent intent = getIntent();
         if (intent == null) {
+
             return;
         }
         // Get file path from intent
@@ -408,7 +634,9 @@ public class Activity_StartMenu extends Activity {
             String fileName = "";
             // get the data of Intent.ACTION_SEND from other application
             if (Intent.ACTION_SEND.equals(intent.getAction())) {
+
                 if (intent.getExtras() == null) {
+
                     return;
                 }
                 fileName = intent.getExtras()
@@ -562,7 +790,9 @@ public class Activity_StartMenu extends Activity {
         }
         File dstFile = new File(Common.CUSTOM_PAPER_FOLDER + fileName);
         if (!dstFile.exists()) {
+
             try {
+
                 InputStream input;
                 OutputStream output;
                 input = this.getResources().openRawResource(fileID);
@@ -571,11 +801,13 @@ public class Activity_StartMenu extends Activity {
                 byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
                 int n;
                 while (-1 != (n = input.read(buffer))) {
+
                     output.write(buffer, 0, n);
                 }
                 input.close();
                 output.close();
             } catch (IOException ignored) {
+
             }
         }
     }

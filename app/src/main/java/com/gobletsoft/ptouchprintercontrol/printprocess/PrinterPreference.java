@@ -67,11 +67,13 @@ public class PrinterPreference extends BasePrint {
     }
 
     public interface PrinterPreListener extends EventListener {
+
         void finish(PrinterStatus status,
                     Map<PrinterInfo.PrinterSettingItem, String> settings);
     }
 
     private class PrinterPrefThread extends Thread {
+
         @Override
         public void run() {
 
@@ -86,7 +88,9 @@ public class PrinterPreference extends BasePrint {
             mPrintResult = new PrinterStatus();
 
             if (!mCancel) {
+
                 if (commandType == COMMAND_SEND) {
+
                     mPrintResult = mPrinter.updatePrinterSettings(mSettings);
 
                 } else if (commandType == COMMAND_RECEIVE) {
@@ -95,10 +99,12 @@ public class PrinterPreference extends BasePrint {
                     mPrintResult = mPrinter.getPrinterSettings(mKey, mSettings);
                 }
             } else {
+
                 mPrintResult.errorCode = PrinterInfo.ErrorCode.ERROR_CANCEL;
             }
 
             if (mListener != null) {
+
                 mListener.finish(mPrintResult, mSettings);
             }
 
