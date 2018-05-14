@@ -8,7 +8,8 @@
         android:id="@+id/tvFolderName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
+        android:padding="5dp"
         android:text="@string/folder_name"
         android:textSize="16sp" />
 
@@ -25,21 +26,17 @@
             android:paddingBottom="10dip" />
     </TableRow>
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="5dip"
-        android:background="@drawable/table_background"></TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/table_background">
+        android:layout_height="50dip">
 
         <Button
             android:id="@+id/btnFileListOk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:text="@string/button_ok" />
 
         <Button
@@ -47,6 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorAccent"
             android:text="@string/button_cancel" />
     </TableRow>
 

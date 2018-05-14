@@ -18,8 +18,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="5dp"
                 android:text="@string/text_ssp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -38,8 +38,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="5dp"
                 android:text="@string/text_power_saving"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:text="@string/button_get" />
 
             <Button
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:text="@string/button_update" />
         </TableRow>
 
@@ -86,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:text="@string/button_printer_settings" />
         </TableRow>
     </TableLayout>

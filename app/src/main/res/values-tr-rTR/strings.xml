@@ -241,8 +241,9 @@
     <string name="text_net_user_Id">Kullanıcı ID (Sadece Yazma)</string>
     <string name="text_net_password">Şifre (Sadece Yazma)</string>
     <string name="text_wirelessdirect_network_key">Ağ Anahtarı (Sadece Yazma) (BT/USB)</string>
-    <string name="calc_value">Ölçülen Değer</string>
+    <string name="calc_value">Ölçülen Değer:</string>
     <string name="desc_1">Açıklama 1 (Ölçülen Yer Adı):</string>
     <string name="desc_2">Açıklama 2 (Firma Adı):</string>
     <string name="send">Gönder</string>
+    <string name="toast_message_label_olustur">Devam Edebilmek için Lütfen Boş Alanları Doldurunuz.</string>
 </resources>
