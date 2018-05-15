@@ -246,4 +246,16 @@
     <string name="desc_2">Açıklama 2 (Firma Adı):</string>
     <string name="send">Gönder</string>
     <string name="toast_message_label_olustur">Devam Edebilmek için Lütfen Boş Alanları Doldurunuz.</string>
+    <string name="dn_go_back">Geri Dön</string>
+    <string name="dn_new_label">Yeni Etiket Oluştur</string>
+    <string name="dn_settings">Ayarlar</string>
+    <string name="dn_close">Çıkış</string>
+    <string name="startmenu_profile_settings">Profil Ayarları</string>
+    <string name="kullanici_giris_email">E-Posta</string>
+    <string name="kullanici_giris_password">Şifre</string>
+    <string name="kullanici_giris_email_hint">E-Posta</string>
+    <string name="kullanici_giris_password_hint">Şifre</string>
+    <string name="kullanici_giris_button_signin">Giriş Yap</string>
+    <string name="kullanici_giris_button_forgot">Şifremi Unuttum</string>
+    <string name="kullanici_giris_texview_radsan">Radsan A.Ş. Sunar</string>
 </resources>

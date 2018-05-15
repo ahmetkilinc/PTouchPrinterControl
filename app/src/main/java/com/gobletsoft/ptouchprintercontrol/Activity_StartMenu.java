@@ -163,16 +163,16 @@ public class Activity_StartMenu extends Activity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemBasaDon = new PrimaryDrawerItem().withIdentifier(1).withName("1").withSelectable(false).withIcon(
+        PrimaryDrawerItem itemBasaDon = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_go_back)).withSelectable(false).withIcon(
                 R.drawable.basadon);
 
-        PrimaryDrawerItem itemTumSonuclariGor = new PrimaryDrawerItem().withIdentifier(2).withName("2").withSelectable(false).withIcon(
+        PrimaryDrawerItem itemTumSonuclariGor = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
                 R.drawable.sonuclar);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName("3").withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemCikisYap = new PrimaryDrawerItem().withIdentifier(4).withName("4").withSelectable(false).withIcon(
+        PrimaryDrawerItem itemCikisYap = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -197,14 +197,17 @@ public class Activity_StartMenu extends Activity {
 
                             if (drawerItem.getIdentifier() == 1){
 
+                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
 
+                                startActivity(new Intent(Activity_StartMenu.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
 
+                                startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
@@ -331,7 +334,6 @@ public class Activity_StartMenu extends Activity {
                     init();
                 }
             }
-
         }
     }
 
@@ -454,11 +456,7 @@ public class Activity_StartMenu extends Activity {
         ArrayList<String> mListItems = new ArrayList<String>();
         mListItems.add(getString(R.string.text_print_image));
         mListItems.add(getString(R.string.button_printer_settings));
-        mListItems.add("Genel Ayarlar");
-        //mListItems.add(getString(R.string.text_print_pdf));
-        //mListItems.add(getString(R.string.text_print_template));
-        //mListItems.add(getString(R.string.text_transfer_manager));
-        //mListItems.add(getString(R.string.text_device_setting));
+        mListItems.add(getString(R.string.startmenu_profile_settings));
 
         int count = mListItems.size();
         Map<String, Object> listItem;
