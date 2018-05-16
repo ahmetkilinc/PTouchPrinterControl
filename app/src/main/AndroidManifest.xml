@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Activity_StartMenu">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -29,7 +28,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity_PrintImage"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
@@ -40,7 +38,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity_PrintPdf"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
@@ -107,11 +104,11 @@
             android:label="@string/text_device_setting" />
         <activity
             android:name=".LabelOlustur"
-            android:theme="@style/Theme.Design.Light.NoActionBar"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
-            android:label="Label Oluştur">
-        </activity>
-
+            android:label="Label Oluştur"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity android:name=".KullaniciGirisi" />
+        <activity android:name=".Gorevler"></activity>
     </application>
 
 </manifest>
