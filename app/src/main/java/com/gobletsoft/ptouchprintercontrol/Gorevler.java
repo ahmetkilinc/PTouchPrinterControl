@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.List;
+
 public class Gorevler extends AppCompatActivity {
 
     @Override
@@ -17,5 +19,6 @@ public class Gorevler extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_gorevler);
+
     }
 }
