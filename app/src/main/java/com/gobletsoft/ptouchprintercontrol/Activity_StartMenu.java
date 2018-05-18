@@ -85,21 +85,6 @@ public class Activity_StartMenu extends Activity {
         // initialize the SharedPreferences
         setPreferences();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //navigation drawer header
 
         //initialize and create the image loader logic
@@ -121,10 +106,15 @@ public class Activity_StartMenu extends Activity {
                 //default tags are accessible via the DrawerImageLoader.Tags
                 //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
                 if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
+
                     return DrawerUIUtils.getPlaceHolder(ctx);
-                } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
+                }
+                else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
+
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(com.mikepenz.materialdrawer.R.color.primary).sizeDp(56);
-                } else if ("customUrlItem".equals(tag)) {
+                }
+                else if ("customUrlItem".equals(tag)) {
+
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
                 }
 
@@ -219,29 +209,6 @@ public class Activity_StartMenu extends Activity {
                     }
                 })
                 .build();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private void init() {

@@ -107,8 +107,17 @@
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
             android:label="Label Oluştur"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
-        <activity android:name=".KullaniciGirisi" />
-        <activity android:name=".Gorevler"></activity>
+        <activity
+            android:name=".KullaniciGirisi"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
+            android:label="Kullanıcı Girişi"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Gorevler"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
+            android:label="Görevler"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
     </application>
-
 </manifest>
