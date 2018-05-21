@@ -26,9 +26,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
-import java.util.List;
-
-public class Gorevler extends AppCompatActivity {
+public class GorevDetaylar extends AppCompatActivity {
 
     private AccountHeader headerResult = null;
     Drawer result;
@@ -42,8 +40,7 @@ public class Gorevler extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_gorevler);
-
+        setContentView(R.layout.activity_gorev_detaylar);
 
 
 
@@ -156,12 +153,12 @@ public class Gorevler extends AppCompatActivity {
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(Gorevler.this, LabelOlustur.class));
+                                startActivity(new Intent(GorevDetaylar.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
 
-                                startActivity(new Intent(Gorevler.this, Activity_Settings.class));
+                                startActivity(new Intent(GorevDetaylar.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
@@ -179,18 +176,14 @@ public class Gorevler extends AppCompatActivity {
 
 
 
+        Button btnMeasure = findViewById(R.id.buttonMeasure);
 
-
-
-
-
-        Button btnOk1 = findViewById(R.id.buttonOk1);
-
-        btnOk1.setOnClickListener(new View.OnClickListener() {
+        btnMeasure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Gorevler.this, GorevDetaylar.class));
+                //gittiği yeri değiştir.
+                startActivity(new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class));
             }
         });
     }

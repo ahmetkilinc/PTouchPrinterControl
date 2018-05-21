@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(MainActivity.this, Activity_StartMenu.class);
+                    Intent intent = new Intent(MainActivity.this, KullaniciGirisi.class);
                     startActivity(intent);
                 }
             }

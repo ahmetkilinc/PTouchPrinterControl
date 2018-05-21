@@ -424,6 +424,7 @@ public class Activity_StartMenu extends Activity {
         mListItems.add(getString(R.string.text_print_image));
         mListItems.add(getString(R.string.button_printer_settings));
         mListItems.add(getString(R.string.startmenu_profile_settings));
+        mListItems.add("Assigned Jobs");
 
         int count = mListItems.size();
         Map<String, Object> listItem;
@@ -465,6 +466,11 @@ public class Activity_StartMenu extends Activity {
                 else if (arg2 == 2){
 
                     Toast.makeText(getApplicationContext(), "Kullanıcı Ayarları Burada Olacak.", Toast.LENGTH_LONG).show();
+                }
+
+                else if(arg2 == 3){
+
+                    startActivity(new Intent(Activity_StartMenu.this, Gorevler.class));
                 }
 
                 else{

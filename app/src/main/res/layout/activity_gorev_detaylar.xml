@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GorevDetaylar">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="30dp">
+
+            <TextView
+                android:id="@+id/textViewGorevler"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/gorev_detaylar_textView" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/radsanjustlogo" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.3"
+        android:background="@android:color/background_dark"/>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="90dp"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewId"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_id" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewIdValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewFirmName"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_name" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewFirmNameValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewLocation"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_location" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewFirmLocationValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewRelatedPerson"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_related_person" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewRelatedPersonValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewAddress"
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/gorev_detaylar_address" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewAddressValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewCountry"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_country" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewCountryValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewDistrict"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_district" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewDistrictValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewPhone"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_phone" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewPhoneValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewEmail"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_email" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewEmailValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewControlReason"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_control_reason" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewControlReasonValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewStatement"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_statement" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewStatementValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewMeasurementStaff"
+                    android:layout_width="110dp"
+                    android:layout_height="37dp"
+                    android:text="@string/gorev_detaylar_measurement_staff" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:background="@android:color/background_dark"/>
+
+                <TextView
+                    android:id="@+id/textViewMeasurementStaffValue"
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.3"
+                android:background="@android:color/background_dark"/>
+
+            <Button
+                android:id="@+id/buttonMeasure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="@string/gorev_detaylar_measure" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

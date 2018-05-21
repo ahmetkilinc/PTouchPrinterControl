@@ -748,4 +748,216 @@
     <string name="kullanici_giris_button_forgot">Forgot Password?</string>
     <string name="kullanici_giris_texview_radsan">Radsan A.Ş. Presents</string>
 
+    <string name="kullanici_giris_email">E-mail</string>
+    <string name="kullanici_giris_password">Password</string>
+
+    <string name="gorevler_mission_id">Job ID</string>
+    <string name="gorevler_mission_name">Job Name</string>
+    <string name="gorevler_ok">OK</string>
+    <string name="gorevler_cancel">Cancel</string>
+    <string name="gorevler_textview">Assigned Jobs</string>
+
+    <string name="gorev_detaylar_textView">Job Details</string>
+    <string name="gorev_detaylar_id">ID:</string>
+    <string name="gorev_detaylar_name">Firm Name:</string>
+    <string name="gorev_detaylar_location">Location:</string>
+    <string name="gorev_detaylar_related_person">Related Person:</string>
+    <string name="gorev_detaylar_address">Address:</string>
+    <string name="gorev_detaylar_country">Country:</string>
+    <string name="gorev_detaylar_district">District:</string>
+    <string name="gorev_detaylar_phone">Phone:</string>
+    <string name="gorev_detaylar_email">Email:</string>
+    <string name="gorev_detaylar_control_reason">Control Reason:</string>
+    <string name="gorev_detaylar_statement">Statement:</string>
+    <string name="gorev_detaylar_measurement_staff">Measurement Staff:</string>
+    <string name="gorev_detaylar_measure">Measure</string>
+
+    <string name="o_o_b_textviewMain">Measuring Environment Info</string>
+    <string name="o_o_b_textview">Measuring Instrument Info</string>
+    <string name="o_o_b_brand">Brand:</string>
+    <string name="o_o_b_model">Model:</string>
+    <string name="o_o_b_serial_no">Serial Number:</string>
+    <string name="o_o_b_textview1">Calibration Info</string>
+    <string name="o_o_b_calibration_institution">Calibration Institution:</string>
+    <string name="o_o_b_calibration_date">Calibration Date:</string>
+    <string name="o_o_b_calibration_validity_date">Calibration Validity Date:</string>
+    <string name="o_o_b_textview2">Location Info</string>
+    <string name="o_o_b_facility_project">Facility Project?:</string>
+    <string name="o_o_b_facility_yes">Yes</string>
+    <string name="o_o_b_facility_no">No</string>
+    <string name="o_o_b_weather">Weather:</string>
+    <string name="o_o_b_weather_clear">Clear</string>
+    <string name="o_o_b_weather_bad">Bad</string>
+    <string name="o_o_b_soil_condition">Soil Condition:</string>
+    <string name="o_o_b_soil_dry">Dry</string>
+    <string name="o_o_b_soil_damp">Damp</string>
+    <string name="o_o_b_grounding_facility_shape">Grounding Facility Shape:</string>
+    <string name="o_o_b_grounding_root">Root</string>
+    <string name="o_o_b_grounding_deep">Deep</string>
+    <string name="o_o_b_grounding_ring">Ring</string>
+    <string name="o_o_b_grounding_uncertain">Uncertain</string>
+    <string name="o_o_b_save">Save</string>
+
+    <string name="o_n_e_sebeke_tipi">Network Type:</string>
+    <string name="o_n_e_olculen_tip">Measured Type:</string>
+    <string name="o_n_e_karakteristik">Characteristic:</string>
+    <string name="o_n_e_ana_iletken_kesiti">Main Conductor Section:</string>
+    <string name="o_n_e_kacak_akim_rolesi">Leakage Relay:</string>
+    <string name="o_n_e_olcum_bolum_adi">Measurement Section Name:</string>
+    <string name="o_n_e_olculen_nokta">Measurement Point:</string>
+    <string name="o_n_e_In" translatable="false">In:</string>
+    <string name="o_n_e_koruma_iletken_kesiti">Protection Conductor Section:</string>
+    <string name="o_n_e_rx" translatable="false">Rx:</string>
+    <string name="o_n_e_buttonAdd">Add</string>
+
+    <string-array name="o_n_e_sebeke_tipi">
+        <item>TT</item>
+        <item>TN</item>
+        <item>TN-C</item>
+        <item>TN-S</item>
+        <item>TN-C-S</item>
+    </string-array>
+
+    <string-array name="o_n_e_olculen_tip">
+        <item>Pano</item>
+        <item>Trafo Koruma</item>
+        <item>Trafo İşletme</item>
+        <item>Tank</item>
+        <item>Parafadur</item>
+        <item>Enh Direk</item>
+        <item>OG Direk</item>
+        <item>Pompa</item>
+        <item>Eşpotansiyel Bara</item>
+        <item>Tel Cit</item>
+        <item>Statik Levha</item>
+        <item>Lift</item>
+        <item>Vinc</item>
+        <item>Diğerleri</item>
+    </string-array>
+
+    <string-array name="o_n_e_karakteristik">
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
+    <string-array name="o_n_e_ana_iletken_kesiti">
+        <item>2x1,5</item>
+        <item>2x2,5</item>
+        <item>2x4</item>
+        <item>2x6</item>
+        <item>2x10</item>
+        <item>2x16</item>
+        <item>2x25</item>
+        <item>2x35</item>
+        <item>2x50</item>
+        <item>2x70</item>
+        <item>2x95</item>
+        <item>2x120</item>
+        <item>2x150</item>
+        <item>2x185</item>
+        <item>2x240</item>
+        <item>2x300</item>
+        <item>3x1,5</item>
+        <item>3x2,5</item>
+        <item>3x4</item>
+        <item>3x10</item>
+        <item>3x16</item>
+        <item>3x25</item>
+        <item>3x35</item>
+        <item>3x50</item>
+        <item>3x70</item>
+        <item>3x95</item>
+        <item>3x120</item>
+        <item>3x150</item>
+        <item>3x185</item>
+        <item>3x240</item>
+        <item>3x300</item>
+        <item>4x1,5</item>
+        <item>4x2,5</item>
+        <item>4x4</item>
+        <item>4x6</item>
+        <item>4x10</item>
+        <item>4x16</item>
+        <item>4x25</item>
+        <item>4x35</item>
+        <item>4x50</item>
+        <item>4x70</item>
+        <item>4x95</item>
+        <item>4x120</item>
+        <item>4x150</item>
+        <item>4x185</item>
+        <item>4x240</item>
+        <item>4x300</item>
+        <item>3x16+10</item>
+        <item>3x50+25</item>
+        <item>3x70+35</item>
+        <item>3x95+50</item>
+        <item>3x120+70</item>
+        <item>3x150+70</item>
+        <item>3x185+95</item>
+        <item>3x240+120</item>
+        <item>3x300+150</item>
+        <item>4x(1x4)</item>
+        <item>4x(1x6)</item>
+        <item>4x(1x10)</item>
+        <item>4x(1x16)</item>
+        <item>4x(1x25)</item>
+        <item>4x(1x35)</item>
+        <item>4x(1x50)</item>
+        <item>4x(1x70)</item>
+        <item>4x(1x95)</item>
+        <item>4x(1x120)</item>
+        <item>4x(1x150)</item>
+        <item>4x(1x185)</item>
+        <item>4x(1x240)</item>
+        <item>4x(1x300)</item>
+        <item>4x(1x400)</item>
+        <item>4x(1x500)</item>
+        <item>4x(1x630)</item>
+        <item>5x4</item>
+        <item>5x6</item>
+        <item>5x10</item>
+        <item>5x16</item>
+        <item>5x25</item>
+        <item>5x35</item>
+        <item>5x50</item>
+        <item>5x70</item>
+        <item>5x95</item>
+        <item>5x120</item>
+        <item>5x150</item>
+        <item>5x185</item>
+        <item>5x240</item>
+        <item>5x300</item>
+    </string-array>
+
+    <string-array name="o_n_e_kacak_akim_rolesi">
+        <item>0</item>
+        <item>30</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="o_n_e_In">
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>10</item>
+        <item>16</item>
+        <item>20</item>
+        <item>25</item>
+        <item>32</item>
+        <item>35</item>
+        <item>40</item>
+        <item>50</item>
+        <item>63</item>
+        <item>80</item>
+        <item>100</item>
+        <item>125</item>
+        <item>160</item>
+        <item>200</item>
+        <item>250</item>
+        <item>315</item>
+        <item>400</item>
+        <item>500</item>
+        <item>630</item>
+    </string-array>
 </resources>
