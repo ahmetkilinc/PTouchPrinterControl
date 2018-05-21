@@ -111,13 +111,26 @@
             android:name=".KullaniciGirisi"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
             android:label="Kullanıcı Girişi"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Gorevler"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
             android:label="Görevler"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".GorevDetaylar"
+            android:label="Görev Detaylar"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".OlcumOrtamBilgileri"
+            android:label="Ölçüm Ortam Bilgileri"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".OlcumNoktalariEkle"
+            android:label="Ölçüm Noktaları Ekle"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
     </application>
+
 </manifest>

@@ -26,23 +26,23 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
-import java.util.List;
-
-public class Gorevler extends AppCompatActivity {
+public class OlcumOrtamBilgileri extends AppCompatActivity {
 
     private AccountHeader headerResult = null;
     Drawer result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_gorevler);
+        setContentView(R.layout.activity_olcum_ortam_bilgileri);
+
+
+
 
 
 
@@ -156,12 +156,12 @@ public class Gorevler extends AppCompatActivity {
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(Gorevler.this, LabelOlustur.class));
+                                startActivity(new Intent(OlcumOrtamBilgileri.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
 
-                                startActivity(new Intent(Gorevler.this, Activity_Settings.class));
+                                startActivity(new Intent(OlcumOrtamBilgileri.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
@@ -175,22 +175,13 @@ public class Gorevler extends AppCompatActivity {
                 .build();
 
 
+        Button btnKaydet = findViewById(R.id.buttonKaydet);
 
-
-
-
-
-
-
-
-
-        Button btnOk1 = findViewById(R.id.buttonOk1);
-
-        btnOk1.setOnClickListener(new View.OnClickListener() {
+        btnKaydet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Gorevler.this, GorevDetaylar.class));
+                startActivity(new Intent(OlcumOrtamBilgileri.this, OlcumNoktalariEkle.class));
             }
         });
     }

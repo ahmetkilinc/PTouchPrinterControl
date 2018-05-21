@@ -267,7 +267,7 @@ public class LabelOlustur extends AppCompatActivity {
                     p.setColor(Color.BLACK);
 
                     //yazının fotoda nerede olacağı (aşağı yukarı)
-                    int yPos = (int) (c.getHeight() / 1.65);
+                    int yPos = (int) (c.getHeight() / 1.95);
 
                     String textAciklama = aciklama1;
                     Paint p1 = new Paint();
@@ -275,7 +275,7 @@ public class LabelOlustur extends AppCompatActivity {
                     p1.setTextSize(160);
                     p1.setColor(Color.BLACK);
 
-                    int yPosAciklama = (int) (c.getHeight() / 1.28);
+                    int yPosAciklama = (int) (c.getHeight() / 1.35);
 
                     String textAciklama2 = aciklama2;
                     Paint p2 = new Paint();
@@ -291,7 +291,7 @@ public class LabelOlustur extends AppCompatActivity {
                     p3.setTextSize(130);
                     p3.setColor(Color.BLACK);
 
-                    int yPosAciklama3 = (int) (c.getHeight() / 4);
+                    int yPosAciklama3 = (int) (c.getHeight() / 5.5);
 
 
                     String saat = formattedSaat;
@@ -300,7 +300,7 @@ public class LabelOlustur extends AppCompatActivity {
                     p4.setTextSize(130);
                     p4.setColor(Color.BLACK);
 
-                    int yPosAciklama4 = (int)  (c.getHeight() / 2.7 );
+                    int yPosAciklama4 = (int)  (c.getHeight() / 3.5 );
 
                     c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
                     c.drawText(textAciklama, (c.getWidth() / 6), yPosAciklama, p1);
