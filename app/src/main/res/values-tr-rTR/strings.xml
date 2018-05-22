@@ -311,4 +311,5 @@
     <string name="o_n_e_koruma_iletken_kesiti">Koruma İletken Kesiti</string>
     <string name="o_n_e_buttonAdd">Ekle</string>
     <string name="o_o_b_textviewMain">Ölçüm Ortam Bilgileri</string>
+    <string name="o_n_textview_baslik">Ölçüm Noktaları</string>
 </resources>

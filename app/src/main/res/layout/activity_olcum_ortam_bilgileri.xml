@@ -250,6 +250,7 @@
                     android:text="@string/o_o_b_facility_project" />
 
                 <RadioGroup
+                    android:id="@+id/RadioGrouptesiseAitProje"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -284,6 +285,7 @@
                     android:text="@string/o_o_b_weather" />
 
                 <RadioGroup
+                    android:id="@+id/RadioGroupHavaDurumu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -319,6 +321,7 @@
                     android:text="@string/o_o_b_soil_condition" />
 
                 <RadioGroup
+                    android:id="@+id/RadioButtonToprakDurumu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -352,28 +355,28 @@
                     android:text="@string/o_o_b_grounding_facility_shape" />
 
                 <CheckBox
-                    android:id="@+id/checkBox7"
+                    android:id="@+id/checkBoxTemel"
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/o_o_b_grounding_root" />
 
                 <CheckBox
-                    android:id="@+id/checkBox8"
+                    android:id="@+id/checkBoxDerin"
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/o_o_b_grounding_deep" />
 
                 <CheckBox
-                    android:id="@+id/checkBox9"
+                    android:id="@+id/checkBoxRing"
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/o_o_b_grounding_ring" />
 
                 <CheckBox
-                    android:id="@+id/checkBox10"
+                    android:id="@+id/checkBoxBelirsiz"
                     android:layout_width="75dp"
                     android:layout_height="50dp"
                     android:gravity="fill_vertical"
