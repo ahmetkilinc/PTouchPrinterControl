@@ -960,4 +960,7 @@
         <item>500</item>
         <item>630</item>
     </string-array>
+
+    <string name="o_n_textview_baslik">Measurement Points</string>
+
 </resources>

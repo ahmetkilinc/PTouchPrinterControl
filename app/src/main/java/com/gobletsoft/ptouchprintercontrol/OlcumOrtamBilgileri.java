@@ -11,7 +11,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -26,7 +31,16 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OlcumOrtamBilgileri extends AppCompatActivity {
+
+    private String Marka, Model, SeriNumarasi, KalibrasyonYapanKurum, KalibrasyonTarihi, KalibrasyonGecerlilikSuresi;
+
+    private String TemelTopraklayiciSekli, DerinTopraklayiciSekli, RingTopraklayiciSekli, BelirsizTopraklayiciSekli;
+
+    private String TesiseAitProje, HavaDurumu, ToprakDurumu;
 
     private AccountHeader headerResult = null;
     Drawer result;
@@ -40,14 +54,6 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_olcum_ortam_bilgileri);
-
-
-
-
-
-
-
-
 
         //navigation drawer header
 
@@ -174,12 +180,106 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
                 })
                 .build();
 
+        final EditText etMarka = findViewById(R.id.editTextMarka);
+        final EditText etModel = findViewById(R.id.editTextModel);
+        final EditText etSeriNumarasi = findViewById(R.id.editTextSerialNo);
+
+        final EditText etKalibrasyonYapanKurum = findViewById(R.id.editTextKalibrasyonYapanKurum);
+        final EditText etKalibrasyonTarihi = findViewById(R.id.editTextKalibrasyonTarihi);
+        final EditText etKalibrasyonGecerlilikSuresi = findViewById(R.id.editTextKalibrasyonGecerlilikSuresi);
+
+        final RadioGroup rgTesiseAitProje = findViewById(R.id.RadioGrouptesiseAitProje);
+        final RadioGroup rgHavaDurumu = findViewById(R.id.RadioGroupHavaDurumu);
+        final RadioGroup rgToprakDurumu = findViewById(R.id.RadioButtonToprakDurumu);
+
+        final CheckBox cbTemel = findViewById(R.id.checkBoxTemel);
+        final CheckBox cbDerin = findViewById(R.id.checkBoxDerin);
+        final CheckBox cbRing = findViewById(R.id.checkBoxRing);
+        final CheckBox cbBelirsiz = findViewById(R.id.checkBoxBelirsiz);
+
+
+        /* radiobutton değerlerini bu şekilde al.
+        int tesiseAitProje = rgTesiseAitProje.getCheckedRadioButtonId();
+
+        RadioButton rbTesiseAitProje = findViewById(tesiseAitProje);
+
+        rbTesiseAitProje.getText();
+        */
+
 
         Button btnKaydet = findViewById(R.id.buttonKaydet);
 
         btnKaydet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (etMarka.getText().toString().isEmpty() || etModel.getText().toString().isEmpty() || etSeriNumarasi.getText().toString().isEmpty() ||
+                        etKalibrasyonYapanKurum.getText().toString().isEmpty() || etKalibrasyonTarihi.getText().toString().isEmpty() ||
+                        etKalibrasyonGecerlilikSuresi.getText().toString().isEmpty()){
+
+                    Toast.makeText(getApplicationContext(), "Lütfen Bilgileri Doldurunuz.", Toast.LENGTH_LONG).show();
+                }
+
+                else{
+
+                    Marka = etMarka.getText().toString();
+                    Model = etModel.getText().toString();
+                    SeriNumarasi = etSeriNumarasi.getText().toString();
+                    KalibrasyonYapanKurum = etKalibrasyonYapanKurum.getText().toString();
+                    KalibrasyonTarihi = etKalibrasyonTarihi.getText().toString();
+                    KalibrasyonGecerlilikSuresi = etKalibrasyonGecerlilikSuresi.getText().toString();
+
+                    //checkboxlar
+                    if (cbTemel.isChecked()){
+
+                        TemelTopraklayiciSekli = cbTemel.getText().toString();
+                    }
+                    else{
+                        //seçili olmadığını 0 ile ifade ettik.
+                        TemelTopraklayiciSekli = "0";
+                    }
+                    if (cbDerin.isChecked()){
+
+                        DerinTopraklayiciSekli = cbDerin.getText().toString();
+                    }
+                    else{
+
+                        DerinTopraklayiciSekli = "0";
+                    }
+
+                    if (cbRing.isChecked()){
+
+                        RingTopraklayiciSekli = cbRing.getText().toString();
+                    }
+                    else{
+
+                        RingTopraklayiciSekli = "0";
+                    }
+
+                    if (cbBelirsiz.isChecked()){
+
+                        BelirsizTopraklayiciSekli = cbBelirsiz.getText().toString();
+                    }
+                    else{
+
+                        BelirsizTopraklayiciSekli = "0";
+                    }
+
+                    //radio buttons
+                    int tesiseAitProje = rgTesiseAitProje.getCheckedRadioButtonId();
+                    RadioButton rbTesiseAitProje =findViewById(tesiseAitProje);
+                    TesiseAitProje = rbTesiseAitProje.getText().toString();
+
+                    int havaDurumu = rgHavaDurumu.getCheckedRadioButtonId();
+                    RadioButton rbHavaDurumu = findViewById(havaDurumu);
+                    HavaDurumu = rbHavaDurumu.getText().toString();
+
+                    int toprakDurumu = rgToprakDurumu.getCheckedRadioButtonId();
+                    RadioButton rbToprakDurumu = findViewById(toprakDurumu);
+                    ToprakDurumu = rbToprakDurumu.getText().toString();
+
+                    Toast.makeText(getApplicationContext(), TemelTopraklayiciSekli + " * " + DerinTopraklayiciSekli + " * " + RingTopraklayiciSekli + " * " + BelirsizTopraklayiciSekli, Toast.LENGTH_LONG).show();
+                }
 
                 startActivity(new Intent(OlcumOrtamBilgileri.this, OlcumNoktalariEkle.class));
             }
