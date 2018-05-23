@@ -71,21 +71,6 @@ public class Activity_PrintImage extends BaseActivity {
 
         setContentView(R.layout.activity_print_image);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //navigation drawer header
 
         //initialize and create the image loader logic
@@ -202,35 +187,6 @@ public class Activity_PrintImage extends BaseActivity {
                     }
                 })
                 .build();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         final String hop2 = getIntent().getExtras().getString("labelAdress");
 

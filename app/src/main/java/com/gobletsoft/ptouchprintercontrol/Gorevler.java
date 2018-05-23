@@ -30,6 +30,14 @@ import java.util.List;
 
 public class Gorevler extends AppCompatActivity {
 
+    public Button btnKabul1;
+    public Button btnKabul2;
+    public Button btnKabul3;
+    public Button btnKabul4;
+    public Button btnKabul5;
+    public Button btnKabul6;
+    public Button btnKabul7;
+
     private AccountHeader headerResult = null;
     Drawer result;
 
@@ -43,11 +51,6 @@ public class Gorevler extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_gorevler);
-
-
-
-
-
 
         //navigation drawer header
 
@@ -174,24 +177,44 @@ public class Gorevler extends AppCompatActivity {
                 })
                 .build();
 
+        btnKabul1 = findViewById(R.id.buttonOk1);
+        btnKabul2 = findViewById(R.id.buttonOk2);
+        btnKabul3 = findViewById(R.id.buttonOk3);
+        btnKabul4 = findViewById(R.id.buttonOk4);
+        btnKabul5 = findViewById(R.id.buttonOk5);
+        btnKabul6 = findViewById(R.id.buttonOk6);
+        btnKabul7 = findViewById(R.id.buttonOk7);
+
+        Button btnIptal1 = findViewById(R.id.buttonCancel1);
+        Button btnIptal2 = findViewById(R.id.buttonCancel2);
+        Button btnIptal3 = findViewById(R.id.buttonCancel3);
+        Button btnIptal4 = findViewById(R.id.buttonCancel4);
+        Button btnIptal5 = findViewById(R.id.buttonCancel5);
+        Button btnIptal6 = findViewById(R.id.buttonCancel6);
+        Button btnIptal7 = findViewById(R.id.buttonCancel7);
 
 
-
-
-
-
-
-
-
-
-        Button btnOk1 = findViewById(R.id.buttonOk1);
-
-        btnOk1.setOnClickListener(new View.OnClickListener() {
+        btnKabul1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 startActivity(new Intent(Gorevler.this, GorevDetaylar.class));
             }
         });
+    }
+
+    //görev sayısı < button sayısından ise fazla olanları gizle.
+    public void buttonGizle(){
+
+        for (int i = 2; i > 8; i++){
+
+
+        }
+    }
+
+    //görev sayısı > button sayısından ise yeni button ekle.
+    public  void buttonEkle(){
+
+
     }
 }

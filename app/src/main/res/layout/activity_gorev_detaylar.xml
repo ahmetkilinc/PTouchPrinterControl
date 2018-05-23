@@ -31,24 +31,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:drawableRight="@drawable/radsantoolbarlogo"
                 android:gravity="center"
                 android:text="@string/gorev_detaylar_textView" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/radsanjustlogo" />
 
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha="0.3"
-        android:background="@android:color/background_dark"/>
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -75,8 +64,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,8 +93,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -135,8 +122,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,8 +151,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,8 +180,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -225,8 +209,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -255,8 +238,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -285,8 +267,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -315,8 +296,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -345,8 +325,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -375,8 +354,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -405,8 +383,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -436,8 +413,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/buttonMeasure"
@@ -450,9 +426,5 @@
 
 
         </LinearLayout>
-
-
     </ScrollView>
-
-
 </android.support.constraint.ConstraintLayout>

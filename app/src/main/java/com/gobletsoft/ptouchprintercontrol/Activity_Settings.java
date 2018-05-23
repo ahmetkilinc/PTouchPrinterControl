@@ -227,6 +227,7 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
                 String printerModel = sharedPreferences.getString(
                         "printerModel", "");
                 if (printerModel.equalsIgnoreCase(newValue.toString())) {
+
                     return true;
                 }
 
@@ -383,7 +384,6 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
 
             paperSizePreference.setEntryValues(entryPaperSize);
             paperSizePreference.setEntries(entryPaperSize);
-
         }
     }
 
