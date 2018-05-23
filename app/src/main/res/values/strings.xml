@@ -722,6 +722,8 @@
     </string-array>
 
     <string name="label_olustur_baslik">Add Label Values</string>
+    <string name="olcum_noktalari_ekle_baslik">Add Measurement Points</string>
+    <string name="olcum_noktalari_baslik">Measurement Points</string>
     <string name="calc_value">Calculation Value:</string>
     <string name="ohm" translatable="false">OHM</string>
     <string name="desc_1">Description 1 (Measured Location Name):</string>

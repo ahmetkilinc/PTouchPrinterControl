@@ -316,4 +316,7 @@
     <string name="dn_gorevler">Görevler</string>
     <string name="dn_kabul_edilen_gorevler">Kabul Edilen Görevler</string>
     <string name="dn_tamamlanmis_gorevler">Tamamlanan Görevler</string>
+    <string name="dn_olcum_noktalari_ekle">Ölçüm Noktaları Ekle</string>
+    <string name="olcum_noktalari_ekle_baslik">Ölçüm Noktaları Ekle</string>
+    <string name="olcum_noktalari_baslik">Ölçüm Noktaları</string>
 </resources>

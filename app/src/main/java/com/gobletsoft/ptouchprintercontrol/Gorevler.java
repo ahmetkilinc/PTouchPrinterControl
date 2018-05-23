@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -102,9 +103,8 @@ public class Gorevler extends AppCompatActivity {
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
-                        //profile
+                        //profil ekleme kısmı, giriş yapılan verileri al ve ekle.
 
-                        //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
                 )
@@ -120,16 +120,22 @@ public class Gorevler extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemBasaDon = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_go_back)).withSelectable(false).withIcon(
-                R.drawable.basadon);
+        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
+                R.drawable.newlabel);
 
-        PrimaryDrawerItem itemTumSonuclariGor = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.sonuclar);
+        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
+                R.drawable.gorevler);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+                R.drawable.kabuledilengorev);
+
+        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+                R.drawable.tamamlanmisgorev);
+
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemCikisYap = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -139,11 +145,13 @@ public class Gorevler extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemBasaDon,
-                        itemTumSonuclariGor,
+                        itemYeniEtiket,
+                        itemGorevler,
+                        itemKabuledilenGorevler,
+                        itemTamamlanmisGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
-                        itemCikisYap
+                        itemKapat
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
 
@@ -154,21 +162,32 @@ public class Gorevler extends AppCompatActivity {
 
                             if (drawerItem.getIdentifier() == 1){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(Gorevler.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(Gorevler.this, LabelOlustur.class));
+                                startActivity(new Intent(Gorevler.this, Gorevler.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
 
-                                startActivity(new Intent(Gorevler.this, Activity_Settings.class));
+                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
 
+
+                            }
+
+                            else if (drawerItem.getIdentifier() == 5){
+
+                                startActivity(new Intent(Gorevler.this, Activity_Settings.class));
+                            }
+
+                            else if (drawerItem.getIdentifier() == 6){
+
+                                startActivity(new Intent(Gorevler.this, KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -193,6 +212,21 @@ public class Gorevler extends AppCompatActivity {
         Button btnIptal6 = findViewById(R.id.buttonCancel6);
         Button btnIptal7 = findViewById(R.id.buttonCancel7);
 
+        TextView tvGorevId1 = findViewById(R.id.textViewGorev1id);
+        TextView tvGorevId2 = findViewById(R.id.textViewGorev2id);
+        TextView tvGorevId3 = findViewById(R.id.textViewGorev3id);
+        TextView tvGorevId4 = findViewById(R.id.textViewGorev4id);
+        TextView tvGorevId5 = findViewById(R.id.textViewGorev5id);
+        TextView tvGorevId6 = findViewById(R.id.textViewGorev6id);
+        TextView tvGorevId7 = findViewById(R.id.textViewGorev7id);
+
+        TextView tvGorevAd1 = findViewById(R.id.textViewGorev1ad);
+        TextView tvGorevAd2 = findViewById(R.id.textViewGorev2ad);
+        TextView tvGorevAd3 = findViewById(R.id.textViewGorev3ad);
+        TextView tvGorevAd4 = findViewById(R.id.textViewGorev4ad);
+        TextView tvGorevAd5 = findViewById(R.id.textViewGorev5ad);
+        TextView tvGorevAd6 = findViewById(R.id.textViewGorev6ad);
+        TextView tvGorevAd7 = findViewById(R.id.textViewGorev7ad);
 
         btnKabul1.setOnClickListener(new View.OnClickListener() {
             @Override
