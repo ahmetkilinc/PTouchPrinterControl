@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/radsantoolbarlogo"
                 android:gravity="center"
-                android:text="Ölçüm Noktaları Ekle" />
+                android:text="@string/olcum_noktalari_ekle_baslik" />
 
         </LinearLayout>
 

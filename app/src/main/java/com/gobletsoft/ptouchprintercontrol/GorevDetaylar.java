@@ -44,9 +44,6 @@ public class GorevDetaylar extends AppCompatActivity {
         setContentView(R.layout.activity_gorev_detaylar);
 
 
-
-
-
         //navigation drawer header
 
         //initialize and create the image loader logic
@@ -99,7 +96,6 @@ public class GorevDetaylar extends AppCompatActivity {
                 .addProfiles(
                         //profile
 
-                        //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
                 )
@@ -115,16 +111,22 @@ public class GorevDetaylar extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemBasaDon = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_go_back)).withSelectable(false).withIcon(
-                R.drawable.basadon);
+        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
+                R.drawable.newlabel);
 
-        PrimaryDrawerItem itemTumSonuclariGor = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.sonuclar);
+        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
+                R.drawable.gorevler);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+                R.drawable.kabuledilengorev);
+
+        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+                R.drawable.tamamlanmisgorev);
+
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemCikisYap = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -134,11 +136,13 @@ public class GorevDetaylar extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemBasaDon,
-                        itemTumSonuclariGor,
+                        itemYeniEtiket,
+                        itemGorevler,
+                        itemKabuledilenGorevler,
+                        itemTamamlanmisGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
-                        itemCikisYap
+                        itemKapat
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
 
@@ -149,28 +153,43 @@ public class GorevDetaylar extends AppCompatActivity {
 
                             if (drawerItem.getIdentifier() == 1){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(GorevDetaylar.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(GorevDetaylar.this, LabelOlustur.class));
+                                startActivity(new Intent(GorevDetaylar.this, Gorevler.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
 
-                                startActivity(new Intent(GorevDetaylar.this, Activity_Settings.class));
+                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
 
+
                             }
+
+                            else if (drawerItem.getIdentifier() == 5){
+
+                                startActivity(new Intent(GorevDetaylar.this, Activity_Settings.class));
+                            }
+
+                            else if (drawerItem.getIdentifier() == 6){
+
+                                startActivity(new Intent(GorevDetaylar.this, KullaniciGirisi.class));
+                            }
+
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
                         return false;
                     }
                 })
                 .build();
+
+
+
 
         TextView tvID = findViewById(R.id.textViewIdValue);
         TextView tvFirmaAdi = findViewById(R.id.textViewFirmNameValue);

@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/radsantoolbarlogo"
                 android:gravity="center"
-                android:text="@string/o_o_b_textviewMain" />
+                android:text="@string/olcum_noktalari_baslik" />
 
         </LinearLayout>
 
