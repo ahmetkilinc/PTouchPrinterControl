@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -171,8 +172,18 @@ public class GorevDetaylar extends AppCompatActivity {
                 })
                 .build();
 
-
-
+        TextView tvID = findViewById(R.id.textViewIdValue);
+        TextView tvFirmaAdi = findViewById(R.id.textViewFirmNameValue);
+        TextView tvKonum = findViewById(R.id.textViewFirmLocationValue);
+        TextView tvIlgiliKisi = findViewById(R.id.textViewRelatedPersonValue);
+        TextView tvAdres = findViewById(R.id.textViewAddressValue);
+        TextView tvIl = findViewById(R.id.textViewCountryValue);
+        TextView tvIlce = findViewById(R.id.textViewDistrictValue);
+        TextView tvTelefon = findViewById(R.id.textViewPhoneValue);
+        TextView tvEposta = findViewById(R.id.textViewEmailValue);
+        TextView tvKontrolSebebi = findViewById(R.id.textViewControlReasonValue);
+        TextView tvAciklama = findViewById(R.id.textViewStatementValue);
+        TextView tvOlcumPersoneli = findViewById(R.id.textViewMeasurementStaffValue);
 
 
 

@@ -31,14 +31,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:drawableRight="@drawable/radsantoolbarlogo"
                 android:gravity="center"
                 android:text="@string/o_o_b_textviewMain" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/radsanjustlogo" />
 
         </LinearLayout>
 
@@ -148,8 +143,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -226,8 +221,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark"/>
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -240,6 +235,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -349,38 +345,59 @@
 
                 <TextView
                     android:id="@+id/textViewTopraklayiciTesisSekli"
-                    android:layout_width="67dp"
+                    android:layout_width="110dp"
                     android:layout_height="75dp"
                     android:gravity="center_vertical"
                     android:text="@string/o_o_b_grounding_facility_shape" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxTemel"
-                    android:layout_width="65dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/o_o_b_grounding_root" />
+                    android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/checkBoxDerin"
-                    android:layout_width="65dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/o_o_b_grounding_deep" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkBoxRing"
-                    android:layout_width="65dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/o_o_b_grounding_ring" />
+                        <CheckBox
+                            android:id="@+id/checkBoxTemel"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/o_o_b_grounding_root" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxBelirsiz"
-                    android:layout_width="75dp"
-                    android:layout_height="50dp"
-                    android:gravity="fill_vertical"
-                    android:text="@string/o_o_b_grounding_uncertain" />
+                        <CheckBox
+                            android:id="@+id/checkBoxDerin"
+                            android:layout_width="65dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/o_o_b_grounding_deep" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/checkBoxRing"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/o_o_b_grounding_ring" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxBelirsiz"
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="fill_vertical"
+                            android:text="@string/o_o_b_grounding_uncertain" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -392,6 +409,7 @@
                     android:id="@+id/buttonKaydet"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:text="@string/o_o_b_save" />

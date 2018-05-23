@@ -27,17 +27,12 @@
 
             <TextView
                 android:id="@+id/textViewGorevler"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:drawableEnd="@drawable/radsantoolbarlogo"
                 android:gravity="center"
-                android:text="Etiket Oluştur" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/radsanjustlogo" />
+                android:text="@string/label_olustur_baslik" />
 
         </LinearLayout>
 

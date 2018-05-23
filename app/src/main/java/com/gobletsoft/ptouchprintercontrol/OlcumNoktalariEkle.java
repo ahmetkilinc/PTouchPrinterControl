@@ -29,11 +29,15 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import static java.util.function.Predicate.isEqual;
+
 public class OlcumNoktalariEkle extends AppCompatActivity {
 
     private String SebekeTipi, OlculenTip, Karakteristik, AnaIletkenKesiti;
     private Integer KacakAkimRolesi, In;
     private String OlcumBolumAdi, OlculenNokta, KorumaIletkenKesiti, Rx;
+
+    private Double doubleAnaIletkenKesit;
 
     private AccountHeader headerResult = null;
     Drawer result;
@@ -212,6 +216,356 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     Rx = etRx.getText().toString();
 
 
+                    switch (AnaIletkenKesiti) {
+                        case "2x1,5":
+
+                            doubleAnaIletkenKesit = 1.5;
+                            break;
+                        case "2x2,5":
+
+                            doubleAnaIletkenKesit = 2.5;
+                            break;
+                        case "2x4":
+
+                            doubleAnaIletkenKesit = 4.0;
+                            break;
+                        case "2x6":
+
+                            doubleAnaIletkenKesit = 6.0;
+                            break;
+                        case "2x10":
+
+                            doubleAnaIletkenKesit = 10.0;
+                            break;
+                        case "2x16":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "2x25":
+
+                            doubleAnaIletkenKesit = 25.0;
+                            break;
+                        case "2x35":
+
+                            doubleAnaIletkenKesit = 35.0;
+                            break;
+                        case "2x50":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "2x70":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "2x95":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "2x120":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "2x150":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "2x185":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "2x240":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "2x300":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                        case "3x1,5":
+
+                            doubleAnaIletkenKesit = 1.5;
+                            break;
+                        case "3x2,5":
+
+                            doubleAnaIletkenKesit = 2.5;
+                            break;
+                        case "3x4":
+
+                            doubleAnaIletkenKesit = 4.0;
+                            break;
+                        case "3x10":
+
+                            doubleAnaIletkenKesit = 10.0;
+                            break;
+                        case "3x16":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "3x25":
+
+                            doubleAnaIletkenKesit = 25.0;
+                            break;
+                        case "3x35":
+
+                            doubleAnaIletkenKesit = 35.0;
+                            break;
+                        case "3x50":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "3x70":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "3x95":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "3x120":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "3x150":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "3x185":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "3x240":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "3x300":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                        case "4x1,5":
+
+                            doubleAnaIletkenKesit = 1.5;
+                            break;
+                        case "4x2,5":
+
+                            doubleAnaIletkenKesit = 2.5;
+                            break;
+                        case "4x4":
+
+                            doubleAnaIletkenKesit = 4.0;
+                            break;
+                        case "4x6":
+
+                            doubleAnaIletkenKesit = 6.0;
+                            break;
+                        case "4x10":
+
+                            doubleAnaIletkenKesit = 10.0;
+                            break;
+                        case "4x16":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "4x25":
+
+                            doubleAnaIletkenKesit = 25.0;
+                            break;
+                        case "4x35":
+
+                            doubleAnaIletkenKesit = 35.0;
+                            break;
+                        case "4x50":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "4x70":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "4x95":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "4x120":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "4x150":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "4x185":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "4x240":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "4x300":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                        case "3x16+10":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "3x50+25":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "3x70+35":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "3x95+50":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "3x120+70":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "3x150+70":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "3x185+95":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "3x240+120":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "3x300+150":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                        case "4x(1x4)":
+
+                            doubleAnaIletkenKesit = 4.0;
+                            break;
+                        case "4x(1x6)":
+
+                            doubleAnaIletkenKesit = 6.0;
+                            break;
+                        case "4x(1x10)":
+
+                            doubleAnaIletkenKesit = 10.0;
+                            break;
+                        case "4x(1x16)":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "4x(1x25)":
+
+                            doubleAnaIletkenKesit = 25.0;
+                            break;
+                        case "4x(1x35)":
+
+                            doubleAnaIletkenKesit = 35.0;
+                            break;
+                        case "4x(1x50)":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "4x(1x70)":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "4x(1x95)":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "4x(1x120)":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "4x(1x150)":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "4x(1x185)":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "4x(1x240)":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "4x(1x300)":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                        case "4x(1x400)":
+
+                            doubleAnaIletkenKesit = 400.0;
+                            break;
+                        case "4x(1x500)":
+
+                            doubleAnaIletkenKesit = 500.0;
+                            break;
+                        case "4x(1x630)":
+
+                            doubleAnaIletkenKesit = 630.0;
+                            break;
+                        case "5x4":
+
+                            doubleAnaIletkenKesit = 4.0;
+                            break;
+                        case "5x6":
+
+                            doubleAnaIletkenKesit = 6.0;
+                            break;
+                        case "5x10":
+
+                            doubleAnaIletkenKesit = 10.0;
+                            break;
+                        case "5x16":
+
+                            doubleAnaIletkenKesit = 16.0;
+                            break;
+                        case "5x25":
+
+                            doubleAnaIletkenKesit = 25.0;
+                            break;
+                        case "5x35":
+
+                            doubleAnaIletkenKesit = 35.0;
+                            break;
+                        case "5x50":
+
+                            doubleAnaIletkenKesit = 50.0;
+                            break;
+                        case "5x70":
+
+                            doubleAnaIletkenKesit = 70.0;
+                            break;
+                        case "5x95":
+
+                            doubleAnaIletkenKesit = 95.0;
+                            break;
+                        case "5x120":
+
+                            doubleAnaIletkenKesit = 120.0;
+                            break;
+                        case "5x150":
+
+                            doubleAnaIletkenKesit = 150.0;
+                            break;
+                        case "5x185":
+
+                            doubleAnaIletkenKesit = 185.0;
+                            break;
+                        case "5x240":
+
+                            doubleAnaIletkenKesit = 240.0;
+                            break;
+                        case "5x300":
+
+                            doubleAnaIletkenKesit = 300.0;
+                            break;
+                    }
                 }
             }
         });

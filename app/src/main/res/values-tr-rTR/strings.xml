@@ -312,4 +312,8 @@
     <string name="o_n_e_buttonAdd">Ekle</string>
     <string name="o_o_b_textviewMain">Ölçüm Ortam Bilgileri</string>
     <string name="o_n_textview_baslik">Ölçüm Noktaları</string>
+    <string name="label_olustur_baslik">Yeni Etiket Oluştur</string>
+    <string name="dn_gorevler">Görevler</string>
+    <string name="dn_kabul_edilen_gorevler">Kabul Edilen Görevler</string>
+    <string name="dn_tamamlanmis_gorevler">Tamamlanan Görevler</string>
 </resources>

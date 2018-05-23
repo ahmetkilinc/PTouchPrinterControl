@@ -85,6 +85,7 @@ public class Activity_PrintPdf extends BaseActivity {
         // get data from other application by way of intent sending
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
+
             String file = extras.getString(Common.INTENT_FILE_NAME);
             setPdfFile(file);
         }
@@ -105,7 +106,6 @@ public class Activity_PrintPdf extends BaseActivity {
         fileList.putExtra(Common.INTENT_TYPE_FLAG, Common.FILE_SELECT_PDF);
         fileList.putExtra(Common.INTENT_FILE_NAME, pdfPath);
         startActivityForResult(fileList, Common.FILE_SELECT_PDF);
-
     }
 
     /**
@@ -139,7 +139,6 @@ public class Activity_PrintPdf extends BaseActivity {
         // call function to print
         ((PdfPrint) myPrint).setPrintPage(startPage, endPage);
         myPrint.print();
-
     }
 
     /**
