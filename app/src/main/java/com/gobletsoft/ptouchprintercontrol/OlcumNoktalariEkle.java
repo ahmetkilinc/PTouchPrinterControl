@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -35,12 +36,15 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
     private String SebekeTipi, OlculenTip, Karakteristik, AnaIletkenKesiti;
     private Integer KacakAkimRolesi, In;
-    private String OlcumBolumAdi, OlculenNokta, KorumaIletkenKesiti, Rx;
+    private String OlcumBolumAdi, OlculenNokta;
 
-    private Double doubleAnaIletkenKesit;
+    private Double doubleAnaIletkenKesit, KorumaIletkenKesiti, Rx;
 
     private AccountHeader headerResult = null;
     Drawer result;
+
+    private String kabloyaGore, olcumeGore;
+    private Double Iaa, Raa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +212,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         final EditText etKorumaIletkenKesiti = findViewById(R.id.editTextKorumaIletkenKesiti);
         final EditText etRx = findViewById(R.id.editTextRx);
 
+        CheckBox cbYazdir = findViewById(R.id.checkBoxYazdir);
+
         Button btnEkle = findViewById(R.id.buttonEkle);
 
         btnEkle.setOnClickListener(new View.OnClickListener() {
@@ -226,13 +232,13 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     OlculenTip = sOlculenTip.getSelectedItem().toString();
                     Karakteristik = sKarakteristik.getSelectedItem().toString();
                     AnaIletkenKesiti = sAnaIletkenKesiti.getSelectedItem().toString();
-                    KacakAkimRolesi = (Integer) sKacakAkimRolesi.getSelectedItem();
-                    In = (Integer) sIn.getSelectedItem();
+                    KacakAkimRolesi = Integer.parseInt(sKacakAkimRolesi.getSelectedItem().toString());
+                    In = Integer.parseInt(sIn.getSelectedItem().toString());
 
                     OlcumBolumAdi = etOlcumBolumAdi.getText().toString();
                     OlculenNokta = etOlculenNokta.getText().toString();
-                    KorumaIletkenKesiti = etKorumaIletkenKesiti.getText().toString();
-                    Rx = etRx.getText().toString();
+                    KorumaIletkenKesiti = Double.parseDouble(etKorumaIletkenKesiti.getText().toString());
+                    Rx = Double.parseDouble(etRx.getText().toString());
 
 
                     switch (AnaIletkenKesiti) {
@@ -585,8 +591,251 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                             doubleAnaIletkenKesit = 300.0;
                             break;
                     }
+
+                    //verileri hesapla fonksiyonuna yolla.
+                    hesapla(SebekeTipi, OlculenTip, Karakteristik, doubleAnaIletkenKesit,
+                            KacakAkimRolesi, In, OlcumBolumAdi, OlculenNokta, KorumaIletkenKesiti, Rx);
                 }
             }
         });
+    }
+
+    public void hesapla(String SebekeTipi, String OlculenTip, String Karakteristik, Double doubleAnaIletkenKesit,
+                        Integer KacakAkimRolesi, Integer In, String OlcumBolumAdi, String OlculenNokta, Double KorumaIletkenKesiti, Double Rx){
+
+        if (doubleAnaIletkenKesit == 0){
+
+            kabloyaGore = "UYGUNDUR";
+        }
+
+        else{
+
+            if (doubleAnaIletkenKesit <= 16.0 && doubleAnaIletkenKesit.equals(KorumaIletkenKesiti)){
+
+                kabloyaGore = "UYGUNDUR";
+            }
+
+            else if ((doubleAnaIletkenKesit > 16.0 && doubleAnaIletkenKesit <= 35.0) && KorumaIletkenKesiti == 16.0){
+
+                kabloyaGore = "UYGUNDUR";
+            }
+
+            else if (doubleAnaIletkenKesit > 35.0 && ((doubleAnaIletkenKesit / 2) == KorumaIletkenKesiti)){
+
+                kabloyaGore = "UYGUNDUR";
+            }
+
+            else{
+
+                kabloyaGore = "UYGUNDEĞİL";
+            }
+        }
+
+        switch (OlculenTip) {
+            case "Pano":
+
+                if (SebekeTipi == "TT"){
+
+                    if (In > 35){
+
+                        Iaa = null;
+                    }
+                    else{
+
+                        if (Karakteristik.equals("B")){
+
+                            Iaa = (double) In * 5;
+                        }
+                        else{
+
+                            Iaa = (double) In * 10;
+                        }
+                    }
+
+                    if (KacakAkimRolesi == 0){
+
+                        if (Iaa == null){
+
+                            Raa = null;
+                        }
+                        else{
+
+                            Raa = 50 / Iaa;
+                        }
+                    }
+
+                    else if (KacakAkimRolesi == 30){
+
+                        Raa = 1666.0;
+                    }
+
+                    else if (KacakAkimRolesi == 300){
+
+                        Raa = 166.0;
+                    }
+                }
+
+                else{
+
+                    if (In > 160){
+
+                        Iaa = null;
+                    }
+
+                    else{
+
+                        if (Karakteristik == "B"){
+
+                            Iaa = (double) In * 5;
+                        }
+
+                        else{
+
+                            Iaa = (double) In * 10;
+                        }
+                    }
+
+                    if (KacakAkimRolesi == 0){
+
+                        if (Iaa == null){
+
+                            Raa = null;
+                        }
+
+                        else{
+
+                            Raa = 50 / Iaa;
+                        }
+                    }
+
+                    else if (KacakAkimRolesi == 30){
+
+                        Raa = 1666.0;
+                    }
+
+                    else if (KacakAkimRolesi == 300){
+
+                        Raa = 166.0;
+                    }
+                }
+
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Trafo Koruma":
+
+                Raa = 2.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Trafo İşletme":
+
+                Raa = 2.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Tank":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Parafadur":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Enh Direk":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "OG Direk":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Pompa":
+
+                Raa = 1.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Eşpotansiyel Bara":
+
+                Raa = 1.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Tel Cit":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Statik Levha":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Lift":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Vinc":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+
+            case "Diğerleri":
+
+                Raa = 5.0;
+                olcumeGore = olcumSonuc(Raa, Rx);
+                break;
+        }
+
+        //
+    }
+
+    public String olcumSonuc(Double Raa, Double Rx){
+
+        if (Raa == null){
+
+            Raa = 0.0;
+        }
+
+        if (Raa >= Rx){
+
+            return "UYGUN";
+        }
+
+        if (Raa < Rx){
+
+            Double FARK;
+
+            FARK = Rx - Raa;
+
+            if (FARK < 1){
+
+                return "UYGUN***";
+            }
+
+            else{
+
+                return "UYGUNDEĞİL";
+            }
+        }
+
+        else{
+
+            return "UYGUNDEĞİL";
+        }
     }
 }

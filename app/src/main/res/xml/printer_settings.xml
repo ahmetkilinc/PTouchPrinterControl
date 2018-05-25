@@ -46,6 +46,12 @@
             android:entryValues="@array/pj_speed_array_value"
             android:key="print_speed"
             android:title="@string/text_print_speed" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit text preference" />
 
     </PreferenceCategory>
 
