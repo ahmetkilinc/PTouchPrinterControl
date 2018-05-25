@@ -811,6 +811,7 @@
     <string name="o_n_e_In" translatable="false">In:</string>
     <string name="o_n_e_koruma_iletken_kesiti">Protection Conductor Section:</string>
     <string name="o_n_e_rx" translatable="false">Rx:</string>
+    <string name="o_n_e_cikti_al">Print the Point with pt-e550w?</string>
     <string name="o_n_e_buttonAdd">Add</string>
 
     <string-array name="o_n_e_sebeke_tipi">
@@ -844,6 +845,7 @@
     </string-array>
 
     <string-array name="o_n_e_ana_iletken_kesiti">
+        <item>0</item>
         <item>2x1,5</item>
         <item>2x2,5</item>
         <item>2x4</item>
@@ -965,5 +967,6 @@
     </string-array>
 
     <string name="o_n_textview_baslik">Measurement Points</string>
+    <string name="dn_olcum_noktalari_ekle">Add Measurement Points</string>
 
 </resources>
