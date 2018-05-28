@@ -212,7 +212,6 @@ public class LabelOlustur extends AppCompatActivity {
 
 
         Calendar c = Calendar.getInstance();
-        System.out.println("Current time =&gt; "+c.getTime());
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");
         final String formattedDate = df.format(c.getTime());
