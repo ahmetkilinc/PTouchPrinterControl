@@ -54,6 +54,7 @@ public class Activity_PrintImage extends BaseActivity {
     private Button mMultiPrint;
 
     private String SelectedLabel;
+    private String etiketAdresi;
 
     private String tempString;
 
@@ -71,12 +72,18 @@ public class Activity_PrintImage extends BaseActivity {
 
         setContentView(R.layout.activity_print_image);
 
+        etiketAdresi = getIntent().getExtras().getString("labelAdress");
+
+        Toast.makeText(getApplicationContext(), etiketAdresi, Toast.LENGTH_LONG).show();
+
         //navigation drawer header
 
         //initialize and create the image loader logic
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
+
                 Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
@@ -88,9 +95,7 @@ public class Activity_PrintImage extends BaseActivity {
 
             @Override
             public Drawable placeholder(Context ctx, String tag) {
-                //define different placeholders for different imageView targets
-                //default tags are accessible via the DrawerImageLoader.Tags
-                //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
+
                 if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
 
                     return DrawerUIUtils.getPlaceHolder(ctx);
@@ -215,10 +220,6 @@ public class Activity_PrintImage extends BaseActivity {
                 })
                 .build();
 
-        final String hop2 = getIntent().getExtras().getString("labelAdress");
-
-        Toast.makeText(getApplicationContext(), hop2, Toast.LENGTH_LONG).show();
-
         Button btnSelectFile = findViewById(R.id.btnSelectFile);
         btnSelectFile.setOnClickListener(new View.OnClickListener() {
 
@@ -258,7 +259,7 @@ public class Activity_PrintImage extends BaseActivity {
             }
         });
 
-        mMultiPrint = (Button) findViewById(R.id.btnMultiPrint);
+        mMultiPrint = findViewById(R.id.btnMultiPrint);
         mMultiPrint.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -271,7 +272,7 @@ public class Activity_PrintImage extends BaseActivity {
         mMultiPrint.setEnabled(false);
 
         // initialization for Activity
-        mBtnPrint = (Button) findViewById(R.id.btnPrint);
+        mBtnPrint = findViewById(R.id.btnPrint);
         mBtnPrint.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -338,6 +339,8 @@ public class Activity_PrintImage extends BaseActivity {
         fileList.putExtra(Common.INTENT_TYPE_FLAG, Common.FILE_SELECT_PRN_IMAGE);
         fileList.putExtra(Common.INTENT_FILE_NAME, imagePrnPath);
         startActivityForResult(fileList, Common.FILE_SELECT_PRN_IMAGE);
+
+        //Toast.makeText(getApplicationContext(), fileList.toString(), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -346,11 +349,22 @@ public class Activity_PrintImage extends BaseActivity {
     @Override
     public void printButtonOnClick() {
 
+        //final Intent fileList = new Intent(Activity_PrintImage.this,
+                //Activity_FileList.class);
+
+        //fileList.putExtra(Common.INTENT_TYPE_FLAG, Common.FILE_SELECT_PRN_IMAGE);
+        //fileList.putExtra(Common.INTENT_FILE_NAME, etiketAdresi);
+        //startActivityForResult(fileList, Common.FILE_SELECT_PRN_IMAGE);
+
         //String tempString = ;
        // mFiles.add(tempString);
 
+        //mFiles.add(etiketAdresi);
+
         // set the printing data
         ((ImagePrint) myPrint).setFiles(mFiles);
+
+        //Toast.makeText(getApplicationContext(), (CharSequence) mFiles, Toast.LENGTH_LONG).show();
 
         if (!checkUSB())
             return;
@@ -363,6 +377,7 @@ public class Activity_PrintImage extends BaseActivity {
      * Called when [Print] button is tapped
      */
     public void printMultiFileButtonOnClick() {
+
         myPrint = new MultiImagePrint(this, mHandle, mDialog);
 
         // set the printing data
@@ -406,7 +421,6 @@ public class Activity_PrintImage extends BaseActivity {
      * Launch the thread to print
      */
     private void sendFile() {
-
 
         SendFileThread getTread = new SendFileThread();
         getTread.start();

@@ -21,6 +21,7 @@ public class ImagePrint extends BasePrint {
      * set print data
      */
     public ArrayList<String> getFiles() {
+
         return mImageFiles;
     }
 
@@ -28,6 +29,7 @@ public class ImagePrint extends BasePrint {
      * set print data
      */
     public void setFiles(ArrayList<String> files) {
+
         mImageFiles = files;
     }
 
