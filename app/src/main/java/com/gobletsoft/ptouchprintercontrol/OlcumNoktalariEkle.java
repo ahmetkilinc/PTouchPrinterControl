@@ -255,6 +255,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     KacakAkimRolesi = Integer.parseInt(sKacakAkimRolesi.getSelectedItem().toString());
                     In = Integer.parseInt(sIn.getSelectedItem().toString());
 
+                    Toast.makeText(getApplicationContext(), In.toString(), Toast.LENGTH_LONG).show();
+
                     OlcumBolumAdi = etOlcumBolumAdi.getText().toString();
                     OlculenNokta = etOlculenNokta.getText().toString();
                     KorumaIletkenKesiti = Double.parseDouble(etKorumaIletkenKesiti.getText().toString());
@@ -837,117 +839,140 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         formattedSaat = dfSaat.format(cal.getTime());
 
 
-        //Checkbox yazdır tikli ise
+
+        //etiket oluşturma kısmı
+        Bitmap bitmap = BitmapFactory.decodeResource(
+                getResources(), R.drawable.labeltemplate);
+
+        final Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        final Canvas c = new Canvas(bmp);
+
+        //Ohm değeri
+        String textOlcumDegeri = Rx + "";
+        Paint p = new Paint();
+        p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p.setTextSize(160);
+        p.setColor(Color.BLACK);
+
+        //OHM değerinin fotoda nerede olacağı (aşağı yukarı)
+        int yPos = (int) (c.getHeight() / 1.95);
+
+        //ölçüm bölüm adı
+        String textAciklama = OlcumBolumAdi;
+        Paint p1 = new Paint();
+        p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p1.setTextSize(160);
+        p1.setColor(Color.BLACK);
+
+        int yPosAciklama = (int) (c.getHeight() / 1.35);
+
+        //Ölçülen Nokta
+        String textAciklama2 = OlculenNokta;
+        Paint p2 = new Paint();
+        p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p2.setTextSize(160);
+        p2.setColor(Color.BLACK);
+
+        int yPosAciklama2 = (int) (c.getHeight() / 1.04);
+
+        //tarih
+        String Tarih = formattedDate;
+        Paint p3 = new Paint();
+        p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p3.setTextSize(130);
+        p3.setColor(Color.BLACK);
+
+        int yPosAciklama3 = (int) (c.getHeight() / 5.5);
+
+        //saat
+        String saat = formattedSaat;
+        Paint p4 = new Paint();
+        p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p4.setTextSize(130);
+        p4.setColor(Color.BLACK);
+
+        int yPosAciklama4 = (int)  (c.getHeight() / 3.5 );
+
+        //resme yazıları ekleme
+        c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
+        c.drawText(textAciklama, (c.getWidth() / 6), yPosAciklama, p1);
+        c.drawText(textAciklama2, (c.getWidth() / 6), yPosAciklama2, p2);
+        c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama3, p3);
+        c.drawText(saat, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama4, p4);
+
+        final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
+
+        String root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES).toString();
+        File myDir = new File(root + "/label_images");
+        myDir.mkdirs();
+
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+
+        String fname = "Image-"+Tarih+saat+".png";
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+
+        try {
+
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        // Tell the media scanner about the new file so that it is
+        // immediately available to the user.
+        MediaScannerConnection.scanFile(OlcumNoktalariEkle.this, new String[]{file.toString()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+
+                    public void onScanCompleted(String path, Uri uri) {
+
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+        });
+
+    //Checkbox yazdır tikli ise
         if (cbYazdir.isChecked()){
 
-            Bitmap bitmap = BitmapFactory.decodeResource(
-                    getResources(), R.drawable.labeltemplate);
-
-            final Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            final Canvas c = new Canvas(bmp);
-
-            //Ohm değeri
-            String textOlcumDegeri = Rx + "";
-            Paint p = new Paint();
-            p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            p.setTextSize(160);
-            p.setColor(Color.BLACK);
-
-            //OHM değerinin fotoda nerede olacağı (aşağı yukarı)
-            int yPos = (int) (c.getHeight() / 1.95);
-
-            //ölçüm bölüm adı
-            String textAciklama = OlcumBolumAdi;
-            Paint p1 = new Paint();
-            p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            p1.setTextSize(160);
-            p1.setColor(Color.BLACK);
-
-            int yPosAciklama = (int) (c.getHeight() / 1.35);
-
-            //Ölçülen Nokta
-            String textAciklama2 = OlculenNokta;
-            Paint p2 = new Paint();
-            p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            p2.setTextSize(160);
-            p2.setColor(Color.BLACK);
-
-            int yPosAciklama2 = (int) (c.getHeight() / 1.04);
-
-            //tarih
-            String Tarih = formattedDate;
-            Paint p3 = new Paint();
-            p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            p3.setTextSize(130);
-            p3.setColor(Color.BLACK);
-
-            int yPosAciklama3 = (int) (c.getHeight() / 5.5);
-
-            //saat
-            String saat = formattedSaat;
-            Paint p4 = new Paint();
-            p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            p4.setTextSize(130);
-            p4.setColor(Color.BLACK);
-
-            int yPosAciklama4 = (int)  (c.getHeight() / 3.5 );
-
-            //resme yazıları ekleme
-            c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
-            c.drawText(textAciklama, (c.getWidth() / 6), yPosAciklama, p1);
-            c.drawText(textAciklama2, (c.getWidth() / 6), yPosAciklama2, p2);
-            c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama3, p3);
-            c.drawText(saat, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama4, p4);
-
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
-
-            String root = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES).toString();
-            File myDir = new File(root + "/label_images");
-            myDir.mkdirs();
-
-            Random generator = new Random();
-            int n = 10000;
-            n = generator.nextInt(n);
-
-            String fname = "Image-"+Tarih+saat+".png";
-            File file = new File (myDir, fname);
-            if (file.exists ()) file.delete ();
-
-            try {
-
-                FileOutputStream out = new FileOutputStream(file);
-                bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-
-                out.flush();
-                out.close();
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-            // Tell the media scanner about the new file so that it is
-            // immediately available to the user.
-            MediaScannerConnection.scanFile(OlcumNoktalariEkle.this, new String[]{file.toString()}, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-
-                        public void onScanCompleted(String path, Uri uri) {
-
-                            Log.i("ExternalStorage", "Scanned " + path + ":");
-                            Log.i("ExternalStorage", "-> uri=" + uri);
-                        }
-                    });
-
-            String hop = "/storage/emulated/0/Pictures/label_images/Image-" +Tarih+saat+ ".png";
+            String etiketAdresi = "/storage/emulated/0/Pictures/label_images/Image-" +Tarih+saat+ ".png";
 
             Intent i = new Intent(OlcumNoktalariEkle.this, Activity_PrintImage.class);
-            i.putExtra("labelAdress", hop);
+            i.putExtra("labelAdress", etiketAdresi);
             startActivity(i);
         }
 
         else{
 
+            /*
+  * (String SebekeTipi, String OlculenTip, String Karakteristik, Double doubleAnaIletkenKesit,
+    Integer KacakAkimRolesi, Integer In, String OlcumBolumAdi, String OlculenNokta, Double KorumaIletkenKesiti, Double Rx)
+            *
+            * */
+
             //checkbox işaretli değil
+            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
+            in.putExtra("olcumBolumAdi", OlcumBolumAdi);//+S
+            in.putExtra("sebekeTip", SebekeTipi);//+S
+            in.putExtra("olculenTip", OlculenTip);//+S
+            in.putExtra("olculenNokta", OlculenNokta);//+S
+            in.putExtra("karakteristik", Karakteristik);//+s
+            in.putExtra("in", In);//+int
+            in.putExtra("anaIletkenKesit", doubleAnaIletkenKesit);//+double
+            in.putExtra("korumaIletkenKesit", KorumaIletkenKesiti);//+double
+            in.putExtra("kacakAkimRolesi", KacakAkimRolesi);//+int
+            in.putExtra("rx", Rx);//+double
+            in.putExtra("iaa", Iaa);//+double
+            in.putExtra("raa", Raa);//+double
+            in.putExtra("kabloyaGoreSonuc", kabloyaGore);
+            in.putExtra("olcumeGoreSonuc", olcumeGore);
+            startActivity(in);
         }
     }
 

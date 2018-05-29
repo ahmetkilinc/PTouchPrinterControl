@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -25,10 +27,36 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class OlcumNoktalari extends AppCompatActivity {
+
+    private String OlcumBolumAdi;
+    private String SebekeTipi;
+    private String OlculenTip;
+    private String OlculenNokta;
+    private String Karakteristik;
+    private Integer In;
+    private Double AnaIletkenKesit;
+    private Double KorumaIletkenKesit;
+    private Integer KacakAkimRolesi;
+    private Double Rx;
+    private Double Iaa;
+    private Double Raa;
+    private String KabloyaGoreSonuc;
+    private String OlcumeGoreSonuc;
 
     private AccountHeader headerResult = null;
     Drawer result;
+
+    //listviewadapter variables
+
+    private ExpandableListView listView;
+    private ExpandableListAdapter listAdapter;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listHash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,12 +204,64 @@ public class OlcumNoktalari extends AppCompatActivity {
 
                                 startActivity(new Intent(OlcumNoktalari.this, KullaniciGirisi.class));
                             }
-
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
                         return false;
                     }
                 })
                 .build();
+
+        //yeni eklenen ölçüm noktası varsa, değerlerini al.
+
+        OlcumBolumAdi = getIntent().getExtras().getString("olcumBolumAdi");
+        SebekeTipi = getIntent().getExtras().getString("sebekeTip");
+        OlculenTip = getIntent().getExtras().getString("olculenTip");
+        OlculenNokta = getIntent().getExtras().getString("olculenNokta");
+        Karakteristik = getIntent().getExtras().getString("karakteristik");
+        In = getIntent().getExtras().getInt("in");
+        AnaIletkenKesit = getIntent().getExtras().getDouble("anaIletkenKesit");
+        KorumaIletkenKesit = getIntent().getExtras().getDouble("korumaIletkenKesit");
+        KacakAkimRolesi = getIntent().getExtras().getInt("kacakAkimRolesi");
+        Rx = getIntent().getExtras().getDouble("rx");
+        Iaa = getIntent().getExtras().getDouble("iaa");
+        Raa = getIntent().getExtras().getDouble("raa");
+        KabloyaGoreSonuc = getIntent().getExtras().getString("kabloyaGoreSonuc");
+        OlcumeGoreSonuc = getIntent().getExtras().getString("olcumeGoreSonuc");
+
+        System.out.println( "hooooooooooooooooop: " + In + " " + KacakAkimRolesi);
+
+        //listview
+        listView = findViewById(R.id.lvExp);
+        initData();
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listHash);
+        listView.setAdapter(listAdapter);
+    }
+
+    private void initData() {
+
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
+
+        listDataHeader.add(OlcumBolumAdi);
+
+
+        List<String> oba = new ArrayList<>();
+        oba.add(SebekeTipi);
+        oba.add(OlculenTip);
+        oba.add(OlculenNokta);
+        oba.add(Karakteristik);
+        oba.add(KacakAkimRolesi.toString());
+        oba.add(In.toString());
+        oba.add(AnaIletkenKesit.toString());
+        oba.add(KorumaIletkenKesit.toString());
+        oba.add(Rx.toString());
+        oba.add(Iaa.toString());
+        oba.add(Raa.toString());
+        oba.add(KabloyaGoreSonuc);
+        oba.add(OlcumeGoreSonuc);
+
+
+
+        listHash.put(listDataHeader.get(0), oba);
     }
 }
