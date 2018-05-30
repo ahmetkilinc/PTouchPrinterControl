@@ -209,7 +209,7 @@ public class Activity_StartMenu extends Activity {
 
                             else if (drawerItem.getIdentifier() == 4){
 
-
+                                startActivity(new Intent(Activity_StartMenu.this, TamamlananGorevler.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 5){

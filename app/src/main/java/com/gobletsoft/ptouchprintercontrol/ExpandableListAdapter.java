@@ -1,11 +1,13 @@
 package com.gobletsoft.ptouchprintercontrol;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -33,31 +35,37 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
+
         return listHashMap.get(listDataHeader.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
+
         return listDataHeader.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
+
         return listHashMap.get(listDataHeader.get(groupPosition)).get(childPosition);
     }
 
     @Override
     public long getGroupId(int groupPosition) {
+
         return groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
+
         return childPosition;
     }
 
     @Override
     public boolean hasStableIds() {
+
         return false;
     }
 
@@ -92,6 +100,24 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
+
+        Button btnSil = convertView.findViewById(R.id.buttonSilLg);
+        Button btnGuncelle = convertView.findViewById(R.id.buttonGuncelleLg);
+        btnSil.setText("Sil");
+        btnGuncelle.setText("Güncelle");
+
+
+
+        if(isLastChild){
+
+            btnSil.setVisibility(View.VISIBLE);
+            btnGuncelle.setVisibility(View.VISIBLE);
+        } else {
+
+            btnSil.setVisibility(View.GONE);
+            btnGuncelle.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 

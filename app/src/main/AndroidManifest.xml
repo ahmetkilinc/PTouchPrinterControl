@@ -120,7 +120,7 @@
         <activity
             android:name=".GorevDetaylar"
             android:label="Görev Detaylar"
-            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".OlcumOrtamBilgileri"
             android:label="Ölçüm Ortam Bilgileri"
@@ -134,6 +134,11 @@
         <activity
             android:name=".OlcumNoktalari"
             android:label="Ölçüm Noktaları"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".TamamlananGorevler"
+            android:label="Tamamlanan Görevler"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
     </application>
