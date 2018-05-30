@@ -85,6 +85,7 @@ public class OlcumNoktalari extends AppCompatActivity {
 
             @Override
             public Drawable placeholder(Context ctx, String tag) {
+
                 //define different placeholders for different imageView targets
                 //default tags are accessible via the DrawerImageLoader.Tags
                 //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
@@ -108,9 +109,7 @@ public class OlcumNoktalari extends AppCompatActivity {
             }
         });
         //image loader logic.
-
         //profil eklendiği zaman düzenle. ->
-
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
 
         headerResult = new AccountHeaderBuilder()
@@ -244,7 +243,6 @@ public class OlcumNoktalari extends AppCompatActivity {
 
         listDataHeader.add(OlcumBolumAdi);
 
-
         List<String> oba = new ArrayList<>();
         oba.add(SebekeTipi);
         oba.add(OlculenTip);
@@ -259,8 +257,6 @@ public class OlcumNoktalari extends AppCompatActivity {
         oba.add(Raa.toString());
         oba.add(KabloyaGoreSonuc);
         oba.add(OlcumeGoreSonuc);
-
-
 
         listHash.put(listDataHeader.get(0), oba);
     }
