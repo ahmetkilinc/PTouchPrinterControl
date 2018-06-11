@@ -830,6 +830,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), olcumeGore + " & " + kabloyaGore + " & " + Rx, Toast.LENGTH_LONG).show();
 
+        Toast.makeText(getApplicationContext(), getString(R.string.about_text), Toast.LENGTH_LONG).show();
+
         Calendar cal = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");

@@ -106,13 +106,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         btnSil.setText("Sil");
         btnGuncelle.setText("Güncelle");
 
-
-
         if(isLastChild){
 
             btnSil.setVisibility(View.VISIBLE);
             btnGuncelle.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
 
             btnSil.setVisibility(View.GONE);
             btnGuncelle.setVisibility(View.GONE);

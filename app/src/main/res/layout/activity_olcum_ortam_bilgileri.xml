@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/textViewGorevler"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableRight="@drawable/radsantoolbarlogo"
+                android:drawableEnd="@drawable/radsantoolbarlogo"
                 android:gravity="center"
                 android:text="@string/o_o_b_textviewMain" />
 
@@ -90,7 +90,7 @@
 
                 <EditText
                     android:id="@+id/editTextMarka"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
                     android:ems="10"
@@ -112,7 +112,7 @@
 
                 <EditText
                     android:id="@+id/editTextModel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -133,7 +133,7 @@
 
                 <EditText
                     android:id="@+id/editTextSerialNo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -168,7 +168,7 @@
 
                 <EditText
                     android:id="@+id/editTextKalibrasyonYapanKurum"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -190,7 +190,7 @@
 
                 <EditText
                     android:id="@+id/editTextKalibrasyonTarihi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -211,7 +211,7 @@
 
                 <EditText
                     android:id="@+id/editTextKalibrasyonGecerlilikSuresi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -369,7 +369,7 @@
 
                         <CheckBox
                             android:id="@+id/checkBoxDerin"
-                            android:layout_width="65dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
@@ -390,7 +390,7 @@
 
                         <CheckBox
                             android:id="@+id/checkBoxBelirsiz"
-                            android:layout_width="75dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="fill_vertical"
@@ -407,7 +407,7 @@
 
                 <Button
                     android:id="@+id/buttonKaydet"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
