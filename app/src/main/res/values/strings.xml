@@ -968,5 +968,6 @@
 
     <string name="o_n_textview_baslik">Measurement Points</string>
     <string name="dn_olcum_noktalari_ekle">Add Measurement Points</string>
+    <string name="pi_baslik">Print</string>
 
 </resources>

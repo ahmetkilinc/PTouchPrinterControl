@@ -52,7 +52,6 @@ public class OlcumNoktalari extends AppCompatActivity {
     Drawer result;
 
     //listviewadapter variables
-
     private ExpandableListView listView;
     private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
@@ -227,7 +226,9 @@ public class OlcumNoktalari extends AppCompatActivity {
         KabloyaGoreSonuc = getIntent().getExtras().getString("kabloyaGoreSonuc");
         OlcumeGoreSonuc = getIntent().getExtras().getString("olcumeGoreSonuc");
 
-        System.out.println( "hooooooooooooooooop: " + In + " " + KacakAkimRolesi);
+        System.out.println( "hp: " + In + " " + KacakAkimRolesi);
+
+        System.out.println("fp: " + KacakAkimRolesi + " " + Rx);
 
         //listview
         listView = findViewById(R.id.lvExp);

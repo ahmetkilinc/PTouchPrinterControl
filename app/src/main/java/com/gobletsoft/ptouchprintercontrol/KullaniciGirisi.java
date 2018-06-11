@@ -1,8 +1,11 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,10 +13,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class KullaniciGirisi extends AppCompatActivity {
 
     private String email;
     private String password;
+
+    private ProgressDialog pDialog;
+
+    //php connections
+    JSONParser jsonParser = new JSONParser();
+    //private static String url_login = "http://10.0.0.55/login.php";
+    private static String url_login = "http://10.0.0.100:85/ptouchAndroid/login.php";
+    private static final String TAG_SUCCESS = "success";
+    private JSONObject json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +51,7 @@ public class KullaniciGirisi extends AppCompatActivity {
         Button btnSignin = findViewById(R.id.buttonSignin);
         Button btnForgotPassword = findViewById(R.id.buttonForgotPassword);
 
+
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +64,10 @@ public class KullaniciGirisi extends AppCompatActivity {
                 }
                 else{
 
-                    startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
+                    email = etEmail.getText().toString();
+                    password = etPassword.getText().toString();
+
+                    new loginBack().execute();
                 }
             }
         });
@@ -55,5 +79,71 @@ public class KullaniciGirisi extends AppCompatActivity {
                 // şifre değiştirt - değişim maili yolla -, db ile email karşılaştır ve değiştir.
             }
         });
+    }
+
+    class loginBack extends AsyncTask<String,String,String>{
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(KullaniciGirisi.this);
+            pDialog.setMessage("Giriliyooorr...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("kullanici_email", email));
+            params.add(new BasicNameValuePair("kullanici_sifre", password));
+
+            json = jsonParser.makeHttpRequest(url_login,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1){
+
+                    Toast.makeText(getApplicationContext(), "Hop and Yeyy", Toast.LENGTH_LONG).show();
+                    //startActivity(new Intent(MainActivity.this, Activity_StartMenu.class));
+                }
+
+                else if (success == 0){
+
+                    Toast.makeText(getApplicationContext(), "Alanlar doldurulmadı", Toast.LENGTH_LONG).show();
+                }
+
+                else if (success == 2){
+
+                    Toast.makeText(getApplicationContext(), "Kullanıcı Adı veya Sifre Yanlış. Lütfen Daha çok Çaba Sarfedin.", Toast.LENGTH_LONG).show();
+                }
+
+                else{
+
+                    Toast.makeText(getApplicationContext(), "Ohh, çok büyük çok.", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 }
