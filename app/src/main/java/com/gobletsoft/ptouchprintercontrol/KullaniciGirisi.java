@@ -31,7 +31,7 @@ public class KullaniciGirisi extends AppCompatActivity {
     //php connections
     JSONParser jsonParser = new JSONParser();
     //private static String url_login = "http://10.0.0.55/login.php";
-    private static String url_login = "http://10.0.0.100:85/ptouchAndroid/login.php";
+    private static String url_login = "http://10.0.0.100:85/ptouchAndroid/logins.php";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
@@ -88,7 +88,7 @@ public class KullaniciGirisi extends AppCompatActivity {
 
             super.onPreExecute();
             pDialog = new ProgressDialog(KullaniciGirisi.this);
-            pDialog.setMessage("Giriliyooorr...");
+            pDialog.setMessage("Giriş Yapılıyor");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -121,8 +121,8 @@ public class KullaniciGirisi extends AppCompatActivity {
 
                 if (success == 1){
 
-                    Toast.makeText(getApplicationContext(), "Hop and Yeyy", Toast.LENGTH_LONG).show();
-                    //startActivity(new Intent(MainActivity.this, Activity_StartMenu.class));
+                    //Toast.makeText(getApplicationContext(), "Hop and Yeyy", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
                 }
 
                 else if (success == 0){
@@ -132,12 +132,12 @@ public class KullaniciGirisi extends AppCompatActivity {
 
                 else if (success == 2){
 
-                    Toast.makeText(getApplicationContext(), "Kullanıcı Adı veya Sifre Yanlış. Lütfen Daha çok Çaba Sarfedin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email veya Sifre Yanlış. Lütfen Tekrar Deneyin.", Toast.LENGTH_LONG).show();
                 }
 
                 else{
 
-                    Toast.makeText(getApplicationContext(), "Ohh, çok büyük çok.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email Adresi Kayıtlı Değil.", Toast.LENGTH_LONG).show();
                 }
             }
             catch (JSONException e) {
