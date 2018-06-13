@@ -1,18 +1,15 @@
 package com.gobletsoft.ptouchprintercontrol;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -43,22 +40,17 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class Activity_PrintImage extends BaseActivity {
 
-    private final ArrayList<String> mFiles = new ArrayList<String>();
+    private final ArrayList<String> mFiles = new ArrayList<>();
     private ImageView mImageView;
     private Button mBtnPrint;
     private Button mMultiPrint;
 
-    private String SelectedLabel;
-    private String etiketAdresi;
+    //private String tempString;
 
-    private String tempString;
-
-    private AccountHeader headerResult = null;
     Drawer result;
 
     @Override
@@ -72,7 +64,7 @@ public class Activity_PrintImage extends BaseActivity {
 
         setContentView(R.layout.activity_print_image);
 
-        etiketAdresi = getIntent().getExtras().getString("labelAdress");
+        String etiketAdresi = getIntent().getExtras().getString("labelAdress");
 
         Toast.makeText(getApplicationContext(), etiketAdresi, Toast.LENGTH_LONG).show();
 
@@ -121,7 +113,7 @@ public class Activity_PrintImage extends BaseActivity {
 
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
 
-        headerResult = new AccountHeaderBuilder()
+        AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)

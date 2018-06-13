@@ -69,6 +69,9 @@ public class Activity_StartMenu extends Activity {
     private AccountHeader headerResult = null;
     Drawer result;
 
+    // Session Manager Class
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -79,11 +82,35 @@ public class Activity_StartMenu extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_startmenu);
+
+
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+
+        //Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        if (!session.isLoggedIn()){
+
+            startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
+        }
+
+
+
         init();
         setListView();
         getDataFromIntent();
         // initialize the SharedPreferences
         setPreferences();
+
+
+
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+
 
         //navigation drawer header
 
@@ -219,7 +246,8 @@ public class Activity_StartMenu extends Activity {
 
                             else if (drawerItem.getIdentifier() == 6){
 
-                                startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
+                                session.logoutUser();
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
 
                         }
@@ -484,7 +512,8 @@ public class Activity_StartMenu extends Activity {
 
                 else if (arg2 == 2){
 
-                    Toast.makeText(getApplicationContext(), "Kullanıcı Ayarları Burada Olacak.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(Activity_StartMenu.this, KullaniciAyarlari.class));
+                    //Toast.makeText(getApplicationContext(), "Kullanıcı Ayarları Burada Olacak.", Toast.LENGTH_LONG).show();
                 }
 
                 else if(arg2 == 3){

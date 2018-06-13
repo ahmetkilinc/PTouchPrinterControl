@@ -35,6 +35,9 @@ public class KullaniciGirisi extends AppCompatActivity {
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
+    //session durumu
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,11 +54,23 @@ public class KullaniciGirisi extends AppCompatActivity {
         Button btnSignin = findViewById(R.id.buttonSignin);
         Button btnForgotPassword = findViewById(R.id.buttonForgotPassword);
 
+        // Session Manager
+        session = new SessionManager(getApplicationContext());
+
+        //Toast.makeText(getApplicationContext(), "Kullanıcı Durumu: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+
+        if (session.isLoggedIn() == true){
+
+            startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
+        }
 
         btnSignin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
+
+                //cevap yollamak için,
                 //kullanıcı bilgilerini db ile karşılaştır ve cevap yolla.
 
                 if (etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty()){
@@ -120,6 +135,8 @@ public class KullaniciGirisi extends AppCompatActivity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1){
+
+                    session.createLoginSession(email, password);
 
                     //Toast.makeText(getApplicationContext(), "Hop and Yeyy", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
