@@ -3,7 +3,6 @@ package com.gobletsoft.ptouchprintercontrol;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -36,12 +35,21 @@ public class TamamlananGorevler extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 final String selected = (String) listAdapter.getChild(groupPosition, childPosition);
-                Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG).show();
+
+                if (selected.equals("Sil")){
+
+                    Toast.makeText(getApplicationContext(), "Sil?", Toast.LENGTH_LONG).show();
+                }
+
+                if (selected.equals("Güncelle")){
+
+                    Toast.makeText(getApplicationContext(), "Güncelle?", Toast.LENGTH_LONG).show();
+                }
 
                 return true;
             }
         });
-
     }
 
     private void initData() {
@@ -57,7 +65,8 @@ public class TamamlananGorevler extends AppCompatActivity {
         oba.add("4");
         oba.add("5");
         oba.add("6");
-
+        oba.add("Sil");
+        oba.add("Güncelle");
 
         listHash.put(listDataHeader.get(0), oba);
     }

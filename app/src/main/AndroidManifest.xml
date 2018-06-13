@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
@@ -109,9 +111,14 @@
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".KullaniciGirisi"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
             android:label="Kullanıcı Girişi"
-            android:theme="@style/Theme.Design.Light.NoActionBar" />
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Gorevler"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|fontScale|screenSize"
@@ -124,23 +131,20 @@
         <activity
             android:name=".OlcumOrtamBilgileri"
             android:label="Ölçüm Ortam Bilgileri"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
         <activity
             android:name=".OlcumNoktalariEkle"
             android:label="Ölçüm Noktaları Ekle"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
         <activity
             android:name=".OlcumNoktalari"
             android:label="Ölçüm Noktaları"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
         <activity
             android:name=".TamamlananGorevler"
             android:label="Tamamlanan Görevler"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+        <activity android:name=".KullaniciAyarlari"></activity>
     </application>
 
 </manifest>
