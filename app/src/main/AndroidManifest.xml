@@ -144,7 +144,11 @@
             android:name=".TamamlananGorevler"
             android:label="Tamamlanan Görevler"
             android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
-        <activity android:name=".KullaniciAyarlari"></activity>
+        <activity
+            android:name=".KullaniciAyarlari"
+            android:label="Kullanıcı Ayarları"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

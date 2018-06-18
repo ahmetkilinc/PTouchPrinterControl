@@ -321,4 +321,11 @@
     <string name="olcum_noktalari_baslik">Ölçüm Noktaları</string>
     <string name="o_n_e_cikti_al">PT-E550W ile Ölçüm Noktasını Yazdır?</string>
     <string name="pi_baslik">Yazdır</string>
+    <string name="kullanici_ayarlari_baslik">Profil Ayarları</string>
+    <string name="kullanici_ayarlari_ad">Ad:</string>
+    <string name="kullanici_ayarlari_soyad">Soyad:</string>
+    <string name="kullanici_ayarlari_kullaniciadi">Kullanıcı Adı:</string>
+    <string name="kullanici_ayarlari_email">E-Posta:</string>
+    <string name="kullanici_ayarlari_sifre">Şifre:</string>
+    <string name="kullanici_ayarlari_guncelle">Güncelle</string>
 </resources>

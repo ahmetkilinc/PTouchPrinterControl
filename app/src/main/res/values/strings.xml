@@ -970,4 +970,12 @@
     <string name="dn_olcum_noktalari_ekle">Add Measurement Points</string>
     <string name="pi_baslik">Print</string>
 
+    <string name="kullanici_ayarlari_baslik">Profile Settings</string>
+    <string name="kullanici_ayarlari_ad">Name:</string>
+    <string name="kullanici_ayarlari_soyad">Surname:</string>
+    <string name="kullanici_ayarlari_kullaniciadi">User Name:</string>
+    <string name="kullanici_ayarlari_email">Email:</string>
+    <string name="kullanici_ayarlari_sifre">Password:</string>
+    <string name="kullanici_ayarlari_guncelle">Update</string>
+
 </resources>
