@@ -26,7 +26,7 @@ import java.util.List;
 public class KullaniciAyarlari extends AppCompatActivity {
 
     SessionManager session;
-    //1.0
+
     private ProgressDialog pDialog;
 
     //php connections
@@ -35,9 +35,8 @@ public class KullaniciAyarlari extends AppCompatActivity {
     private static String url_hesapbilgilerini_guncelle = "http://10.0.0.100:85/ptouchAndroid/hesapbilgileriniguncelle.php";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
-    //1.1
 
-    //1.2
+
     private String email;
     private EditText etKullaniciAdi;
     private EditText etAd;
@@ -52,7 +51,6 @@ public class KullaniciAyarlari extends AppCompatActivity {
     private String GuncelEmail;
     private String GuncelSifre;
 
-    //1.3
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,7 +61,6 @@ public class KullaniciAyarlari extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_kullanici_ayarlari);
-
 
         session = new SessionManager(getApplicationContext());
 
@@ -80,9 +77,6 @@ public class KullaniciAyarlari extends AppCompatActivity {
 
         etEposta.setFocusable(false);
 
-
-
-        //1.4
         email = user.get(SessionManager.KEY_NAME);
         String sifre = user.get(SessionManager.KEY_EMAIL);
 
@@ -107,6 +101,8 @@ public class KullaniciAyarlari extends AppCompatActivity {
                     GuncelSoyad = etSoyad.getText().toString();
                     GuncelEmail = etEposta.getText().toString();
                     GuncelSifre = etSifre.getText().toString();
+
+                    //Toast.makeText(getApplicationContext(), GuncelKullaniciAdi + GuncelSifre + GuncelEmail + GuncelAd + GuncelSoyad, Toast.LENGTH_LONG).show();
 
                     new kullaniciBilgileriniGuncelle().execute();
                 }
@@ -168,7 +164,7 @@ public class KullaniciAyarlari extends AppCompatActivity {
         }
     }
 
-    class kullaniciBilgileriniGuncelle extends AsyncTask<String,String,String> {
+    class kullaniciBilgileriniGuncelle extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -225,7 +221,4 @@ public class KullaniciAyarlari extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
