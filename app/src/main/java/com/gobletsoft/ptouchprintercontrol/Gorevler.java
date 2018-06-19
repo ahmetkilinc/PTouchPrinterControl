@@ -1,18 +1,22 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -27,17 +31,56 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gorevler extends AppCompatActivity {
 
-    public Button btnKabul1;
-    public Button btnKabul2;
-    public Button btnKabul3;
-    public Button btnKabul4;
-    public Button btnKabul5;
-    public Button btnKabul6;
-    public Button btnKabul7;
+    private Button btnKabul1;
+    private Button btnKabul2;
+    private Button btnKabul3;
+    private Button btnKabul4;
+    private Button btnKabul5;
+    private Button btnKabul6;
+    private Button btnKabul7;
+
+    private Button btnIptal1;
+    private Button btnIptal2;
+    private Button btnIptal3;
+    private Button btnIptal4;
+    private Button btnIptal5;
+    private Button btnIptal6;
+    private Button btnIptal7;
+
+    private TextView tvGorevId1;
+    private TextView tvGorevId2;
+    private TextView tvGorevId3;
+    private TextView tvGorevId4;
+    private TextView tvGorevId5;
+    private TextView tvGorevId6;
+    private TextView tvGorevId7;
+
+    private TextView tvGorevAd1;
+    private TextView tvGorevAd2;
+    private TextView tvGorevAd3;
+    private TextView tvGorevAd4;
+    private TextView tvGorevAd5;
+    private TextView tvGorevAd6;
+    private TextView tvGorevAd7;
+
+    private ProgressDialog pDialog;
+
+    //php stuff
+    private JSONObject json;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_gorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/gorevlerigetir.php";
 
     private AccountHeader headerResult = null;
     Drawer result;
@@ -204,29 +247,31 @@ public class Gorevler extends AppCompatActivity {
         btnKabul6 = findViewById(R.id.buttonOk6);
         btnKabul7 = findViewById(R.id.buttonOk7);
 
-        Button btnIptal1 = findViewById(R.id.buttonCancel1);
-        Button btnIptal2 = findViewById(R.id.buttonCancel2);
-        Button btnIptal3 = findViewById(R.id.buttonCancel3);
-        Button btnIptal4 = findViewById(R.id.buttonCancel4);
-        Button btnIptal5 = findViewById(R.id.buttonCancel5);
-        Button btnIptal6 = findViewById(R.id.buttonCancel6);
-        Button btnIptal7 = findViewById(R.id.buttonCancel7);
+        btnIptal1 = findViewById(R.id.buttonCancel1);
+        btnIptal2 = findViewById(R.id.buttonCancel2);
+        btnIptal4 = findViewById(R.id.buttonCancel4);
+        btnIptal3 = findViewById(R.id.buttonCancel3);
+        btnIptal5 = findViewById(R.id.buttonCancel5);
+        btnIptal6 = findViewById(R.id.buttonCancel6);
+        btnIptal7 = findViewById(R.id.buttonCancel7);
 
-        TextView tvGorevId1 = findViewById(R.id.textViewGorev1id);
-        TextView tvGorevId2 = findViewById(R.id.textViewGorev2id);
-        TextView tvGorevId3 = findViewById(R.id.textViewGorev3id);
-        TextView tvGorevId4 = findViewById(R.id.textViewGorev4id);
-        TextView tvGorevId5 = findViewById(R.id.textViewGorev5id);
-        TextView tvGorevId6 = findViewById(R.id.textViewGorev6id);
-        TextView tvGorevId7 = findViewById(R.id.textViewGorev7id);
+        tvGorevId1 = findViewById(R.id.textViewGorev1id);
+        tvGorevId2 = findViewById(R.id.textViewGorev2id);
+        tvGorevId3 = findViewById(R.id.textViewGorev3id);
+        tvGorevId4 = findViewById(R.id.textViewGorev4id);
+        tvGorevId5 = findViewById(R.id.textViewGorev5id);
+        tvGorevId6 = findViewById(R.id.textViewGorev6id);
+        tvGorevId7 = findViewById(R.id.textViewGorev7id);
 
-        TextView tvGorevAd1 = findViewById(R.id.textViewGorev1ad);
-        TextView tvGorevAd2 = findViewById(R.id.textViewGorev2ad);
-        TextView tvGorevAd3 = findViewById(R.id.textViewGorev3ad);
-        TextView tvGorevAd4 = findViewById(R.id.textViewGorev4ad);
-        TextView tvGorevAd5 = findViewById(R.id.textViewGorev5ad);
-        TextView tvGorevAd6 = findViewById(R.id.textViewGorev6ad);
-        TextView tvGorevAd7 = findViewById(R.id.textViewGorev7ad);
+        tvGorevAd1 = findViewById(R.id.textViewGorev1ad);
+        tvGorevAd2 = findViewById(R.id.textViewGorev2ad);
+        tvGorevAd3 = findViewById(R.id.textViewGorev3ad);
+        tvGorevAd4 = findViewById(R.id.textViewGorev4ad);
+        tvGorevAd5 = findViewById(R.id.textViewGorev5ad);
+        tvGorevAd6 = findViewById(R.id.textViewGorev6ad);
+        tvGorevAd7 = findViewById(R.id.textViewGorev7ad);
+
+        new gorevleriGetir().execute();
 
         btnKabul1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,5 +295,56 @@ public class Gorevler extends AppCompatActivity {
     public  void buttonEkle(){
 
 
+    }
+
+    class gorevleriGetir extends AsyncTask<String, String, String>{
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Gorevler.this);
+            pDialog.setMessage("Görev Bilgileri Getiriliyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            //params.add(new BasicNameValuePair("kullanici_email", email));
+
+            json = jsonParser.makeHttpRequest(url_gorevleri_getir,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                //String kullaniciAdi = json.getString("kullaniciad");
+                JSONObject jo = json.getJSONObject("firmaAdlar");
+
+                JSONArray aLisst = jo.getJSONArray("ad-0");
+
+                Toast.makeText(getApplicationContext(), "how?: " + aLisst.toString(), Toast.LENGTH_LONG).show();
+
+                //etKullaniciAdi.setText(kullaniciAdi);
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 }

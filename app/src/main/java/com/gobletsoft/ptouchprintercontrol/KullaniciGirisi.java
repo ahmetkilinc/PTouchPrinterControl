@@ -137,7 +137,6 @@ public class KullaniciGirisi extends AppCompatActivity {
 
                     session.createLoginSession(email, password);
 
-                    //Toast.makeText(getApplicationContext(), "Hop and Yeyy", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
                 }
 
