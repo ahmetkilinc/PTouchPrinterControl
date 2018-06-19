@@ -77,6 +77,15 @@ public class Gorevler extends AppCompatActivity {
 
     private ProgressDialog pDialog;
 
+    //dont need them.
+    private String email;
+    private String password;
+
+    private String[] firmaAdlar;
+    private String[] firmaIdler;
+
+    int firmaAdSayisi, firmaIdSayisi;
+
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
@@ -273,6 +282,8 @@ public class Gorevler extends AppCompatActivity {
 
         new gorevleriGetir().execute();
 
+        //Toast.makeText(getApplicationContext(), firmaAdlar[0], Toast.LENGTH_LONG).show();
+
         btnKabul1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,7 +326,8 @@ public class Gorevler extends AppCompatActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<>();
 
-            //params.add(new BasicNameValuePair("kullanici_email", email));
+           // params.add(new BasicNameValuePair("kullanici_email", email));
+           // params.add(new BasicNameValuePair("kullanici_sifre", password));
 
             json = jsonParser.makeHttpRequest(url_gorevleri_getir,
                     "POST", params);
@@ -332,19 +344,44 @@ public class Gorevler extends AppCompatActivity {
 
             try {
 
-                //String kullaniciAdi = json.getString("kullaniciad");
-                JSONObject jo = json.getJSONObject("firmaAdlar");
+                JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
 
-                JSONArray aLisst = jo.getJSONArray("ad-0");
+                JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
 
-                Toast.makeText(getApplicationContext(), "how?: " + aLisst.toString(), Toast.LENGTH_LONG).show();
+                firmaAdSayisi = jArrayFirmaAdlar.length();
+                firmaIdSayisi = jArrayFirmaIdler.length();
 
-                //etKullaniciAdi.setText(kullaniciAdi);
+                firmaAdlar = new String[firmaAdSayisi];
+                firmaIdler = new String[firmaIdSayisi];
+
+                // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
+
+                for (int j = 0; j < firmaIdSayisi; j++){
+
+                    firmaIdler[j] = jArrayFirmaIdler.getString(j);
+
+                    System.out.println(firmaIdler[j]);
+                }
+
+                for (int i = 0; i <= jArrayFirmaAdlar.length(); i++){
+
+                    firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
+
+                    System.out.println(firmaAdlar[i]);
+                }
             }
             catch (JSONException e) {
 
                 e.printStackTrace();
             }
+
+            tvGorevId1.setText("" + firmaIdler[0]);
+            //tvGorevId2.setText("" + firmaIdler[1]);
+            //tvGorevId3.setText(firmaIdler[2]);
+
+            tvGorevAd1.setText("" + firmaAdlar[0]);
+            tvGorevAd2.setText("" + firmaAdlar[1]);
+            tvGorevAd3.setText("" + firmaAdlar[2]);
         }
     }
 }
