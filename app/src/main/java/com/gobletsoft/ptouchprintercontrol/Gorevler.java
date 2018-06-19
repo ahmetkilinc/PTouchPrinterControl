@@ -89,7 +89,7 @@ public class Gorevler extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_gorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/gorevlerigetir.php";
+    private static String url_gorevleri_getir = "";
 
     private AccountHeader headerResult = null;
     Drawer result;
