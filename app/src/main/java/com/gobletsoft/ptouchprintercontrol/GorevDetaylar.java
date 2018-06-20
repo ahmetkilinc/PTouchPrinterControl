@@ -1,18 +1,22 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -27,10 +31,26 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class GorevDetaylar extends AppCompatActivity {
 
     private AccountHeader headerResult = null;
     Drawer result;
+
+    private ProgressDialog pDialog;
+
+    //php connections
+    JSONParser jsonParser = new JSONParser();
+    private static String url_gorev_detaylarini_getir = "http://10.0.0.100:85/ptouchAndroid/gorevdetaylarinigetir.php";
+    private static final String TAG_SUCCESS = "success";
+    private JSONObject json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +224,7 @@ public class GorevDetaylar extends AppCompatActivity {
         TextView tvAciklama = findViewById(R.id.textViewStatementValue);
         TextView tvOlcumPersoneli = findViewById(R.id.textViewMeasurementStaffValue);
 
-
+        new gorevdetaylarinigetir().execute();
 
         Button btnMeasure = findViewById(R.id.buttonMeasure);
 
@@ -216,5 +236,73 @@ public class GorevDetaylar extends AppCompatActivity {
                 startActivity(new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class));
             }
         });
+    }
+
+    class gorevdetaylarinigetir extends AsyncTask<String,String,String> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(GorevDetaylar.this);
+            pDialog.setMessage("Görevin Detayları Açılıyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("firmaId", "2039"));
+
+            json = jsonParser.makeHttpRequest(url_gorev_detaylarini_getir,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                int kontrol = json.getInt("kontrol");
+
+                if (kontrol == 1){
+
+                    String firmaAdi = json.getString("firmaAdi");
+                    String lokasyonAdi = json.getString("lokasyonAdi");
+                    String ilgiliKisi = json.getString("ilgiliKisi");
+                    String adres = json.getString("adres");
+                    String ilAdi = json.getString("ilAdi");
+                    String ilceAdi = json.getString("ilceAdi");
+                    String telefon = json.getString("telefon");
+                    String email = json.getString("email");
+                    String kontrolNedeni = json.getString("kontrolNedeni");
+                    String aciklama = json.getString("aciklama");
+                    String userAdi = json.getString("userAdi");
+
+                    Toast.makeText(getApplicationContext(), "firma adı: " + firmaAdi + " " + lokasyonAdi + ilgiliKisi + adres +
+                            ilAdi + ilceAdi + telefon + email + kontrolNedeni + aciklama + userAdi, Toast.LENGTH_LONG).show();
+                }
+
+                else{
+
+                    Toast.makeText(getApplicationContext(), "Havada hata kokusu var...", Toast.LENGTH_LONG).show();
+                }
+
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 }
