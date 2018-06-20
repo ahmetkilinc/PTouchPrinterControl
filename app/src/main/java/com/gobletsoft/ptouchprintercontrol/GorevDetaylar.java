@@ -48,7 +48,7 @@ public class GorevDetaylar extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_gorev_detaylarini_getir = "http://10.0.0.100:85/ptouchAndroid/gorevdetaylarinigetir.php";
+    private static String url_gorev_detaylarini_getir = "";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
