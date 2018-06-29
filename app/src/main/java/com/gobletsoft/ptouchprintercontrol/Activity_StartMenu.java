@@ -72,6 +72,11 @@ public class Activity_StartMenu extends Activity {
     // Session Manager Class
     SessionManager session;
 
+    private String kullaniciAdiSession;
+    private String adiSession;
+    private String soyadiSession;
+    private String emailSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,21 +100,27 @@ public class Activity_StartMenu extends Activity {
             startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
         }
 
+        //session.getUserDetails();
 
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
+        adiSession = user.get(SessionManager.KEY_ADI);
+        soyadiSession = user.get(SessionManager.KEY_SOYADI);
+        emailSession = user.get(SessionManager.KEY_NAME);
+
+        if (adiSession == null || adiSession.isEmpty()){
+
+            startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
+        }
 
         init();
         setListView();
         getDataFromIntent();
         // initialize the SharedPreferences
         setPreferences();
-
-
-
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
 
 
         //navigation drawer header
@@ -155,14 +166,15 @@ public class Activity_StartMenu extends Activity {
 
         //profil eklendiği zaman düzenle. ->
 
-        //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
+        //final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIcon(displayPhotoUrl).withIdentifier(100);
+        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
-                        //profile
+                        profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
@@ -221,7 +233,8 @@ public class Activity_StartMenu extends Activity {
 
                             if (drawerItem.getIdentifier() == 1){
 
-                                startActivity(new Intent(Activity_StartMenu.this, LabelOlustur.class));
+                                //startActivity(new Intent(Activity_StartMenu.this, LabelOlustur.class));
+                                startActivity(new Intent(Activity_StartMenu.this, DevamEdenGorevler.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
@@ -247,9 +260,12 @@ public class Activity_StartMenu extends Activity {
                             else if (drawerItem.getIdentifier() == 6){
 
                                 session.logoutUser();
+
+                                Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
+                                i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
                                 //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
-
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
                         return false;
@@ -460,7 +476,7 @@ public class Activity_StartMenu extends Activity {
     private void setListView() {
 
         final Map<Object, Object> activityClass = new HashMap<Object, Object>();
-        activityClass.put(0, LabelOlustur.class);
+        activityClass.put(0, Gorevler.class);
         activityClass.put(1, Activity_PrintPdf.class);
         activityClass.put(2, Activity_PrintTemplate.class);
         activityClass.put(3, Activity_ManageTemplate.class);
@@ -468,10 +484,12 @@ public class Activity_StartMenu extends Activity {
 
         List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         ArrayList<String> mListItems = new ArrayList<String>();
-        mListItems.add(getString(R.string.text_print_image));
-        mListItems.add(getString(R.string.button_printer_settings));
-        mListItems.add(getString(R.string.startmenu_profile_settings));
+       // mListItems.add(getString(R.string.text_print_image));
+       // mListItems.add(getString(R.string.button_printer_settings));
+       // mListItems.add(getString(R.string.startmenu_profile_settings));
         mListItems.add(getString(R.string.gorevler_textview));
+        mListItems.add(getString(R.string.devam_eden_gorevler));
+
 
         int count = mListItems.size();
         Map<String, Object> listItem;
@@ -507,18 +525,20 @@ public class Activity_StartMenu extends Activity {
 
                 if (arg2 == 1){
 
-                    startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                    //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                    startActivity(new Intent(Activity_StartMenu.this, DevamEdenGorevler.class));
                 }
 
                 else if (arg2 == 2){
 
-                    startActivity(new Intent(Activity_StartMenu.this, KullaniciAyarlari.class));
+                    //startActivity(new Intent(Activity_StartMenu.this, KullaniciAyarlari.class));
                     //Toast.makeText(getApplicationContext(), "Kullanıcı Ayarları Burada Olacak.", Toast.LENGTH_LONG).show();
+                    //devam eden görevler...
                 }
 
                 else if(arg2 == 3){
 
-                    startActivity(new Intent(Activity_StartMenu.this, Gorevler.class));
+                    //startActivity(new Intent(Activity_StartMenu.this, Gorevler.class));
                 }
 
                 else{

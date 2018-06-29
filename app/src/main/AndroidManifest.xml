@@ -131,23 +131,28 @@
         <activity
             android:name=".OlcumOrtamBilgileri"
             android:label="Ölçüm Ortam Bilgileri"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".OlcumNoktalariEkle"
             android:label="Ölçüm Noktaları Ekle"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".OlcumNoktalari"
             android:label="Ölçüm Noktaları"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".TamamlananGorevler"
             android:label="Tamamlanan Görevler"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".KullaniciAyarlari"
             android:label="Kullanıcı Ayarları"
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+        <activity
+            android:name=".DevamEdenGorevler"
+            android:label="DevamEdenGorevler"
             android:theme="@style/Theme.Design.Light.NoActionBar">
+
         </activity>
     </application>
 

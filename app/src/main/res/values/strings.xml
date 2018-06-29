@@ -760,6 +760,10 @@
     <string name="gorevler_cancel">Cancel</string>
     <string name="gorevler_textview">Assigned Jobs</string>
 
+    <string name="devam_eden_gorevler">Ongoing Jobs</string>
+    <string name="devam_eden_gorevler_firmaadi">Company Name:</string>
+    <string name="devam_eden_gorevler_lokasyon">Location:</string>
+
     <string name="gorev_detaylar_textView">Job Details</string>
     <string name="gorev_detaylar_id">ID:</string>
     <string name="gorev_detaylar_name">Firm Name:</string>

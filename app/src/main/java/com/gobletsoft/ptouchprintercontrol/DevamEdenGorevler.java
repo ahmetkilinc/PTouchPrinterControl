@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +34,10 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.HttpException;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,11 +47,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GorevDetaylar extends AppCompatActivity {
+public class DevamEdenGorevler extends AppCompatActivity {
 
-    ArrayList<GorevDetaylarDataModel> gorevDetaylarDataModels;
+    ArrayList<DevamEdenGorevlerDataModel> devamEdenGorevlerDataModels;
     ListView listView;
-    private static GorevDetaylarCustomAdapter adapter;
+    private static DevamEdenGorevlerCustomAdapter adapter;
 
     // Session Manager Class
     SessionManager session;
@@ -64,30 +67,16 @@ public class GorevDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_gorevdetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/gorevdetaylarinigetir.php";
+    private static String url_devamedengorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/devamedengorevlerigetir.php";
 
     private ProgressDialog pDialog;
 
-    private String firmaid;
-    private String firmaadi;
-    private String ilgilikisi;
-    private String adres;
-    private String ilid;
-    private String ilceid;
-    private String telefon;
-    private String email;
-    private String kontrolnedeni;
-    private String userid;
-    private String olcumdurumid;
-    private String aciklama;
-    private String lokasyonadi;
-    private String lokasyonil;
-    private String lokasyonilce;
-    private String olcumdurumadi;
-    private String planlananolcumtarihi;
-    private int success;
+    int firmaAdSayisi, firmaIdSayisi, lokasyonSayisi, olcumdurumdegerSayisi;
 
-    private String LokasyonAdi;
+    private String[] firmaAdlar;
+    private String[] firmaIdler;
+    private String[] lokasyonlar;
+    private String[] olcumdurumdegerler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +87,7 @@ public class GorevDetaylar extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_gorev_detaylar);
+        setContentView(R.layout.activity_devam_eden_gorevler);
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
@@ -118,10 +107,6 @@ public class GorevDetaylar extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
         }
-
-        LokasyonAdi = getIntent().getStringExtra("lokasyonadi");
-
-        Toast.makeText(getApplicationContext(), LokasyonAdi, Toast.LENGTH_LONG).show();
 
         //navigation drawer header
 
@@ -234,12 +219,12 @@ public class GorevDetaylar extends AppCompatActivity {
 
                             if (drawerItem.getIdentifier() == 1){
 
-                                startActivity(new Intent(GorevDetaylar.this, LabelOlustur.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(GorevDetaylar.this, Gorevler.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, Gorevler.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
@@ -254,7 +239,7 @@ public class GorevDetaylar extends AppCompatActivity {
 
                             else if (drawerItem.getIdentifier() == 5){
 
-                                startActivity(new Intent(GorevDetaylar.this, Activity_Settings.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 6){
@@ -273,22 +258,36 @@ public class GorevDetaylar extends AppCompatActivity {
                 })
                 .build();
 
+        new devamedengorevlerigetir().execute();
 
-        new gorevdetaylargetir().execute();
+        listView = findViewById(R.id.listViewDevamEdenGorevler);
 
-        listView = findViewById(R.id.listViewGorevDetaylar);
+        devamEdenGorevlerDataModels = new ArrayList<>();
 
-        gorevDetaylarDataModels = new ArrayList<>();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                DevamEdenGorevlerDataModel devamEdenGorevlerDataModel = devamEdenGorevlerDataModels.get(position);
+
+                /*Intent in = new Intent(DevamEdenGorevler.this, GorevDetaylar.class);
+                in.putExtra("lokasyonadi", devamEdenGorevlerDataModel.getLokasyonadi());
+                startActivity(in);*/
+
+                Toast.makeText(getApplicationContext(), devamEdenGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
-    class gorevdetaylargetir extends AsyncTask<String, String, String>{
+    class devamedengorevlerigetir extends AsyncTask<String, String, String>{
 
         @Override
         protected void onPreExecute() {
 
             super.onPreExecute();
-            pDialog = new ProgressDialog(GorevDetaylar.this);
-            pDialog.setMessage("Seçilen Görev Lokasyonunun Detayları Yükleniyor...");
+            pDialog = new ProgressDialog(DevamEdenGorevler.this);
+            pDialog.setMessage("Devam Eden Görevler Alınıyor...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -296,18 +295,31 @@ public class GorevDetaylar extends AppCompatActivity {
 
         protected String doInBackground(String... args){
 
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
+            try {
 
-            params.add(new BasicNameValuePair("lokasyon", LokasyonAdi));
+               // Building Parameters
+               List<NameValuePair> params = new ArrayList<>();
 
-            json = jsonParser.makeHttpRequest(url_gorevdetaylar_getir,
-                    "POST", params);
+                params.add(new BasicNameValuePair("kullaniciemail", emailSession));
+                // params.add(new BasicNameValuePair("kullanici_sifre", password));
 
-            // check log cat for response
-            Log.d("Create Response", json.toString());
+                json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
+                        "POST", params);
 
-            return null;
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                return null;
+            }
+
+            catch (Exception e) {
+
+                e.printStackTrace();
+
+                Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+
+                return null;
+            }
         }
 
         protected void onPostExecute(String file_url){
@@ -316,56 +328,71 @@ public class GorevDetaylar extends AppCompatActivity {
 
             try {
 
-                //success = json.getInt("success");
-                //firmaid = json.getString("firmaid");
-                firmaadi = json.getString("firmaadi");
-                ilgilikisi = json.getString("ilgilikisi");
-                //adres = json.getString("adres");
-                //ilid = json.getString("ilid");
-                //ilceid = json.getString("ilceid");
-                //telefon = json.getString("telefon");
-                email = json.getString("email");
-                kontrolnedeni = json.getString("kontrolnedeni");
-                //userid = json.getString("userid");
-                //olcumdurumid = json.getString("olcumdurumid");
-                //aciklama = json.getString("aciklama");
-                lokasyonadi = json.getString("lokasyonadi");
-                lokasyonil = json.getString("lokasyonil");
-                lokasyonilce = json.getString("lokasyonilce");
-                olcumdurumadi = json.getString("olcumdurumadi");
-                planlananolcumtarihi = json.getString("planlananolcumtarihi");
+                JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
+                JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
+                JSONArray jArrayLokasyonlar = json.getJSONArray("lokasyonlar");
+                JSONArray jArrayOlcumdurumdegerler = json.getJSONArray("olcumdurumdegerler");
+                int success = json.getInt("success");
 
-                Toast.makeText(getApplicationContext(), firmaadi + " hooyo 1111 " + lokasyonadi, Toast.LENGTH_LONG).show();
-
-
-                /*if (success == 0){
+                if (success == 0){
 
                     Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
-                }*/
+                }
+
+                firmaAdSayisi = jArrayFirmaAdlar.length();
+                firmaIdSayisi = jArrayFirmaIdler.length();
+                lokasyonSayisi = jArrayLokasyonlar.length();
+                olcumdurumdegerSayisi = jArrayOlcumdurumdegerler.length();
+
+                firmaAdlar = new String[firmaAdSayisi];
+                firmaIdler = new String[firmaIdSayisi];
+                lokasyonlar = new String[lokasyonSayisi];
+                olcumdurumdegerler = new String[olcumdurumdegerSayisi];
+
+                /*private String[] lokasyonlar;
+                private String[] olcumdurumdegerler;*/
+
+                // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
+
+                for (int j = 0; j < firmaIdSayisi; j++){
+
+                    firmaIdler[j] = jArrayFirmaIdler.getString(j);
+
+                    System.out.println("firmaId: " + firmaIdler[j]);
+                }
+
+                for (int i = 0; i < firmaAdSayisi; i++){
+
+                    firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
+
+                    System.out.println("firmaAd: " + firmaAdlar[i]);
+                }
+
+                for (int k = 0; k < lokasyonSayisi; k++){
+
+                    lokasyonlar[k] = jArrayLokasyonlar.getString(k);
+
+                    System.out.println("lokasyon: " + lokasyonlar[k]);
+                }
+
+                for (int l = 0; l < olcumdurumdegerSayisi; l++){
+
+                    olcumdurumdegerler[l] = jArrayOlcumdurumdegerler.getString(l);
+
+                    System.out.println("olcumdeger: " + olcumdurumdegerler[l]);
+                }
             }
             catch (JSONException e) {
 
                 e.printStackTrace();
             }
 
-            /*for (int i = 0;  i < firmaIdSayisi; i++){
+            for (int i = 0;  i < firmaIdSayisi; i++){
 
                 devamEdenGorevlerDataModels.add(new DevamEdenGorevlerDataModel(firmaAdlar[i], lokasyonlar[i]));
-            }*/
+            }
 
-            //Toast.makeText(getApplicationContext(), "hooyo: " + success, Toast.LENGTH_LONG).show();
-
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Firma Adı:", firmaadi));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Lokasyon:", lokasyonadi));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Lokasyon İl:", lokasyonil));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Lokasyon İlçe:", lokasyonilce));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("İlgili Kişi:", ilgilikisi));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("E-Posta:", email));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Kontrol Nedeni:", kontrolnedeni));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Ölçüm Durumu:", olcumdurumadi));
-            gorevDetaylarDataModels.add(new GorevDetaylarDataModel("P. Ölçüm Tarihi:", planlananolcumtarihi));
-
-            adapter= new GorevDetaylarCustomAdapter(gorevDetaylarDataModels, getApplicationContext());
+            adapter= new DevamEdenGorevlerCustomAdapter(devamEdenGorevlerDataModels, getApplicationContext());
 
             listView.setAdapter(adapter);
         }

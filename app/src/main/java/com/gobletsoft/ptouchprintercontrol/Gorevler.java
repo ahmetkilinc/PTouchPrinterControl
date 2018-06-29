@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +28,9 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
@@ -39,60 +43,41 @@ import org.json.JSONObject;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Gorevler extends AppCompatActivity {
 
-    private Button btnKabul1;
-    private Button btnKabul2;
-    private Button btnKabul3;
-    private Button btnKabul4;
-    private Button btnKabul5;
-    private Button btnKabul6;
-    private Button btnKabul7;
+    ArrayList<AtananGorevlerDataModel> atananGorevlerDataModels;
+    ListView listView;
+    private static AtananGorevlerCustomAdapter adapter;
 
-    private Button btnIptal1;
-    private Button btnIptal2;
-    private Button btnIptal3;
-    private Button btnIptal4;
-    private Button btnIptal5;
-    private Button btnIptal6;
-    private Button btnIptal7;
+    // Session Manager Class
+    SessionManager session;
+    private String kullaniciAdiSession;
+    private String adiSession;
+    private String soyadiSession;
+    private String emailSession;
 
-    private TextView tvGorevId1;
-    private TextView tvGorevId2;
-    private TextView tvGorevId3;
-    private TextView tvGorevId4;
-    private TextView tvGorevId5;
-    private TextView tvGorevId6;
-    private TextView tvGorevId7;
-
-    private TextView tvGorevAd1;
-    private TextView tvGorevAd2;
-    private TextView tvGorevAd3;
-    private TextView tvGorevAd4;
-    private TextView tvGorevAd5;
-    private TextView tvGorevAd6;
-    private TextView tvGorevAd7;
-
-    private ProgressDialog pDialog;
-
-    //dont need them.
-    private String email;
-    private String password;
-
-    private String[] firmaAdlar;
-    private String[] firmaIdler;
-
-    int firmaAdSayisi, firmaIdSayisi;
+    //drawer
+    private AccountHeader headerResult = null;
+    Drawer result;
 
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_gorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/gorevlerigetir.php";
+    private static String url_atanangorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/atanangorevlerigetir.php";
 
-    private AccountHeader headerResult = null;
-    Drawer result;
+    private ProgressDialog pDialog;
+
+    int firmaAdSayisi, firmaIdSayisi, lokasyonSayisi, olcumdurumdegerSayisi;
+
+    private String[] firmaAdlar;
+    private String[] firmaIdler;
+    private String[] lokasyonlar;
+    private String[] olcumdurumdegerler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +89,25 @@ public class Gorevler extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_gorevler);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        session.checkLogin();
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
+        adiSession = user.get(SessionManager.KEY_ADI);
+        soyadiSession = user.get(SessionManager.KEY_SOYADI);
+        emailSession = user.get(SessionManager.KEY_NAME);
+
+        if (adiSession == null || adiSession.isEmpty()){
+
+            Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
+        }
 
         //navigation drawer header
 
@@ -149,6 +153,7 @@ public class Gorevler extends AppCompatActivity {
         //profil eklendiği zaman düzenle. ->
 
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
+        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -156,6 +161,7 @@ public class Gorevler extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
                         //profil ekleme kısmı, giriş yapılan verileri al ve ekle.
+                        profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
@@ -239,7 +245,12 @@ public class Gorevler extends AppCompatActivity {
 
                             else if (drawerItem.getIdentifier() == 6){
 
-                                startActivity(new Intent(Gorevler.this, KullaniciGirisi.class));
+                                session.logoutUser();
+
+                                Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
+                                i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
+                                //startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -248,74 +259,34 @@ public class Gorevler extends AppCompatActivity {
                 })
                 .build();
 
-        btnKabul1 = findViewById(R.id.buttonOk1);
-        btnKabul2 = findViewById(R.id.buttonOk2);
-        btnKabul3 = findViewById(R.id.buttonOk3);
-        btnKabul4 = findViewById(R.id.buttonOk4);
-        btnKabul5 = findViewById(R.id.buttonOk5);
-        btnKabul6 = findViewById(R.id.buttonOk6);
-        btnKabul7 = findViewById(R.id.buttonOk7);
+        new atanangorevlerigetir().execute();
 
-        btnIptal1 = findViewById(R.id.buttonCancel1);
-        btnIptal2 = findViewById(R.id.buttonCancel2);
-        btnIptal4 = findViewById(R.id.buttonCancel4);
-        btnIptal3 = findViewById(R.id.buttonCancel3);
-        btnIptal5 = findViewById(R.id.buttonCancel5);
-        btnIptal6 = findViewById(R.id.buttonCancel6);
-        btnIptal7 = findViewById(R.id.buttonCancel7);
+        listView = findViewById(R.id.listViewAtananGorevler);
 
-        tvGorevId1 = findViewById(R.id.textViewGorev1id);
-        tvGorevId2 = findViewById(R.id.textViewGorev2id);
-        tvGorevId3 = findViewById(R.id.textViewGorev3id);
-        tvGorevId4 = findViewById(R.id.textViewGorev4id);
-        tvGorevId5 = findViewById(R.id.textViewGorev5id);
-        tvGorevId6 = findViewById(R.id.textViewGorev6id);
-        tvGorevId7 = findViewById(R.id.textViewGorev7id);
+        atananGorevlerDataModels = new ArrayList<>();
 
-        tvGorevAd1 = findViewById(R.id.textViewGorev1ad);
-        tvGorevAd2 = findViewById(R.id.textViewGorev2ad);
-        tvGorevAd3 = findViewById(R.id.textViewGorev3ad);
-        tvGorevAd4 = findViewById(R.id.textViewGorev4ad);
-        tvGorevAd5 = findViewById(R.id.textViewGorev5ad);
-        tvGorevAd6 = findViewById(R.id.textViewGorev6ad);
-        tvGorevAd7 = findViewById(R.id.textViewGorev7ad);
-
-        new gorevleriGetir().execute();
-
-        //Toast.makeText(getApplicationContext(), firmaAdlar[0], Toast.LENGTH_LONG).show();
-
-        btnKabul1.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(new Intent(Gorevler.this, GorevDetaylar.class));
+                AtananGorevlerDataModel atananGorevlerDataModel = atananGorevlerDataModels.get(position);
+
+                /*Intent in = new Intent(Gorevler.this, GorevDetaylar.class);
+                in.putExtra("lokasyonadi", atananGorevlerDataModel.getLokasyonadi());
+                startActivity(in);*/
+                Toast.makeText(getApplicationContext(), atananGorevlerDataModel.getFirmaadi()+"\n"+ atananGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    //görev sayısı < button sayısından ise fazla olanları gizle.
-    public void buttonGizle(){
-
-        for (int i = 2; i > 8; i++){
-
-
-        }
-    }
-
-    //görev sayısı > button sayısından ise yeni button ekle.
-    public  void buttonEkle(){
-
-
-    }
-
-    class gorevleriGetir extends AsyncTask<String, String, String>{
+    class atanangorevlerigetir extends AsyncTask<String, String, String>{
 
         @Override
         protected void onPreExecute() {
 
             super.onPreExecute();
             pDialog = new ProgressDialog(Gorevler.this);
-            pDialog.setMessage("Görev Bilgileri Getiriliyor...");
+            pDialog.setMessage("Atanmış Görevler Alınıyor...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -323,19 +294,31 @@ public class Gorevler extends AppCompatActivity {
 
         protected String doInBackground(String... args){
 
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
+            try {
 
-           // params.add(new BasicNameValuePair("kullanici_email", email));
-           // params.add(new BasicNameValuePair("kullanici_sifre", password));
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<>();
 
-            json = jsonParser.makeHttpRequest(url_gorevleri_getir,
-                    "POST", params);
+                params.add(new BasicNameValuePair("kullaniciemail", emailSession));
+                // params.add(new BasicNameValuePair("kullanici_sifre", password));
 
-            // check log cat for response
-            Log.d("Create Response", json.toString());
+                json = jsonParser.makeHttpRequest(url_atanangorevleri_getir,
+                        "POST", params);
 
-            return null;
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                return null;
+            }
+
+            catch (Exception e) {
+
+                e.printStackTrace();
+
+                Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+
+                return null;
+            }
         }
 
         protected void onPostExecute(String file_url){
@@ -345,14 +328,28 @@ public class Gorevler extends AppCompatActivity {
             try {
 
                 JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
-
                 JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
+                JSONArray jArrayLokasyonlar = json.getJSONArray("lokasyonlar");
+                JSONArray jArrayOlcumdurumdegerler = json.getJSONArray("olcumdurumdegerler");
+                int success = json.getInt("success");
+
+                if (success == 0){
+
+                    Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+                }
 
                 firmaAdSayisi = jArrayFirmaAdlar.length();
                 firmaIdSayisi = jArrayFirmaIdler.length();
+                lokasyonSayisi = jArrayLokasyonlar.length();
+                olcumdurumdegerSayisi = jArrayOlcumdurumdegerler.length();
 
                 firmaAdlar = new String[firmaAdSayisi];
                 firmaIdler = new String[firmaIdSayisi];
+                lokasyonlar = new String[lokasyonSayisi];
+                olcumdurumdegerler = new String[olcumdurumdegerSayisi];
+
+                /*private String[] lokasyonlar;
+                private String[] olcumdurumdegerler;*/
 
                 // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
 
@@ -360,14 +357,28 @@ public class Gorevler extends AppCompatActivity {
 
                     firmaIdler[j] = jArrayFirmaIdler.getString(j);
 
-                    System.out.println(firmaIdler[j]);
+                    System.out.println("firmaId: " + firmaIdler[j]);
                 }
 
-                for (int i = 0; i <= jArrayFirmaAdlar.length(); i++){
+                for (int i = 0; i < firmaAdSayisi; i++){
 
                     firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
 
-                    System.out.println(firmaAdlar[i]);
+                    System.out.println("firmaAd: " + firmaAdlar[i]);
+                }
+
+                for (int k = 0; k < lokasyonSayisi; k++){
+
+                    lokasyonlar[k] = jArrayLokasyonlar.getString(k);
+
+                    System.out.println("lokasyon: " + lokasyonlar[k]);
+                }
+
+                for (int l = 0; l < olcumdurumdegerSayisi; l++){
+
+                    olcumdurumdegerler[l] = jArrayOlcumdurumdegerler.getString(l);
+
+                    System.out.println("olcumdeger: " + olcumdurumdegerler[l]);
                 }
             }
             catch (JSONException e) {
@@ -375,13 +386,15 @@ public class Gorevler extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            tvGorevId1.setText("" + firmaIdler[0]);
-            //tvGorevId2.setText("" + firmaIdler[1]);
-            //tvGorevId3.setText(firmaIdler[2]);
+            for (int i = 0;  i < firmaIdSayisi; i++){
 
-            tvGorevAd1.setText("" + firmaAdlar[0]);
-            tvGorevAd2.setText("" + firmaAdlar[1]);
-            tvGorevAd3.setText("" + firmaAdlar[2]);
+                atananGorevlerDataModels.add(new AtananGorevlerDataModel(firmaAdlar[i], lokasyonlar[i]));
+            }
+
+            //adapter= new DevamEdenGorevlerCustomAdapter(devamEdenGorevlerDataModels, getApplicationContext());
+            adapter = new AtananGorevlerCustomAdapter(atananGorevlerDataModels, getApplicationContext());
+
+            listView.setAdapter(adapter);
         }
     }
 }

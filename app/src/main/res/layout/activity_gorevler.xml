@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Gorevler">
+    tools:context=".DevamEdenGorevler">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,11 +27,11 @@
             tools:layout_editor_absoluteX="30dp">
 
             <TextView
-                android:id="@+id/textViewGorevler"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewDevamEdenGorevler"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:drawableRight="@drawable/radsantoolbarlogo"
+                android:drawableEnd="@drawable/radsantoolbarlogo"
                 android:gravity="center"
                 android:text="@string/gorevler_textview" />
 
@@ -39,387 +39,77 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearLayout2"
+        android:layout_width="372dp"
+        android:layout_height="450dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:orientation="vertical"
+        android:baselineAligned="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/view">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ListView
+            android:id="@+id/listViewAtananGorevler"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorevId"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center"
-                android:text="@string/gorevler_mission_id" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorevAdi"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/gorevler_mission_name" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev1id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev1ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk1"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel1"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev2id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev2ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk2"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel2"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev3id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev3ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk3"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel3"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev4id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev4ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk4"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel4"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev5id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev5ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk5"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel5"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev6id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev6ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk6"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel6"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewGorev7id"
-                android:layout_width="100dp"
-                android:layout_height="37dp"
-                android:gravity="center" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:background="@android:color/background_dark" />
-
-            <TextView
-                android:id="@+id/textViewGorev7ad"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/buttonOk7"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="@string/gorevler_ok" />
-
-            <Button
-                android:id="@+id/buttonCancel7"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
-                android:text="@string/gorevler_cancel" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?android:attr/listDivider" />
-
+            android:layout_weight="1">
+        </ListView>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="385dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/gorevlerFirmaAdi"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:text="@string/devam_eden_gorevler_firmaadi"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/gorevlerLokasyonAdi"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:text="@string/devam_eden_gorevler_lokasyon"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/item_info"
+            android:layout_width="10dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 </android.support.constraint.ConstraintLayout>

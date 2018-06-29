@@ -22,7 +22,9 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
@@ -57,6 +59,13 @@ public class OlcumNoktalari extends AppCompatActivity {
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
 
+    // Session Manager Class
+    SessionManager session;
+    private String kullaniciAdiSession;
+    private String adiSession;
+    private String soyadiSession;
+    private String emailSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +75,24 @@ public class OlcumNoktalari extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_olcum_noktalari);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        // sessiondan kullanıcı bilgilerini al
+        HashMap<String, String> user = session.getUserDetails();
+
+        kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
+        adiSession = user.get(SessionManager.KEY_ADI);
+        soyadiSession = user.get(SessionManager.KEY_SOYADI);
+        emailSession = user.get(SessionManager.KEY_NAME);
+
+        //session var mı kontrol et, yok ise Giriş sayfasına at.
+        if (adiSession == null || adiSession.isEmpty()){
+
+            Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(OlcumNoktalari.this, KullaniciGirisi.class));
+        }
 
         //navigation drawer header
 
@@ -110,13 +137,15 @@ public class OlcumNoktalari extends AppCompatActivity {
         //image loader logic.
         //profil eklendiği zaman düzenle. ->
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
+        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
+
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
-                        //profile
+                        profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
@@ -200,7 +229,11 @@ public class OlcumNoktalari extends AppCompatActivity {
 
                             else if (drawerItem.getIdentifier() == 6){
 
-                                startActivity(new Intent(OlcumNoktalari.this, KullaniciGirisi.class));
+                                session.logoutUser();
+
+                                Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
+                                i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
