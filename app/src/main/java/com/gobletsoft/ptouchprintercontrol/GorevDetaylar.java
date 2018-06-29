@@ -64,9 +64,10 @@ public class GorevDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_gorevdetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/gorevdetaylarinigetir.php";
+    private static String url_gorevdetaylar_getir = "";
 
     private ProgressDialog pDialog;
+
 
     private String firmaid;
     private String firmaadi;
@@ -88,6 +89,7 @@ public class GorevDetaylar extends AppCompatActivity {
     private int success;
 
     private String LokasyonAdi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

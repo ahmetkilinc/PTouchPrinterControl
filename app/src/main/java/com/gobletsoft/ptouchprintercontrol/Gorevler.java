@@ -78,7 +78,6 @@ public class Gorevler extends AppCompatActivity {
     private String[] olcumdurumdegerler;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
