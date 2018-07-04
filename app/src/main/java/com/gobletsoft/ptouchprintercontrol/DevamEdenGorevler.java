@@ -1,17 +1,22 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,35 +34,24 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.HttpException;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.conn.HttpHostConnectException;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OlcumNoktalari extends AppCompatActivity {
+public class DevamEdenGorevler extends AppCompatActivity {
 
-    private String OlcumBolumAdi;
-    private String SebekeTipi;
-    private String OlculenTip;
-    private String OlculenNokta;
-    private String Karakteristik;
-    private Integer In;
-    private Double AnaIletkenKesit;
-    private Double KorumaIletkenKesit;
-    private Integer KacakAkimRolesi;
-    private Double Rx;
-    private Double Iaa;
-    private Double Raa;
-    private String KabloyaGoreSonuc;
-    private String OlcumeGoreSonuc;
-
-    private AccountHeader headerResult = null;
-    Drawer result;
-
-    //listviewadapter variables
-    private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
-    private List<String> listDataHeader;
-    private HashMap<String, List<String>> listHash;
+    ArrayList<DevamEdenGorevlerDataModel> devamEdenGorevlerDataModels;
+    ListView listView;
+    private static DevamEdenGorevlerCustomAdapter adapter;
 
     // Session Manager Class
     SessionManager session;
@@ -66,20 +60,41 @@ public class OlcumNoktalari extends AppCompatActivity {
     private String soyadiSession;
     private String emailSession;
 
+    //drawer
+    private AccountHeader headerResult = null;
+    Drawer result;
+
+    //php stuff
+    private JSONObject json;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_devamedengorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/devamedengorevlerigetir.php";
+
+    private ProgressDialog pDialog;
+
+    int firmaAdSayisi, firmaIdSayisi, lokasyonSayisi, olcumdurumdegerSayisi;
+
+    private String[] firmaAdlar;
+    private String[] firmaIdler;
+    private String[] lokasyonlar;
+    private String[] olcumdurumdegerler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_olcum_noktalari);
+        setContentView(R.layout.activity_devam_eden_gorevler);
 
         // Session class instance
         session = new SessionManager(getApplicationContext());
 
-        // sessiondan kullanıcı bilgilerini al
+        session.checkLogin();
+
+        // get user data from session
         HashMap<String, String> user = session.getUserDetails();
 
         kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
@@ -87,11 +102,10 @@ public class OlcumNoktalari extends AppCompatActivity {
         soyadiSession = user.get(SessionManager.KEY_SOYADI);
         emailSession = user.get(SessionManager.KEY_NAME);
 
-        //session var mı kontrol et, yok ise Giriş sayfasına at.
         if (adiSession == null || adiSession.isEmpty()){
 
             Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(OlcumNoktalari.this, KullaniciGirisi.class));
+            startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
         }
 
         //navigation drawer header
@@ -111,7 +125,6 @@ public class OlcumNoktalari extends AppCompatActivity {
 
             @Override
             public Drawable placeholder(Context ctx, String tag) {
-
                 //define different placeholders for different imageView targets
                 //default tags are accessible via the DrawerImageLoader.Tags
                 //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
@@ -135,16 +148,18 @@ public class OlcumNoktalari extends AppCompatActivity {
             }
         });
         //image loader logic.
+
         //profil eklendiği zaman düzenle. ->
+
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
         final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
-
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
+                        //profil ekleme kısmı, giriş yapılan verileri al ve ekle.
                         profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
@@ -204,12 +219,12 @@ public class OlcumNoktalari extends AppCompatActivity {
 
                             if (drawerItem.getIdentifier() == 1){
 
-                                startActivity(new Intent(OlcumNoktalari.this, LabelOlustur.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, LabelOlustur.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(OlcumNoktalari.this, Gorevler.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, Gorevler.class));
                             }
 
                             else if(drawerItem.getIdentifier() == 3){
@@ -224,7 +239,7 @@ public class OlcumNoktalari extends AppCompatActivity {
 
                             else if (drawerItem.getIdentifier() == 5){
 
-                                startActivity(new Intent(OlcumNoktalari.this, Activity_Settings.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 6){
@@ -234,6 +249,7 @@ public class OlcumNoktalari extends AppCompatActivity {
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
+                                //startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -242,56 +258,143 @@ public class OlcumNoktalari extends AppCompatActivity {
                 })
                 .build();
 
-        //yeni eklenen ölçüm noktası varsa, değerlerini al.
+        new devamedengorevlerigetir().execute();
 
-        OlcumBolumAdi = getIntent().getExtras().getString("olcumBolumAdi");
-        SebekeTipi = getIntent().getExtras().getString("sebekeTip");
-        OlculenTip = getIntent().getExtras().getString("olculenTip");
-        OlculenNokta = getIntent().getExtras().getString("olculenNokta");
-        Karakteristik = getIntent().getExtras().getString("karakteristik");
-        In = getIntent().getExtras().getInt("in");
-        AnaIletkenKesit = getIntent().getExtras().getDouble("anaIletkenKesit");
-        KorumaIletkenKesit = getIntent().getExtras().getDouble("korumaIletkenKesit");
-        KacakAkimRolesi = getIntent().getExtras().getInt("kacakAkimRolesi");
-        Rx = getIntent().getExtras().getDouble("rx");
-        Iaa = getIntent().getExtras().getDouble("iaa");
-        Raa = getIntent().getExtras().getDouble("raa");
-        KabloyaGoreSonuc = getIntent().getExtras().getString("kabloyaGoreSonuc");
-        OlcumeGoreSonuc = getIntent().getExtras().getString("olcumeGoreSonuc");
+        listView = findViewById(R.id.listViewDevamEdenGorevler);
 
-        System.out.println( "hp: " + In + " " + KacakAkimRolesi);
+        devamEdenGorevlerDataModels = new ArrayList<>();
 
-        System.out.println("fp: " + KacakAkimRolesi + " " + Rx);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //listview
-        listView = findViewById(R.id.lvExp);
-        initData();
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listHash);
-        listView.setAdapter(listAdapter);
+                DevamEdenGorevlerDataModel devamEdenGorevlerDataModel = devamEdenGorevlerDataModels.get(position);
+
+                /*Intent in = new Intent(DevamEdenGorevler.this, GorevDetaylar.class);
+                in.putExtra("lokasyonadi", devamEdenGorevlerDataModel.getLokasyonadi());
+                startActivity(in);*/
+
+                Toast.makeText(getApplicationContext(), devamEdenGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
-    private void initData() {
+    class devamedengorevlerigetir extends AsyncTask<String, String, String>{
 
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
+        @Override
+        protected void onPreExecute() {
 
-        listDataHeader.add(OlcumBolumAdi);
+            super.onPreExecute();
+            pDialog = new ProgressDialog(DevamEdenGorevler.this);
+            pDialog.setMessage("Devam Eden Görevler Alınıyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
 
-        List<String> oba = new ArrayList<>();
-        oba.add(SebekeTipi);
-        oba.add(OlculenTip);
-        oba.add(OlculenNokta);
-        oba.add(Karakteristik);
-        oba.add(KacakAkimRolesi.toString());
-        oba.add(In.toString());
-        oba.add(AnaIletkenKesit.toString());
-        oba.add(KorumaIletkenKesit.toString());
-        oba.add(Rx.toString());
-        oba.add(Iaa.toString());
-        oba.add(Raa.toString());
-        oba.add(KabloyaGoreSonuc);
-        oba.add(OlcumeGoreSonuc);
+        protected String doInBackground(String... args){
 
-        listHash.put(listDataHeader.get(0), oba);
+            try {
+
+               // Building Parameters
+               List<NameValuePair> params = new ArrayList<>();
+
+                params.add(new BasicNameValuePair("kullaniciemail", emailSession));
+                // params.add(new BasicNameValuePair("kullanici_sifre", password));
+
+                json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
+                        "POST", params);
+
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                return null;
+            }
+
+            catch (Exception e) {
+
+                e.printStackTrace();
+
+                Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
+                JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
+                JSONArray jArrayLokasyonlar = json.getJSONArray("lokasyonlar");
+                JSONArray jArrayOlcumdurumdegerler = json.getJSONArray("olcumdurumdegerler");
+                int success = json.getInt("success");
+
+                if (success == 0){
+
+                    Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+                }
+
+                firmaAdSayisi = jArrayFirmaAdlar.length();
+                firmaIdSayisi = jArrayFirmaIdler.length();
+                lokasyonSayisi = jArrayLokasyonlar.length();
+                olcumdurumdegerSayisi = jArrayOlcumdurumdegerler.length();
+
+                firmaAdlar = new String[firmaAdSayisi];
+                firmaIdler = new String[firmaIdSayisi];
+                lokasyonlar = new String[lokasyonSayisi];
+                olcumdurumdegerler = new String[olcumdurumdegerSayisi];
+
+                /*private String[] lokasyonlar;
+                private String[] olcumdurumdegerler;*/
+
+                // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
+
+                for (int j = 0; j < firmaIdSayisi; j++){
+
+                    firmaIdler[j] = jArrayFirmaIdler.getString(j);
+
+                    System.out.println("firmaId: " + firmaIdler[j]);
+                }
+
+                for (int i = 0; i < firmaAdSayisi; i++){
+
+                    firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
+
+                    System.out.println("firmaAd: " + firmaAdlar[i]);
+                }
+
+                for (int k = 0; k < lokasyonSayisi; k++){
+
+                    lokasyonlar[k] = jArrayLokasyonlar.getString(k);
+
+                    System.out.println("lokasyon: " + lokasyonlar[k]);
+                }
+
+                for (int l = 0; l < olcumdurumdegerSayisi; l++){
+
+                    olcumdurumdegerler[l] = jArrayOlcumdurumdegerler.getString(l);
+
+                    System.out.println("olcumdeger: " + olcumdurumdegerler[l]);
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
+            for (int i = 0;  i < firmaIdSayisi; i++){
+
+                devamEdenGorevlerDataModels.add(new DevamEdenGorevlerDataModel(firmaAdlar[i], lokasyonlar[i]));
+            }
+
+            adapter= new DevamEdenGorevlerCustomAdapter(devamEdenGorevlerDataModels, getApplicationContext());
+
+            listView.setAdapter(adapter);
+        }
     }
 }

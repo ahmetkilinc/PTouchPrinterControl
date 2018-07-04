@@ -1,5 +1,6 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,15 +37,25 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import static java.util.function.Predicate.isEqual;
@@ -51,20 +63,39 @@ import static java.util.function.Predicate.isEqual;
 public class OlcumNoktalariEkle extends AppCompatActivity {
 
     private String SebekeTipi, OlculenTip, Karakteristik, AnaIletkenKesiti;
-    private Integer KacakAkimRolesi, In;
     private String OlcumBolumAdi, OlculenNokta;
-
+    private Integer KacakAkimRolesi, In;
     private Double doubleAnaIletkenKesit, KorumaIletkenKesiti, Rx;
+    private Double Iaa, Raa;
+
+    private String StKacakAkimRolesi, StIn, StKorumaIletkenKesiti, StRx, StIaa, StRaa;
 
     private AccountHeader headerResult = null;
     Drawer result;
 
     private String kabloyaGore, olcumeGore;
-    private Double Iaa, Raa;
+
 
     private CheckBox cbYazdir;
     private String formattedDate;
     private String formattedSaat;
+
+    private String GorevDetayId;
+
+    private ProgressDialog pDialog;
+
+    //php connections
+    JSONParser jsonParser = new JSONParser();
+    private static String url_olcum_noktalari_ekle = "http://10.0.0.100:85/ptouchAndroid/olcumnoktalariekle.php";
+    private static final String TAG_SUCCESS = "success";
+    private JSONObject json;
+
+    // Session Manager Class
+    SessionManager session;
+    private String kullaniciAdiSession;
+    private String adiSession;
+    private String soyadiSession;
+    private String emailSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +106,26 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_olcum_noktalari_ekle);
+
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        // sessiondan kullanıcı bilgilerini al
+        HashMap<String, String> user = session.getUserDetails();
+
+        kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
+        adiSession = user.get(SessionManager.KEY_ADI);
+        soyadiSession = user.get(SessionManager.KEY_SOYADI);
+        emailSession = user.get(SessionManager.KEY_NAME);
+
+        //session var mı kontrol et, yok ise Giriş sayfasına at.
+        if (adiSession == null || adiSession.isEmpty()){
+
+            Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(OlcumNoktalariEkle.this, KullaniciGirisi.class));
+        }
+
+        GorevDetayId = getIntent().getStringExtra("GorevDetayId");
 
         //navigation drawer header
 
@@ -120,13 +171,14 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         //profil eklendiği zaman düzenle. ->
 
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
+        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
-                        //profile
+                        profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
                         //new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(100001)
@@ -198,19 +250,23 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                                 //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 4){
+                            else if(drawerItem.getIdentifier() == 4){
 
 
                             }
 
-                            else if (drawerItem.getIdentifier() == 5){
+                            else if(drawerItem.getIdentifier() == 5){
 
                                 startActivity(new Intent(OlcumNoktalariEkle.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 6){
+                            else if(drawerItem.getIdentifier() == 6){
 
-                                startActivity(new Intent(OlcumNoktalariEkle.this, KullaniciGirisi.class));
+                                session.logoutUser();
+
+                                Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
+                                i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
                             }
 
                         }
@@ -255,7 +311,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     KacakAkimRolesi = Integer.parseInt(sKacakAkimRolesi.getSelectedItem().toString());
                     In = Integer.parseInt(sIn.getSelectedItem().toString());
 
-                    Toast.makeText(getApplicationContext(), In.toString(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), In.toString(), Toast.LENGTH_LONG).show();
 
                     OlcumBolumAdi = etOlcumBolumAdi.getText().toString();
                     OlculenNokta = etOlculenNokta.getText().toString();
@@ -622,10 +678,120 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     //verileri hesapla fonksiyonuna yolla.
                     hesapla(SebekeTipi, OlculenTip, Karakteristik, doubleAnaIletkenKesit,
                             KacakAkimRolesi, In, OlcumBolumAdi, OlculenNokta, KorumaIletkenKesiti, Rx);
+
+                    new olcumNoktalariEkle().execute();
                 }
             }
         });
     }
+
+
+
+
+
+    class olcumNoktalariEkle extends AsyncTask<String,String,String> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(OlcumNoktalariEkle.this);
+            pDialog.setMessage("Ölçüm Ortam Bilgileri Kaydediliyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+           /*
+           * private Integer KacakAkimRolesi, In;
+            private Double doubleAnaIletkenKesit, KorumaIletkenKesiti, Rx;
+            private Double Iaa, Raa;
+           *
+           * */
+
+            StKacakAkimRolesi = String.valueOf(KacakAkimRolesi);
+            StIn = String.valueOf(In);
+            StKorumaIletkenKesiti = String.valueOf(KorumaIletkenKesiti);
+            StRx = String.valueOf(Rx);
+            StIaa = String.valueOf(Iaa);
+            StRaa = String.valueOf(Raa);
+
+           /* params.add(new BasicNameValuePair("gorevDetayId", "1"));
+            params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
+            params.add(new BasicNameValuePair("olcumBolumAdi", OlcumBolumAdi));
+            params.add(new BasicNameValuePair("olculenTip", OlculenTip));
+            params.add(new BasicNameValuePair("olculenNokta", OlculenNokta));
+            params.add(new BasicNameValuePair("karakteristik", Karakteristik));
+            params.add(new BasicNameValuePair("inn", "8"));
+            params.add(new BasicNameValuePair("anaIletkenKesiti", AnaIletkenKesiti));
+            params.add(new BasicNameValuePair("korumaIletkenKesiti", "37"));
+            params.add(new BasicNameValuePair("kacakAkimRolesi", "1"));
+            params.add(new BasicNameValuePair("rx", "78"));
+            params.add(new BasicNameValuePair("iaa", "30"));
+            params.add(new BasicNameValuePair("raa", "44"));
+            params.add(new BasicNameValuePair("sonucOlcumeGore", olcumeGore));
+            params.add(new BasicNameValuePair("sonucKabloyaGore", kabloyaGore));*/
+
+            params.add(new BasicNameValuePair("gorevDetayId", "1"));
+            params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
+            params.add(new BasicNameValuePair("olcumBolumAdi", OlcumBolumAdi));
+            params.add(new BasicNameValuePair("olculenTip", OlculenTip));
+            params.add(new BasicNameValuePair("olculenNokta", OlculenNokta));
+            params.add(new BasicNameValuePair("karakteristik", Karakteristik));
+            params.add(new BasicNameValuePair("inn", StIn));
+            params.add(new BasicNameValuePair("anaIletkenKesiti", AnaIletkenKesiti));
+            params.add(new BasicNameValuePair("korumaIletkenKesiti", StKorumaIletkenKesiti));
+            params.add(new BasicNameValuePair("kacakAkimRolesi", StKacakAkimRolesi));
+            params.add(new BasicNameValuePair("rx", StRx));
+            params.add(new BasicNameValuePair("iaa", StIaa));
+            params.add(new BasicNameValuePair("raa", StRaa));
+            params.add(new BasicNameValuePair("sonucOlcumeGore", olcumeGore));
+            params.add(new BasicNameValuePair("sonucKabloyaGore", kabloyaGore));
+
+            json = jsonParser.makeHttpRequest(url_olcum_noktalari_ekle,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                int kontrol = json.getInt("success");
+
+                if (kontrol == 1){
+
+                    Toast.makeText(getApplicationContext(), "Başarılı. => " + StKacakAkimRolesi + " " + " "
+                            + StIn + " " + StKorumaIletkenKesiti + " " + StRx + " " + StIaa + " " + StRaa, Toast.LENGTH_LONG).show();
+                }
+
+                else{
+
+                    Toast.makeText(getApplicationContext(), "Başarısız.", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
 
     public void hesapla(String SebekeTipi, String OlculenTip, String Karakteristik, Double doubleAnaIletkenKesit,
                         Integer KacakAkimRolesi, Integer In, String OlcumBolumAdi, String OlculenNokta, Double KorumaIletkenKesiti, Double Rx){
@@ -941,16 +1107,16 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         });
 
     //Checkbox yazdır tikli ise
-        if (cbYazdir.isChecked()){
+      /*  if (cbYazdir.isChecked()){
 
             String etiketAdresi = "/storage/emulated/0/Pictures/label_images/Image-" +Tarih+saat+ ".png";
 
             Intent i = new Intent(OlcumNoktalariEkle.this, Activity_PrintImage.class);
             i.putExtra("labelAdress", etiketAdresi);
             startActivity(i);
-        }
+        }*/
 
-        else{
+      //  else{
 
             /*
   * (String SebekeTipi, String OlculenTip, String Karakteristik, Double doubleAnaIletkenKesit,
@@ -959,7 +1125,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             * */
 
             //checkbox işaretli değil
-            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
+          /*  Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
             in.putExtra("olcumBolumAdi", OlcumBolumAdi);//+S
             in.putExtra("sebekeTip", SebekeTipi);//+S
             in.putExtra("olculenTip", OlculenTip);//+S
@@ -975,7 +1141,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             in.putExtra("kabloyaGoreSonuc", kabloyaGore);
             in.putExtra("olcumeGoreSonuc", olcumeGore);
             startActivity(in);
-        }
+        }*/
     }
 
     public String olcumSonuc(Double Raa, Double Rx){

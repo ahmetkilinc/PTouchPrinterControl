@@ -23,6 +23,10 @@ import java.util.List;
 
 public class KullaniciGirisi extends AppCompatActivity {
 
+    String kullaniciAdiServerdan;
+    String adiServerdan;
+    String soyadiServerdan;
+
     private String email;
     private String password;
 
@@ -132,11 +136,19 @@ public class KullaniciGirisi extends AppCompatActivity {
             try {
 
                 int success = json.getInt(TAG_SUCCESS);
+                kullaniciAdiServerdan = json.getString("kullaniciadi");
+                adiServerdan = json.getString("adi");
+                soyadiServerdan = json.getString("soyadi");
 
                 if (success == 1){
 
-                    session.createLoginSession(email, password);
+                    session.createLoginSession(email, password, kullaniciAdiServerdan, adiServerdan, soyadiServerdan);
 
+                    /*Intent in = new Intent(KullaniciGirisi.this, Activity_StartMenu.class);
+                    in.putExtra("kullaniciAdiServerdan", kullaniciAdiServerdan);
+                    in.putExtra("adiServerdan", adiServerdan);
+                    in.putExtra("soyadiServerdan", soyadiServerdan);
+                    startActivity(in);*/
                     startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
                 }
 

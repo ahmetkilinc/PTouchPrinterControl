@@ -328,4 +328,7 @@
     <string name="kullanici_ayarlari_email">E-Posta:</string>
     <string name="kullanici_ayarlari_sifre">Şifre:</string>
     <string name="kullanici_ayarlari_guncelle">Güncelle</string>
+    <string name="devam_eden_gorevler">Devam Eden Görevler</string>
+    <string name="devam_eden_gorevler_firmaadi">Firma Adı:</string>
+    <string name="devam_eden_gorevler_lokasyon">Lokasyon:</string>
 </resources>
