@@ -78,6 +78,9 @@ public class DevamEdenGorevler extends AppCompatActivity {
     private String[] lokasyonlar;
     private String[] olcumdurumdegerler;
 
+    //devam eden görev türünü 1 olarak aldık. Görev detaylara bu şekilde haber veriyoruz nereden geldiğini.
+    private int gorevTuru = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -270,11 +273,17 @@ public class DevamEdenGorevler extends AppCompatActivity {
 
                 DevamEdenGorevlerDataModel devamEdenGorevlerDataModel = devamEdenGorevlerDataModels.get(position);
 
-                /*Intent in = new Intent(DevamEdenGorevler.this, GorevDetaylar.class);
-                in.putExtra("lokasyonadi", devamEdenGorevlerDataModel.getLokasyonadi());
-                startActivity(in);*/
+                Toast.makeText(getApplicationContext(), devamEdenGorevlerDataModel.getLokasyonadi() + devamEdenGorevlerDataModel.getFirmaadi(), Toast.LENGTH_LONG).show();
 
-                Toast.makeText(getApplicationContext(), devamEdenGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
+                Intent in = new Intent(DevamEdenGorevler.this, GorevDetaylar.class);
+                in.putExtra("lokasyonadi", devamEdenGorevlerDataModel.getLokasyonadi());
+                in.putExtra("firmaadi", devamEdenGorevlerDataModel.getFirmaadi());
+
+
+                //gorev türünü detayları yazdırdığımız sayfaya yolla.
+                in.putExtra("gorevTuru", gorevTuru);
+                startActivity(in);
+
 
             }
         });
@@ -295,31 +304,18 @@ public class DevamEdenGorevler extends AppCompatActivity {
 
         protected String doInBackground(String... args){
 
-            try {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
 
-               // Building Parameters
-               List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("kullaniciemail", emailSession));
 
-                params.add(new BasicNameValuePair("kullaniciemail", emailSession));
-                // params.add(new BasicNameValuePair("kullanici_sifre", password));
+            json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
+                    "POST", params);
 
-                json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
-                        "POST", params);
+            // check log cat for response
+            Log.d("Create Response", json.toString());
 
-                // check log cat for response
-                Log.d("Create Response", json.toString());
-
-                return null;
-            }
-
-            catch (Exception e) {
-
-                e.printStackTrace();
-
-                Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
-
-                return null;
-            }
+            return null;
         }
 
         protected void onPostExecute(String file_url){

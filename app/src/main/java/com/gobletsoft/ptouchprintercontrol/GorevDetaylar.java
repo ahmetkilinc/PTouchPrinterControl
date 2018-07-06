@@ -1,7 +1,9 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.AndroidException;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -64,12 +67,14 @@ public class GorevDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
+
     private static String url_gorevdetaylar_getir = "";
+    private static String url_gorevi_kabul_et = "";
 
     private ProgressDialog pDialog;
 
+    private String firmaidd;
 
-    private String firmaid;
     private String firmaadi;
     private String ilgilikisi;
     private String adres;
@@ -86,9 +91,12 @@ public class GorevDetaylar extends AppCompatActivity {
     private String lokasyonilce;
     private String olcumdurumadi;
     private String planlananolcumtarihi;
-    private int success;
+    private int successDetaylar, successKabul;
 
-    private String LokasyonAdi;
+    private String lokasyonAdi, firmaAdi;
+    private int gorevTuru;
+
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -121,9 +129,13 @@ public class GorevDetaylar extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
         }
 
-        LokasyonAdi = getIntent().getStringExtra("lokasyonadi");
+        //lokasyon adını atanan veya devam eden görevlerden al.
+        lokasyonAdi = getIntent().getStringExtra("lokasyonadi");
+        firmaAdi = getIntent().getStringExtra("firmaadi");
+        //gorev türünü atanan veya devam eden olarak al. atanan=2, devameden=1;
+        gorevTuru = getIntent().getIntExtra("gorevTuru", 0);
 
-        Toast.makeText(getApplicationContext(), LokasyonAdi, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "almakta sıkıntı yok? : " + lokasyonAdi, Toast.LENGTH_LONG).show();
 
         //navigation drawer header
 
@@ -275,13 +287,144 @@ public class GorevDetaylar extends AppCompatActivity {
                 })
                 .build();
 
-
         new gorevdetaylargetir().execute();
 
         listView = findViewById(R.id.listViewGorevDetaylar);
 
         gorevDetaylarDataModels = new ArrayList<>();
+
+        Button btnGeriDon = findViewById(R.id.buttonGeriGorevDetaylar);
+        Button btnIlerle = findViewById(R.id.buttonIlerleGorevDetay);
+
+        btnGeriDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(GorevDetaylar.this, Activity_StartMenu.class));
+            }
+        });
+
+        if (gorevTuru == 1){
+
+            btnIlerle.setText("Ölçüm Noktası Ekle");
+
+            btnIlerle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivity(new Intent(GorevDetaylar.this, OlcumNoktalariEkle.class));
+                }
+            });
+        }
+        else if (gorevTuru == 2){
+
+            btnIlerle.setText("Kabul Et");
+
+            btnIlerle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                            alertDialog = new AlertDialog.Builder(GorevDetaylar.this)
+                            .setTitle("Görevi Kabul Et")
+                            .setMessage("Sizin Adınıza Atanmış Görevi Kabul Etmek için Onaylayınız. (Reddettiğiniz görev başkasına atanana kadar burada durmaya devam edecektir.)")
+                            .setCancelable(false)
+                            .setPositiveButton("Kabul Et",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            //new gorevikabulet().execute();
+                                            startActivity(new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class));
+                                        }
+                                    })
+                            .setNegativeButton("Reddet",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog,
+                                                            final int which) {
+
+                                            Intent in = new Intent(GorevDetaylar.this, Gorevler.class);
+                                            in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK | in.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(in);
+                                            //startActivity(new Intent(GorevDetaylar.this, Gorevler.class));
+
+                                        }
+                                    }).create();
+                            alertDialog.show();
+
+                    //startActivity(new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class));
+                }
+            });
+        }
+
+        else{
+
+            btnIlerle.setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(), "Lütfen anasayfaya dönerek tekrar deneyiniz.", Toast.LENGTH_LONG).show();
+        }
     }
+
+    class gorevikabulet extends AsyncTask<String, String, String>{
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(GorevDetaylar.this);
+            pDialog.setMessage("Seçilen Görev Lokasyonunun Detayları Yükleniyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("lokasyon", lokasyonAdi));
+            params.add(new BasicNameValuePair("firmaadi", firmaAdi));
+
+            json = jsonParser.makeHttpRequest(url_gorevi_kabul_et,"GET", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                //ilgilikisi = json.getString("olcumdurumadi");
+
+                successKabul = json.getInt("success");
+
+                if (successKabul == 1){
+
+                    Intent in = new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class);
+                    in.putExtra("firmaadi", firmaAdi);
+                    in.putExtra("lokasyonadi", lokasyonAdi);
+                    startActivity(in);
+                }
+
+                else{
+
+                    Toast.makeText(getApplicationContext(), "Görev kabul edilirken hata meydana geldi, lütfen tekrar deneyiniz.", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     class gorevdetaylargetir extends AsyncTask<String, String, String>{
 
@@ -301,10 +444,10 @@ public class GorevDetaylar extends AppCompatActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<>();
 
-            params.add(new BasicNameValuePair("lokasyon", LokasyonAdi));
+            params.add(new BasicNameValuePair("lokasyon", lokasyonAdi));
+            params.add(new BasicNameValuePair("firmaadi", firmaAdi));
 
-            json = jsonParser.makeHttpRequest(url_gorevdetaylar_getir,
-                    "POST", params);
+            json = jsonParser.makeHttpRequest(url_gorevdetaylar_getir,"GET", params);
 
             // check log cat for response
             Log.d("Create Response", json.toString());
@@ -318,32 +461,27 @@ public class GorevDetaylar extends AppCompatActivity {
 
             try {
 
-                //success = json.getInt("success");
-                //firmaid = json.getString("firmaid");
+                //ilgilikisi = json.getString("olcumdurumadi");
+
+                successDetaylar = json.getInt("success");
+                firmaidd = json.getString("firmaid");
                 firmaadi = json.getString("firmaadi");
                 ilgilikisi = json.getString("ilgilikisi");
-                //adres = json.getString("adres");
-                //ilid = json.getString("ilid");
-                //ilceid = json.getString("ilceid");
-                //telefon = json.getString("telefon");
+                adres = json.getString("adres");
+                ilid = json.getString("ilid");
+                ilceid = json.getString("ilceid");
+                telefon = json.getString("telefon");
                 email = json.getString("email");
                 kontrolnedeni = json.getString("kontrolnedeni");
-                //userid = json.getString("userid");
-                //olcumdurumid = json.getString("olcumdurumid");
-                //aciklama = json.getString("aciklama");
+                userid = json.getString("userid");
+                olcumdurumid = json.getString("olcumdurumid");
+                aciklama = json.getString("aciklama");
                 lokasyonadi = json.getString("lokasyonadi");
                 lokasyonil = json.getString("lokasyonil");
                 lokasyonilce = json.getString("lokasyonilce");
                 olcumdurumadi = json.getString("olcumdurumadi");
                 planlananolcumtarihi = json.getString("planlananolcumtarihi");
 
-                Toast.makeText(getApplicationContext(), firmaadi + " hooyo 1111 " + lokasyonadi, Toast.LENGTH_LONG).show();
-
-
-                /*if (success == 0){
-
-                    Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
-                }*/
             }
             catch (JSONException e) {
 
