@@ -77,7 +77,8 @@ public class Gorevler extends AppCompatActivity {
     private String[] lokasyonlar;
     private String[] olcumdurumdegerler;
 
-
+    //devam eden görev türünü 2 olarak aldık. Görev detaylara bu şekilde haber veriyoruz nereden geldiğini.
+    private int gorevTuru = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,15 +267,20 @@ public class Gorevler extends AppCompatActivity {
         atananGorevlerDataModels = new ArrayList<>();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 AtananGorevlerDataModel atananGorevlerDataModel = atananGorevlerDataModels.get(position);
 
-                /*Intent in = new Intent(Gorevler.this, GorevDetaylar.class);
+                Intent in = new Intent(Gorevler.this, GorevDetaylar.class);
                 in.putExtra("lokasyonadi", atananGorevlerDataModel.getLokasyonadi());
-                startActivity(in);*/
-                Toast.makeText(getApplicationContext(), atananGorevlerDataModel.getFirmaadi()+"\n"+ atananGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
+
+                in.putExtra("firmaadi", atananGorevlerDataModel.getFirmaadi());
+                //gorev türünü detayları yazdırdığımız sayfaya yolla.
+                in.putExtra("gorevTuru", gorevTuru);
+                startActivity(in);
+                //Toast.makeText(getApplicationContext(), atananGorevlerDataModel.getFirmaadi()+"\n"+ atananGorevlerDataModel.getLokasyonadi(), Toast.LENGTH_LONG).show();
             }
         });
     }

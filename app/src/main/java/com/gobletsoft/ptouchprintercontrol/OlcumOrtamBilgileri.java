@@ -1,7 +1,9 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -72,6 +74,8 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
     private String adiSession;
     private String soyadiSession;
     private String emailSession;
+
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -421,5 +425,35 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                .setTitle("Ölçüm Ortam Bilgisi")
+                .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
+                .setCancelable(false)
+                .setPositiveButton("Anladım, geri gitmek istiyorum.",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+
+                                //new gorevikabulet().execute();
+                                startActivity(new Intent(OlcumOrtamBilgileri.this, Gorevler.class));
+                            }
+                        })
+                .setNegativeButton("Vazgeç ve ölçüm noktasını gir.",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(final DialogInterface dialog,
+                                                final int which) {
+
+                            }
+                        }).create();
+        alertDialog.show();
     }
 }
