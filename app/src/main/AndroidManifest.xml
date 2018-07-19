@@ -147,12 +147,20 @@
         <activity
             android:name=".KullaniciAyarlari"
             android:label="Kullanıcı Ayarları"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".DevamEdenGorevler"
             android:label="DevamEdenGorevler"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".OlcumNoktaDetaylar"
+            android:label="OlcumNoktaDetaylar"
             android:theme="@style/Theme.Design.Light.NoActionBar">
-
+        </activity>
+        <activity
+            android:name=".OlcumNoktaDuzenle"
+            android:label="OlcumNoktaDuzenle"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
     </application>
 

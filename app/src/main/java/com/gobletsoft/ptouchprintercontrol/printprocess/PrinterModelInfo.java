@@ -61,6 +61,7 @@ public class PrinterModelInfo {
         int count = models.length;
         String[] m = new String[count];
         for (int i = 0; i < count; ++i) {
+
             m[i] = models[i].name();
         }
         model = m;

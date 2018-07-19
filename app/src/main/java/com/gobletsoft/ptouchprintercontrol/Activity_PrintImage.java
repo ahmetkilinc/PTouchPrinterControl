@@ -289,7 +289,7 @@ public class Activity_PrintImage extends BaseActivity {
                     }
                 });
 
-        mImageView = (ImageView) this.findViewById(R.id.imageView);
+        mImageView = this.findViewById(R.id.imageView);
 
         //mImageView.setBackground(drawable);
 

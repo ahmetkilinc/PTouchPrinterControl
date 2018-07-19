@@ -1,6 +1,7 @@
 package com.gobletsoft.ptouchprintercontrol;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -43,9 +45,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class OlcumOrtamBilgileri extends AppCompatActivity {
 
@@ -58,7 +63,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
     private AccountHeader headerResult = null;
     Drawer result;
 
-    String GorevDetayId;
+    String OlcumYeriIdGelen, lokasyonAdiGelen, firmaAdiGelen;
 
     private ProgressDialog pDialog;
 
@@ -74,6 +79,11 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
     private String adiSession;
     private String soyadiSession;
     private String emailSession;
+
+    //tarih seçimi için gerekenler
+    private Calendar myCalendar;
+    private EditText etKalibrasyonTarihi;
+
 
     private AlertDialog alertDialog;
 
@@ -105,7 +115,9 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
             startActivity(new Intent(OlcumOrtamBilgileri.this, KullaniciGirisi.class));
         }
 
-        GorevDetayId = getIntent().getStringExtra("GorevDetayId");
+        OlcumYeriIdGelen = getIntent().getStringExtra("olcumyeriid");
+        lokasyonAdiGelen = getIntent().getStringExtra("lokasyonadi");
+        firmaAdiGelen = getIntent().getStringExtra("firmaadi");
 
         //navigation drawer header
 
@@ -177,22 +189,16 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -202,10 +208,8 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -217,38 +221,124 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
+                            if(drawerItem.getIdentifier() == 1){
 
-                                startActivity(new Intent(OlcumOrtamBilgileri.this, LabelOlustur.class));
+                                //startActivity(new Intent(OlcumOrtamBilgileri.this, Gorevler.class));
+
+                                alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                                        .setTitle("Ölçüm Ortam Bilgisi")
+                                        .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Anladım, ÇIKMAK istiyorum.",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                        Intent in = new Intent(OlcumOrtamBilgileri.this, Gorevler.class);
+                                                        in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(in);
+                                                    }
+                                                })
+                                        .setNegativeButton("Ölçüm ortam bilgisi eklemeye devam et..",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                    }
+                                                }).create();
+                                alertDialog.show();
                             }
 
-                            else if(drawerItem.getIdentifier() == 2){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(OlcumOrtamBilgileri.this, Gorevler.class));
+                                //startActivity(new Intent(OlcumOrtamBilgileri.this, DevamEdenGorevler.class));
+
+                                alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                                        .setTitle("Ölçüm Ortam Bilgisi")
+                                        .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Anladım, ÇIKMAK istiyorum.",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                        Intent in = new Intent(OlcumOrtamBilgileri.this, DevamEdenGorevler.class);
+                                                        in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(in);
+                                                    }
+                                                })
+                                        .setNegativeButton("Ölçüm ortam bilgisi eklemeye devam et..",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                    }
+                                                }).create();
+                                alertDialog.show();
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 3){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                //startActivity(new Intent(OlcumOrtamBilgileri.this, Activity_Settings.class));
+
+                                alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                                        .setTitle("Ölçüm Ortam Bilgisi")
+                                        .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Anladım, ÇIKMAK istiyorum.",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                        Intent in = new Intent(OlcumOrtamBilgileri.this, Activity_Settings.class);
+                                                        in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(in);
+                                                    }
+                                                })
+                                        .setNegativeButton("Ölçüm ortam bilgisi eklemeye devam et..",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
+
+                                                    }
+                                                }).create();
+                                alertDialog.show();
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
 
+                                alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                                        .setTitle("Ölçüm Ortam Bilgisi")
+                                        .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Anladım, ÇIKMAK istiyorum.",
+                                                new DialogInterface.OnClickListener() {
 
-                            }
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
 
-                            else if (drawerItem.getIdentifier() == 5){
+                                                        session.logoutUser();
 
-                                startActivity(new Intent(OlcumOrtamBilgileri.this, Activity_Settings.class));
-                            }
+                                                        Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
+                                                        i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(i);
+                                                    }
+                                                })
+                                        .setNegativeButton("Ölçüm ortam bilgisi eklemeye devam et..",
+                                                new DialogInterface.OnClickListener() {
 
-                            else if (drawerItem.getIdentifier() == 6){
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, final int which) {
 
-                                session.logoutUser();
-
-                                Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
-                                i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
+                                                    }
+                                                }).create();
+                                alertDialog.show();
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -261,8 +351,14 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         final EditText etModel = findViewById(R.id.editTextModel);
         final EditText etSeriNumarasi = findViewById(R.id.editTextSerialNo);
 
+
+        //önceden tanımlı oldukları için editlemeyi kapat.
+        etMarka.setFocusable(false);
+        etModel.setFocusable(false);
+        etSeriNumarasi.setFocusable(false);
+
         final EditText etKalibrasyonYapanKurum = findViewById(R.id.editTextKalibrasyonYapanKurum);
-        final EditText etKalibrasyonTarihi = findViewById(R.id.editTextKalibrasyonTarihi);
+        etKalibrasyonTarihi = findViewById(R.id.editTextKalibrasyonTarihi);
         final EditText etKalibrasyonGecerlilikSuresi = findViewById(R.id.editTextKalibrasyonGecerlilikSuresi);
 
         final RadioGroup rgTesiseAitProje = findViewById(R.id.RadioGrouptesiseAitProje);
@@ -273,6 +369,32 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         final CheckBox cbDerin = findViewById(R.id.checkBoxDerin);
         final CheckBox cbRing = findViewById(R.id.checkBoxRing);
         final CheckBox cbBelirsiz = findViewById(R.id.checkBoxBelirsiz);
+
+        myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+
+        etKalibrasyonTarihi.setFocusable(false);
+        etKalibrasyonTarihi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(OlcumOrtamBilgileri.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
 
         Button btnKaydet = findViewById(R.id.buttonKaydet);
@@ -358,6 +480,14 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         });
     }
 
+    private void updateLabel() {
+
+        String myFormat = "dd.MM.yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        etKalibrasyonTarihi.setText(sdf.format(myCalendar.getTime()));
+    }
+
     class olcumOrtamBilgileriEkle extends AsyncTask<String,String,String> {
 
         @Override
@@ -376,7 +506,9 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<>();
 
-            params.add(new BasicNameValuePair("gorevDetayId", GorevDetayId));
+            params.add(new BasicNameValuePair("olcumyeriid", OlcumYeriIdGelen));
+            params.add(new BasicNameValuePair("lokasyonadi", lokasyonAdiGelen));
+            params.add(new BasicNameValuePair("firmaadi", firmaAdiGelen));
             params.add(new BasicNameValuePair("marka", Marka));
             params.add(new BasicNameValuePair("model", Model));
             params.add(new BasicNameValuePair("seriNo", SeriNumarasi));
@@ -389,7 +521,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
             params.add(new BasicNameValuePair("tesisSekli", TopraklayiciSekli));
 
             json = jsonParser.makeHttpRequest(url_olcum_ortam_bilgileri_ekle,
-                    "POST", params);
+                    "GET", params);
 
             // check log cat for response
             Log.d("Create Response", json.toString());
@@ -407,17 +539,38 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
                 if (kontrol == 1){
 
-                    Toast.makeText(getApplicationContext(), "Kayıt Başarılı.", Toast.LENGTH_LONG).show();
+                    alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
+                            .setTitle("Başarılı!")
+                            .setMessage("Ölçüm Ortam Bilgileri Başarıyla Eklendi. Ölçüm noktası eklemek için DEVAM, Daha sonra halletmek için DAHA SONRA ya tıklayın.")
+                            .setCancelable(false)
+                            .setPositiveButton("DEVAM",
+                                    new DialogInterface.OnClickListener() {
 
-                    Intent in = new Intent(OlcumOrtamBilgileri.this, OlcumNoktalariEkle.class);
-                    in.putExtra("gorevDetayId", GorevDetayId);
-                    startActivity(in);
-                    //startActivity(new Intent(OlcumOrtamBilgileri.this, OlcumNoktalariEkle.class));
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            Intent in = new Intent(OlcumOrtamBilgileri.this, OlcumNoktalariEkle.class);
+                                            in.putExtra("olcumyeriid", OlcumYeriIdGelen);
+                                            startActivity(in);
+                                        }
+                                    })
+                            .setNegativeButton("DAHA SONRA",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            Intent in = new Intent(OlcumOrtamBilgileri.this, Activity_StartMenu.class);
+                                            in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(in);
+                                        }
+                                    }).create();
+                    alertDialog.show();
                 }
 
                 else{
 
-                    Toast.makeText(getApplicationContext(), "Kayıt Başarısız.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Kayıt Başarısız. Lütfen geri dönerek tekrar deneyiniz.", Toast.LENGTH_LONG).show();
                 }
             }
             catch (JSONException e) {
@@ -428,29 +581,28 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
 
         alertDialog = new AlertDialog.Builder(OlcumOrtamBilgileri.this)
                 .setTitle("Ölçüm Ortam Bilgisi")
                 .setMessage("Ölçüm ortam bilgisi eklemeden çıkarsanız bu lokasyondaki görevi kabul etmemiş olursunuz, lütfen bilgileri giriniz.")
                 .setCancelable(false)
-                .setPositiveButton("Anladım, geri gitmek istiyorum.",
+                .setPositiveButton("Anladım, ÇIKMAK istiyorum.",
                         new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
 
-                                //new gorevikabulet().execute();
-                                startActivity(new Intent(OlcumOrtamBilgileri.this, Gorevler.class));
+                                Intent in = new Intent(OlcumOrtamBilgileri.this, Gorevler.class);
+                                in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(in);
                             }
                         })
-                .setNegativeButton("Vazgeç ve ölçüm noktasını gir.",
+                .setNegativeButton("Ölçüm ortam bilgisi eklemeye devam et..",
                         new DialogInterface.OnClickListener() {
 
                             @Override
-                            public void onClick(final DialogInterface dialog,
-                                                final int which) {
+                            public void onClick(final DialogInterface dialog, final int which) {
 
                             }
                         }).create();

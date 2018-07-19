@@ -155,22 +155,16 @@ public class LabelOlustur extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -180,10 +174,8 @@ public class LabelOlustur extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -195,38 +187,29 @@ public class LabelOlustur extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
-
-                                startActivity(new Intent(LabelOlustur.this, LabelOlustur.class));
-                            }
-
-                            else if(drawerItem.getIdentifier() == 2){
+                            if(drawerItem.getIdentifier() == 1){
 
                                 startActivity(new Intent(LabelOlustur.this, Gorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(LabelOlustur.this, DevamEdenGorevler.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 4){
-
-
-                            }
-
-                            else if (drawerItem.getIdentifier() == 5){
+                            else if (drawerItem.getIdentifier() == 3){
 
                                 startActivity(new Intent(LabelOlustur.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 6){
+                            else if (drawerItem.getIdentifier() == 4){
 
                                 session.logoutUser();
 
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
 
                         }
@@ -241,7 +224,6 @@ public class LabelOlustur extends AppCompatActivity {
         final EditText etAciklama2 = findViewById(R.id.editTextAciklama2);
 
         //final ImageView ivBitmap = findViewById(R.id.imageViewBm);
-
 
         Calendar c = Calendar.getInstance();
 
@@ -361,7 +343,6 @@ public class LabelOlustur extends AppCompatActivity {
                                     Log.i("ExternalStorage", "-> uri=" + uri);
                                 }
                             });
-
 
                     String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
 

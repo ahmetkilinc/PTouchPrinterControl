@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:drawableEnd="@drawable/radsantoolbarlogo"
                 android:gravity="center"
-                android:text="@string/olcum_noktalari_ekle_baslik" />
+                android:text="Ölçüm Noktası Düzenle" />
 
         </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:text="@string/o_n_e_sebeke_tipi" />
 
                 <Spinner
-                    android:id="@+id/spinnerSebekeTipi"
+                    android:id="@+id/spinnerDuzenleSebekeTipi"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -103,7 +103,7 @@
                     android:text="@string/o_n_e_olculen_tip" />
 
                 <Spinner
-                    android:id="@+id/spinnerOlculenTip"
+                    android:id="@+id/spinnerDuzenleOlculenTip"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -130,7 +130,7 @@
                     android:text="@string/o_n_e_karakteristik" />
 
                 <Spinner
-                    android:id="@+id/spinnerKarakteristik"
+                    android:id="@+id/spinnerDuzenleKarakteristik"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -158,7 +158,7 @@
                     android:text="@string/o_n_e_ana_iletken_kesiti" />
 
                 <Spinner
-                    android:id="@+id/spinnerAnaIletkenKesiti"
+                    android:id="@+id/spinnerDuzenleAnaIletkenKesiti"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -185,7 +185,7 @@
                     android:text="@string/o_n_e_kacak_akim_rolesi" />
 
                 <Spinner
-                    android:id="@+id/spinnerKacakAkimRolesi"
+                    android:id="@+id/spinnerDuzenleKacakAkimRolesi"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -212,7 +212,7 @@
                     android:text="@string/o_n_e_olcum_bolum_adi" />
 
                 <EditText
-                    android:id="@+id/editTextOlcumBolumAdi"
+                    android:id="@+id/editTextDuzenleOlcumBolumAdi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -241,7 +241,7 @@
                     android:text="@string/o_n_e_olculen_nokta" />
 
                 <EditText
-                    android:id="@+id/editTextOlculenNokta"
+                    android:id="@+id/editTextDuzenleOlculenNokta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -269,7 +269,7 @@
                     android:text="@string/o_n_e_In" />
 
                 <Spinner
-                    android:id="@+id/spinnerIn"
+                    android:id="@+id/spinnerDuzenleIn"
                     android:layout_width="0dp"
                     android:layout_height="37dp"
                     android:layout_weight="1"
@@ -296,7 +296,7 @@
                     android:text="@string/o_n_e_koruma_iletken_kesiti" />
 
                 <EditText
-                    android:id="@+id/editTextKorumaIletkenKesiti"
+                    android:id="@+id/editTextDuzenleKorumaIletkenKesiti"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -324,7 +324,7 @@
                     android:text="@string/o_n_e_rx" />
 
                 <EditText
-                    android:id="@+id/editTextRx"
+                    android:id="@+id/editTextDuzenleRx"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -344,12 +344,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkBoxYazdir"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/o_n_e_cikti_al" />
             </LinearLayout>
 
             <LinearLayout
@@ -359,12 +353,22 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/buttonEkle"
+                    android:id="@+id/buttonVazgec"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
-                    android:text="@string/o_n_e_buttonAdd" />
+                    android:text="Vazgeç" />
+
+                <Button
+                    android:id="@+id/buttonOlcumNoktaDuzenle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="Düzenle" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
