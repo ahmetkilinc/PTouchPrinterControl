@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -34,10 +33,7 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
-import org.apache.http.HttpException;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -180,22 +176,16 @@ public class DevamEdenGorevler extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -205,10 +195,8 @@ public class DevamEdenGorevler extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -220,39 +208,29 @@ public class DevamEdenGorevler extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
-
-                                startActivity(new Intent(DevamEdenGorevler.this, LabelOlustur.class));
-                            }
-
-                            else if(drawerItem.getIdentifier() == 2){
+                            if(drawerItem.getIdentifier() == 1){
 
                                 startActivity(new Intent(DevamEdenGorevler.this, Gorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(DevamEdenGorevler.this, DevamEdenGorevler.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 4){
-
-
-                            }
-
-                            else if (drawerItem.getIdentifier() == 5){
+                            else if (drawerItem.getIdentifier() == 3){
 
                                 startActivity(new Intent(DevamEdenGorevler.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 6){
+                            else if (drawerItem.getIdentifier() == 4){
 
                                 session.logoutUser();
 
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
-                                //startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -304,18 +282,26 @@ public class DevamEdenGorevler extends AppCompatActivity {
 
         protected String doInBackground(String... args){
 
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
+            try {
 
-            params.add(new BasicNameValuePair("kullaniciemail", emailSession));
+                List<NameValuePair> params = new ArrayList<>();
 
-            json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
-                    "POST", params);
+                params.add(new BasicNameValuePair("kullaniciemail", emailSession));
 
-            // check log cat for response
-            Log.d("Create Response", json.toString());
+                json = jsonParser.makeHttpRequest(url_devamedengorevleri_getir,
+                        "POST", params);
 
-            return null;
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                return json.toString();
+
+            }
+            catch (Exception e){
+
+                Log.e("Server Error: ", "Sunucu veya uygulamalar kapalı.");
+                return null;
+            }
         }
 
         protected void onPostExecute(String file_url){
@@ -324,58 +310,66 @@ public class DevamEdenGorevler extends AppCompatActivity {
 
             try {
 
-                JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
-                JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
-                JSONArray jArrayLokasyonlar = json.getJSONArray("lokasyonlar");
-                JSONArray jArrayOlcumdurumdegerler = json.getJSONArray("olcumdurumdegerler");
-                int success = json.getInt("success");
+                if (json == null){
 
-                if (success == 0){
-
-                    Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Bağlantı Yok. Sunucu Yöneticisine Danışın.", Toast.LENGTH_LONG).show();
                 }
 
-                firmaAdSayisi = jArrayFirmaAdlar.length();
-                firmaIdSayisi = jArrayFirmaIdler.length();
-                lokasyonSayisi = jArrayLokasyonlar.length();
-                olcumdurumdegerSayisi = jArrayOlcumdurumdegerler.length();
+                else{
 
-                firmaAdlar = new String[firmaAdSayisi];
-                firmaIdler = new String[firmaIdSayisi];
-                lokasyonlar = new String[lokasyonSayisi];
-                olcumdurumdegerler = new String[olcumdurumdegerSayisi];
+                    JSONArray jArrayFirmaAdlar = json.getJSONArray("firmaAdlar");
+                    JSONArray jArrayFirmaIdler = json.getJSONArray("firmaIdler");
+                    JSONArray jArrayLokasyonlar = json.getJSONArray("lokasyonlar");
+                    JSONArray jArrayOlcumdurumdegerler = json.getJSONArray("olcumdurumdegerler");
+                    int success = json.getInt("success");
+
+                    if (success == 0){
+
+                        Toast.makeText(getApplicationContext(), "Bağlantı sağlanamadı, lütfen ağ ayarlarınızı kontrol edin.", Toast.LENGTH_LONG).show();
+                    }
+
+                    firmaAdSayisi = jArrayFirmaAdlar.length();
+                    firmaIdSayisi = jArrayFirmaIdler.length();
+                    lokasyonSayisi = jArrayLokasyonlar.length();
+                    olcumdurumdegerSayisi = jArrayOlcumdurumdegerler.length();
+
+                    firmaAdlar = new String[firmaAdSayisi];
+                    firmaIdler = new String[firmaIdSayisi];
+                    lokasyonlar = new String[lokasyonSayisi];
+                    olcumdurumdegerler = new String[olcumdurumdegerSayisi];
 
                 /*private String[] lokasyonlar;
                 private String[] olcumdurumdegerler;*/
 
-                // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
+                    // firmaAdlar[0] = jArrayFirmaAdlar.getString(0);
 
-                for (int j = 0; j < firmaIdSayisi; j++){
+                    for (int j = 0; j < firmaIdSayisi; j++){
 
-                    firmaIdler[j] = jArrayFirmaIdler.getString(j);
+                        firmaIdler[j] = jArrayFirmaIdler.getString(j);
 
-                    System.out.println("firmaId: " + firmaIdler[j]);
-                }
+                        System.out.println("firmaId: " + firmaIdler[j]);
+                    }
 
-                for (int i = 0; i < firmaAdSayisi; i++){
+                    for (int i = 0; i < firmaAdSayisi; i++){
 
-                    firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
+                        firmaAdlar[i] = jArrayFirmaAdlar.getString(i);
 
-                    System.out.println("firmaAd: " + firmaAdlar[i]);
-                }
+                        System.out.println("firmaAd: " + firmaAdlar[i]);
+                    }
 
-                for (int k = 0; k < lokasyonSayisi; k++){
+                    for (int k = 0; k < lokasyonSayisi; k++){
 
-                    lokasyonlar[k] = jArrayLokasyonlar.getString(k);
+                        lokasyonlar[k] = jArrayLokasyonlar.getString(k);
 
-                    System.out.println("lokasyon: " + lokasyonlar[k]);
-                }
+                        System.out.println("lokasyon: " + lokasyonlar[k]);
+                    }
 
-                for (int l = 0; l < olcumdurumdegerSayisi; l++){
+                    for (int l = 0; l < olcumdurumdegerSayisi; l++){
 
-                    olcumdurumdegerler[l] = jArrayOlcumdurumdegerler.getString(l);
+                        olcumdurumdegerler[l] = jArrayOlcumdurumdegerler.getString(l);
 
-                    System.out.println("olcumdeger: " + olcumdurumdegerler[l]);
+                        System.out.println("olcumdeger: " + olcumdurumdegerler[l]);
+                    }
                 }
             }
             catch (JSONException e) {

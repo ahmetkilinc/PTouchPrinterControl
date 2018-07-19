@@ -1,17 +1,22 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,11 +34,21 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class OlcumNoktalari extends AppCompatActivity {
+
+    ArrayList<OlcumNoktalariDataModel> olcumNoktalariDataModels;
+    ListView listView;
+    private static OlcumNoktalariCustomAdapter adapter;
 
     private String OlcumBolumAdi;
     private String SebekeTipi;
@@ -53,18 +68,27 @@ public class OlcumNoktalari extends AppCompatActivity {
     private AccountHeader headerResult = null;
     Drawer result;
 
-    //listviewadapter variables
-    private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
-    private List<String> listDataHeader;
-    private HashMap<String, List<String>> listHash;
-
     // Session Manager Class
     SessionManager session;
     private String kullaniciAdiSession;
     private String adiSession;
     private String soyadiSession;
     private String emailSession;
+
+    //php stuff
+    private JSONObject json;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_olcumnoktalarini_getir = "http://10.0.0.100:85/ptouchAndroid/olcumnoktalarinigetir.php";
+
+    private ProgressDialog pDialog;
+
+    private String olcumYeriId;
+
+    private String[] olcumBolumAdlar;
+    private String[] olculenNoktalar;
+
+    int olcumBolumAdSayisi;
+    int olculenNoktaSayisi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +117,9 @@ public class OlcumNoktalari extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(OlcumNoktalari.this, KullaniciGirisi.class));
         }
+
+        //al al al al
+        olcumYeriId = getIntent().getStringExtra("olcumyeriid");
 
         //navigation drawer header
 
@@ -162,22 +189,16 @@ public class OlcumNoktalari extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -187,10 +208,8 @@ public class OlcumNoktalari extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -202,38 +221,29 @@ public class OlcumNoktalari extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
-
-                                startActivity(new Intent(OlcumNoktalari.this, LabelOlustur.class));
-                            }
-
-                            else if(drawerItem.getIdentifier() == 2){
+                            if(drawerItem.getIdentifier() == 1){
 
                                 startActivity(new Intent(OlcumNoktalari.this, Gorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(OlcumNoktalari.this, DevamEdenGorevler.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 4){
-
-
-                            }
-
-                            else if (drawerItem.getIdentifier() == 5){
+                            else if (drawerItem.getIdentifier() == 3){
 
                                 startActivity(new Intent(OlcumNoktalari.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 6){
+                            else if (drawerItem.getIdentifier() == 4){
 
                                 session.logoutUser();
 
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -242,56 +252,123 @@ public class OlcumNoktalari extends AppCompatActivity {
                 })
                 .build();
 
-        //yeni eklenen ölçüm noktası varsa, değerlerini al.
+        Button btnGeriDon = findViewById(R.id.buttonGeriDonOlcumNoktalari);
+        Button btnYeniOlcumNoktasi = findViewById(R.id.buttonYeniOlcumNoktasi);
 
-        OlcumBolumAdi = getIntent().getExtras().getString("olcumBolumAdi");
-        SebekeTipi = getIntent().getExtras().getString("sebekeTip");
-        OlculenTip = getIntent().getExtras().getString("olculenTip");
-        OlculenNokta = getIntent().getExtras().getString("olculenNokta");
-        Karakteristik = getIntent().getExtras().getString("karakteristik");
-        In = getIntent().getExtras().getInt("in");
-        AnaIletkenKesit = getIntent().getExtras().getDouble("anaIletkenKesit");
-        KorumaIletkenKesit = getIntent().getExtras().getDouble("korumaIletkenKesit");
-        KacakAkimRolesi = getIntent().getExtras().getInt("kacakAkimRolesi");
-        Rx = getIntent().getExtras().getDouble("rx");
-        Iaa = getIntent().getExtras().getDouble("iaa");
-        Raa = getIntent().getExtras().getDouble("raa");
-        KabloyaGoreSonuc = getIntent().getExtras().getString("kabloyaGoreSonuc");
-        OlcumeGoreSonuc = getIntent().getExtras().getString("olcumeGoreSonuc");
+        btnGeriDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        System.out.println( "hp: " + In + " " + KacakAkimRolesi);
+                startActivity(new Intent(OlcumNoktalari.this, Activity_StartMenu.class));
+            }
+        });
 
-        System.out.println("fp: " + KacakAkimRolesi + " " + Rx);
+        btnYeniOlcumNoktasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        //listview
-        listView = findViewById(R.id.lvExp);
-        initData();
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listHash);
-        listView.setAdapter(listAdapter);
+                Intent in = new Intent(OlcumNoktalari.this, OlcumNoktalariEkle.class);
+                in.putExtra("olcumyeriid", olcumYeriId);
+                startActivity(in);
+            }
+        });
+
+        listView = findViewById(R.id.listViewOlcumNoktalari);
+
+        olcumNoktalariDataModels = new ArrayList<>();
+
+        new olcumnoktalarinigetir().execute();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                OlcumNoktalariDataModel olcumNoktalariDataModel = olcumNoktalariDataModels.get(position);
+
+                //Toast.makeText(getApplicationContext(), olcumNoktalariDataModel.getLokasyonadi() + devamEdenGorevlerDataModel.getFirmaadi(), Toast.LENGTH_LONG).show();
+
+                Intent in = new Intent(OlcumNoktalari.this, OlcumNoktaDetaylar.class);
+                in.putExtra("olcumbolumadi", olcumNoktalariDataModel.getOlcumbolumadi());
+                in.putExtra("olculennokta", olcumNoktalariDataModel.getOlculennokta());
+                startActivity(in);
+            }
+        });
     }
 
-    private void initData() {
+    class olcumnoktalarinigetir extends AsyncTask<String, String, String>{
 
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
+        @Override
+        protected void onPreExecute() {
 
-        listDataHeader.add(OlcumBolumAdi);
+            super.onPreExecute();
+            pDialog = new ProgressDialog(OlcumNoktalari.this);
+            pDialog.setMessage("Olcum Noktaları Getiriliyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
 
-        List<String> oba = new ArrayList<>();
-        oba.add(SebekeTipi);
-        oba.add(OlculenTip);
-        oba.add(OlculenNokta);
-        oba.add(Karakteristik);
-        oba.add(KacakAkimRolesi.toString());
-        oba.add(In.toString());
-        oba.add(AnaIletkenKesit.toString());
-        oba.add(KorumaIletkenKesit.toString());
-        oba.add(Rx.toString());
-        oba.add(Iaa.toString());
-        oba.add(Raa.toString());
-        oba.add(KabloyaGoreSonuc);
-        oba.add(OlcumeGoreSonuc);
+        protected String doInBackground(String... args){
 
-        listHash.put(listDataHeader.get(0), oba);
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("olcumyeriid", olcumYeriId));
+
+            json = jsonParser.makeHttpRequest(url_olcumnoktalarini_getir,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                JSONArray jArrayOlcumBolumAdlar = json.getJSONArray("olcumbolumadlar");
+                JSONArray jArrayOlculenNoktalar = json.getJSONArray("olculennoktalar");
+
+                olcumBolumAdSayisi = jArrayOlcumBolumAdlar.length();
+                olculenNoktaSayisi = jArrayOlculenNoktalar.length();
+
+                olcumBolumAdlar = new String[olcumBolumAdSayisi];
+                olculenNoktalar = new String[olculenNoktaSayisi];
+
+                for (int j = 0; j < olcumBolumAdSayisi; j++){
+
+                    olcumBolumAdlar[j] = jArrayOlcumBolumAdlar.getString(j);
+
+                    System.out.println("firmaId: " + olcumBolumAdlar[j]);
+                }
+
+                for (int i = 0; i < olculenNoktaSayisi; i++){
+
+                    olculenNoktalar[i] = jArrayOlculenNoktalar.getString(i);
+
+                    System.out.println("firmaAd: " + olculenNoktalar[i]);
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
+            for (int i = 0;  i < olcumBolumAdSayisi; i++){
+
+                String a = i + "";
+
+                olcumNoktalariDataModels.add(new OlcumNoktalariDataModel(olcumBolumAdlar[i],olculenNoktalar[i], a));
+            }
+
+            adapter = new OlcumNoktalariCustomAdapter(olcumNoktalariDataModels, getApplicationContext());
+
+            listView.setAdapter(adapter);
+        }
     }
 }

@@ -50,6 +50,7 @@ public class Activity_PrintTemplate extends BaseActivity {
         public void afterTextChanged(Editable arg0) {
 
             if (currentInput) {
+
                 addEndFlg();
                 showInputData();
             }
@@ -78,7 +79,7 @@ public class Activity_PrintTemplate extends BaseActivity {
         layoutObjectName.setVisibility(TableLayout.GONE);
 
 
-        Button addButton = (Button) findViewById(R.id.addButton);
+        Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +87,7 @@ public class Activity_PrintTemplate extends BaseActivity {
             }
         });
 
-        Button deleteButton = (Button) findViewById(R.id.deleteButton);
+        Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +95,7 @@ public class Activity_PrintTemplate extends BaseActivity {
             }
         });
 
-        Button nextPrintButton = (Button) findViewById(R.id.nextPrintButton);
+        Button nextPrintButton = findViewById(R.id.nextPrintButton);
         nextPrintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +104,7 @@ public class Activity_PrintTemplate extends BaseActivity {
         });
 
 
-        Button btnPrinterSettings = (Button) findViewById(R.id.btnPrinterSettings);
+        Button btnPrinterSettings = findViewById(R.id.btnPrinterSettings);
         btnPrinterSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +113,7 @@ public class Activity_PrintTemplate extends BaseActivity {
         });
 
 
-        Button btnPrint = (Button) findViewById(R.id.btnPrint);
+        Button btnPrint = findViewById(R.id.btnPrint);
         btnPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

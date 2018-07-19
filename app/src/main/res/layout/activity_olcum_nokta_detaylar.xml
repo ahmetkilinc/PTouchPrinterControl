@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OlcumNoktalari">
-
+    tools:context=".GorevDetaylar">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -26,33 +27,35 @@
             tools:layout_editor_absoluteX="30dp">
 
             <TextView
-                android:id="@+id/textViewOlcumNoktalari"
+                android:id="@+id/textViewGorevler"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:drawableEnd="@drawable/radsantoolbarlogo"
                 android:gravity="center"
-                android:text="@string/olcum_noktalari_baslik" />
+                android:text="Ölçüm Noktası Detayları" />
+
         </LinearLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayout2"
         android:layout_width="372dp"
-        android:layout_height="387dp"
+        android:layout_height="447dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="8dp"
         android:baselineAligned="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/view">
 
         <ListView
-            android:id="@+id/listViewOlcumNoktalari"
+            android:id="@+id/listViewOlcumNoktaDetaylar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="60dp"
             android:layout_weight="1">
 
         </ListView>
@@ -60,11 +63,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -74,79 +77,44 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
-            android:id="@+id/buttonGeriDonOlcumNoktalari"
+            android:id="@+id/buttonGeriOlcumNoktaDetaylar"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="@string/dn_go_back" />
+
+        <Button
+            android:id="@+id/buttonSil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:text="Geri Dön" />
+            android:text="Sil" />
 
         <Button
-            android:id="@+id/buttonYeniOlcumNoktasi"
+            android:id="@+id/buttonOlcumNoktaDuzenle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Düzenle" />
+
+        <Button
+            android:id="@+id/buttonCiktiAlOlcumNoktaDetay"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:text="Yeni Ölçüm Noktası Ekle" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <TextView
-            android:id="@+id/degiskennumarasi"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_weight="0"
-            android:gravity="center" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:background="?android:attr/listDivider" />
-
-        <TextView
-            android:id="@+id/olcumbolumadi"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center"
-            android:paddingStart="5dp"
-            android:text="Ölçüm Bölüm Adı"
-            android:textSize="16sp" />
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:background="?android:attr/listDivider" />
-
-        <TextView
-            android:id="@+id/olculennokta"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2"
-            android:gravity="center_vertical|center"
-            android:text="Ölçülen Nokta"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:text="Noktanın Çıktısını Al" />
 
 
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

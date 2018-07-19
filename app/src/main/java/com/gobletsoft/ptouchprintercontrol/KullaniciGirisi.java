@@ -114,19 +114,27 @@ public class KullaniciGirisi extends AppCompatActivity {
 
         protected String doInBackground(String... args){
 
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
+            try{
 
-            params.add(new BasicNameValuePair("kullanici_email", email));
-            params.add(new BasicNameValuePair("kullanici_sifre", password));
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<>();
 
-            json = jsonParser.makeHttpRequest(url_login,
-                    "POST", params);
+                params.add(new BasicNameValuePair("kullanici_email", email));
+                params.add(new BasicNameValuePair("kullanici_sifre", password));
 
-            // check log cat for response
-            Log.d("Create Response", json.toString());
+                json = jsonParser.makeHttpRequest(url_login,
+                        "POST", params);
 
-            return null;
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                return json.toString();
+            }
+            catch (Exception e){
+
+                Log.e("Server Error: ", "Sunucu veya uygulamalar kapalı.");
+                return null;
+            }
         }
 
         protected void onPostExecute(String file_url){
@@ -135,36 +143,44 @@ public class KullaniciGirisi extends AppCompatActivity {
 
             try {
 
-                int success = json.getInt(TAG_SUCCESS);
-                kullaniciAdiServerdan = json.getString("kullaniciadi");
-                adiServerdan = json.getString("adi");
-                soyadiServerdan = json.getString("soyadi");
+                if (json == null){
 
-                if (success == 1){
+                    Toast.makeText(getApplicationContext(), "Bağlantı Yok. Sunucu Yöneticisine Danışın.", Toast.LENGTH_LONG).show();
+                }
 
-                    session.createLoginSession(email, password, kullaniciAdiServerdan, adiServerdan, soyadiServerdan);
+                else{
+
+                    int success = json.getInt(TAG_SUCCESS);
+                    kullaniciAdiServerdan = json.getString("kullaniciadi");
+                    adiServerdan = json.getString("adi");
+                    soyadiServerdan = json.getString("soyadi");
+
+                    if (success == 1){
+
+                        session.createLoginSession(email, password, kullaniciAdiServerdan, adiServerdan, soyadiServerdan);
 
                     /*Intent in = new Intent(KullaniciGirisi.this, Activity_StartMenu.class);
                     in.putExtra("kullaniciAdiServerdan", kullaniciAdiServerdan);
                     in.putExtra("adiServerdan", adiServerdan);
                     in.putExtra("soyadiServerdan", soyadiServerdan);
                     startActivity(in);*/
-                    startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
-                }
+                        startActivity(new Intent(KullaniciGirisi.this, Activity_StartMenu.class));
+                    }
 
-                else if (success == 0){
+                    else if (success == 0){
 
-                    Toast.makeText(getApplicationContext(), "Alanlar doldurulmadı", Toast.LENGTH_LONG).show();
-                }
+                        Toast.makeText(getApplicationContext(), "Alanlar doldurulmadı", Toast.LENGTH_LONG).show();
+                    }
 
-                else if (success == 2){
+                    else if (success == 2){
 
-                    Toast.makeText(getApplicationContext(), "Email veya Sifre Yanlış. Lütfen Tekrar Deneyin.", Toast.LENGTH_LONG).show();
-                }
+                        Toast.makeText(getApplicationContext(), "Email veya Sifre Yanlış. Lütfen Tekrar Deneyin.", Toast.LENGTH_LONG).show();
+                    }
 
-                else{
+                    else{
 
-                    Toast.makeText(getApplicationContext(), "Email Adresi Kayıtlı Değil.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Email Adresi Kayıtlı Değil.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             catch (JSONException e) {

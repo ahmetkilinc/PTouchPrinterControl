@@ -91,9 +91,11 @@ public class GorevDetaylar extends AppCompatActivity {
     private String lokasyonilce;
     private String olcumdurumadi;
     private String planlananolcumtarihi;
+    private String olcumyeriid;
+
     private int successDetaylar, successKabul;
 
-    private String lokasyonAdi, firmaAdi;
+    private String lokasyonAdiGelen, firmaAdiGelen;
     private int gorevTuru;
 
     private AlertDialog alertDialog;
@@ -130,12 +132,10 @@ public class GorevDetaylar extends AppCompatActivity {
         }
 
         //lokasyon adını atanan veya devam eden görevlerden al.
-        lokasyonAdi = getIntent().getStringExtra("lokasyonadi");
-        firmaAdi = getIntent().getStringExtra("firmaadi");
+        lokasyonAdiGelen = getIntent().getStringExtra("lokasyonadi");
+        firmaAdiGelen = getIntent().getStringExtra("firmaadi");
         //gorev türünü atanan veya devam eden olarak al. atanan=2, devameden=1;
         gorevTuru = getIntent().getIntExtra("gorevTuru", 0);
-
-        Toast.makeText(getApplicationContext(), "almakta sıkıntı yok? : " + lokasyonAdi, Toast.LENGTH_LONG).show();
 
         //navigation drawer header
 
@@ -206,22 +206,16 @@ public class GorevDetaylar extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
                 R.drawable.cikis);
         //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
@@ -231,10 +225,8 @@ public class GorevDetaylar extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -246,39 +238,29 @@ public class GorevDetaylar extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
-
-                                startActivity(new Intent(GorevDetaylar.this, LabelOlustur.class));
-                            }
-
-                            else if(drawerItem.getIdentifier() == 2){
+                            if(drawerItem.getIdentifier() == 1){
 
                                 startActivity(new Intent(GorevDetaylar.this, Gorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(GorevDetaylar.this, DevamEdenGorevler.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 4){
-
-
-                            }
-
-                            else if (drawerItem.getIdentifier() == 5){
+                            else if (drawerItem.getIdentifier() == 3){
 
                                 startActivity(new Intent(GorevDetaylar.this, Activity_Settings.class));
                             }
 
-                            else if (drawerItem.getIdentifier() == 6){
+                            else if (drawerItem.getIdentifier() == 4){
 
                                 session.logoutUser();
 
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
-                                //startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
@@ -295,12 +277,24 @@ public class GorevDetaylar extends AppCompatActivity {
 
         Button btnGeriDon = findViewById(R.id.buttonGeriGorevDetaylar);
         Button btnIlerle = findViewById(R.id.buttonIlerleGorevDetay);
+        Button btnTumOlcumNoktalari = findViewById(R.id.buttonTumOlcumNoktalari);
+
+        btnTumOlcumNoktalari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(GorevDetaylar.this, OlcumNoktalari.class);
+                in.putExtra("olcumyeriid", olcumyeriid);
+                startActivity(in);
+                //startActivity(new Intent(GorevDetaylar.this, OlcumNoktalari.class));
+            }
+        });
 
         btnGeriDon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(GorevDetaylar.this, Activity_StartMenu.class));
+                startActivity(new Intent(GorevDetaylar.this, DevamEdenGorevler.class));
             }
         });
 
@@ -312,13 +306,19 @@ public class GorevDetaylar extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    startActivity(new Intent(GorevDetaylar.this, OlcumNoktalariEkle.class));
+                    Intent in = new Intent(GorevDetaylar.this, OlcumNoktalariEkle.class);
+                    in.putExtra("olcumyeriid", olcumyeriid);
+                    in.putExtra("lokasyonadi", lokasyonadi);
+                    in.putExtra("firmaadi", firmaadi);
+                    startActivity(in);;
                 }
             });
         }
         else if (gorevTuru == 2){
 
             btnIlerle.setText("Kabul Et");
+
+            btnTumOlcumNoktalari.setVisibility(View.GONE);
 
             btnIlerle.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -334,8 +334,11 @@ public class GorevDetaylar extends AppCompatActivity {
                                         @Override
                                         public void onClick(final DialogInterface dialog, final int which) {
 
-                                            //new gorevikabulet().execute();
-                                            startActivity(new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class));
+                                            Intent in = new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class);
+                                            in.putExtra("olcumyeriid", olcumyeriid);
+                                            in.putExtra("lokasyonadi", lokasyonadi);
+                                            in.putExtra("firmaadi", firmaadi);
+                                            startActivity(in);
                                         }
                                     })
                             .setNegativeButton("Reddet",
@@ -346,10 +349,8 @@ public class GorevDetaylar extends AppCompatActivity {
                                                             final int which) {
 
                                             Intent in = new Intent(GorevDetaylar.this, Gorevler.class);
-                                            in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK | in.FLAG_ACTIVITY_NEW_TASK);
+                                            in.setFlags(in.FLAG_ACTIVITY_CLEAR_TOP | in.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(in);
-                                            //startActivity(new Intent(GorevDetaylar.this, Gorevler.class));
-
                                         }
                                     }).create();
                             alertDialog.show();
@@ -365,66 +366,6 @@ public class GorevDetaylar extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Lütfen anasayfaya dönerek tekrar deneyiniz.", Toast.LENGTH_LONG).show();
         }
     }
-
-    class gorevikabulet extends AsyncTask<String, String, String>{
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-            pDialog = new ProgressDialog(GorevDetaylar.this);
-            pDialog.setMessage("Seçilen Görev Lokasyonunun Detayları Yükleniyor...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        protected String doInBackground(String... args){
-
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
-
-            params.add(new BasicNameValuePair("lokasyon", lokasyonAdi));
-            params.add(new BasicNameValuePair("firmaadi", firmaAdi));
-
-            json = jsonParser.makeHttpRequest(url_gorevi_kabul_et,"GET", params);
-
-            // check log cat for response
-            Log.d("Create Response", json.toString());
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url){
-
-            pDialog.dismiss();
-
-            try {
-
-                //ilgilikisi = json.getString("olcumdurumadi");
-
-                successKabul = json.getInt("success");
-
-                if (successKabul == 1){
-
-                    Intent in = new Intent(GorevDetaylar.this, OlcumOrtamBilgileri.class);
-                    in.putExtra("firmaadi", firmaAdi);
-                    in.putExtra("lokasyonadi", lokasyonAdi);
-                    startActivity(in);
-                }
-
-                else{
-
-                    Toast.makeText(getApplicationContext(), "Görev kabul edilirken hata meydana geldi, lütfen tekrar deneyiniz.", Toast.LENGTH_LONG).show();
-                }
-            }
-            catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     class gorevdetaylargetir extends AsyncTask<String, String, String>{
 
@@ -444,8 +385,8 @@ public class GorevDetaylar extends AppCompatActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<>();
 
-            params.add(new BasicNameValuePair("lokasyon", lokasyonAdi));
-            params.add(new BasicNameValuePair("firmaadi", firmaAdi));
+            params.add(new BasicNameValuePair("lokasyon", lokasyonAdiGelen));
+            params.add(new BasicNameValuePair("firmaadi", firmaAdiGelen));
 
             json = jsonParser.makeHttpRequest(url_gorevdetaylar_getir,"GET", params);
 
@@ -462,7 +403,6 @@ public class GorevDetaylar extends AppCompatActivity {
             try {
 
                 //ilgilikisi = json.getString("olcumdurumadi");
-
                 successDetaylar = json.getInt("success");
                 firmaidd = json.getString("firmaid");
                 firmaadi = json.getString("firmaadi");
@@ -481,20 +421,14 @@ public class GorevDetaylar extends AppCompatActivity {
                 lokasyonilce = json.getString("lokasyonilce");
                 olcumdurumadi = json.getString("olcumdurumadi");
                 planlananolcumtarihi = json.getString("planlananolcumtarihi");
-
+                olcumyeriid = json.getString("olcumyeriid");
             }
             catch (JSONException e) {
 
                 e.printStackTrace();
             }
 
-            /*for (int i = 0;  i < firmaIdSayisi; i++){
-
-                devamEdenGorevlerDataModels.add(new DevamEdenGorevlerDataModel(firmaAdlar[i], lokasyonlar[i]));
-            }*/
-
             //Toast.makeText(getApplicationContext(), "hooyo: " + success, Toast.LENGTH_LONG).show();
-
             gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Firma Adı:", firmaadi));
             gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Lokasyon:", lokasyonadi));
             gorevDetaylarDataModels.add(new GorevDetaylarDataModel("Lokasyon İl:", lokasyonil));

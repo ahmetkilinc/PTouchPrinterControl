@@ -1,7 +1,11 @@
 package com.gobletsoft.ptouchprintercontrol;
 
+// ekledikten sonra Çıktı Al checkbox'ı tikli ise çıktı alım ekranına gönder.
+
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -75,12 +79,11 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
     private String kabloyaGore, olcumeGore;
 
-
     private CheckBox cbYazdir;
     private String formattedDate;
     private String formattedSaat;
 
-    private String GorevDetayId;
+    private String olcumYeriId;
 
     private ProgressDialog pDialog;
 
@@ -96,6 +99,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
     private String adiSession;
     private String soyadiSession;
     private String emailSession;
+
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +130,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             startActivity(new Intent(OlcumNoktalariEkle.this, KullaniciGirisi.class));
         }
 
-        GorevDetayId = getIntent().getStringExtra("GorevDetayId");
+        olcumYeriId = getIntent().getStringExtra("olcumyeriid");
 
         //navigation drawer header
 
@@ -195,24 +200,17 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemText = new PrimaryDrawerItem().withName("").withSelectable(false);
 
-        PrimaryDrawerItem itemYeniEtiket = new PrimaryDrawerItem().withIdentifier(1).withName(getString(R.string.dn_new_label)).withSelectable(false).withIcon(
-                R.drawable.newlabel);
-
-        PrimaryDrawerItem itemGorevler = new PrimaryDrawerItem().withIdentifier(2).withName(getString(R.string.dn_gorevler)).withSelectable(false).withIcon(
-                R.drawable.gorevler);
-
-        PrimaryDrawerItem itemKabuledilenGorevler = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_kabul_edilen_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAtananGorevler = new PrimaryDrawerItem().withIdentifier(1).withName("Atanan Görevler").withSelectable(false).withIcon(
                 R.drawable.kabuledilengorev);
 
-        PrimaryDrawerItem itemTamamlanmisGorevler = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_tamamlanmis_gorevler)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemDevamEdenGorevler = new PrimaryDrawerItem().withIdentifier(2).withName("Devam Eden Görevler").withSelectable(false).withIcon(
                 R.drawable.tamamlanmisgorev);
 
-        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(5).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
+        PrimaryDrawerItem itemAyarlar = new PrimaryDrawerItem().withIdentifier(3).withName(getString(R.string.dn_settings)).withSelectable(false).withIcon(
                 R.drawable.ayarlar);
 
-        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(6).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
-                R.drawable.cikis);
-        //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
+        PrimaryDrawerItem itemKapat = new PrimaryDrawerItem().withIdentifier(4).withName(getString(R.string.dn_close)).withSelectable(false).withIcon(
+                R.drawable.cikis);        //SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.navigation_item_settings);
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -220,10 +218,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         itemText,
-                        itemYeniEtiket,
-                        itemGorevler,
-                        itemKabuledilenGorevler,
-                        itemTamamlanmisGorevler,
+                        itemAtananGorevler,
+                        itemDevamEdenGorevler,
                         new DividerDrawerItem(),
                         itemAyarlar,
                         itemKapat
@@ -235,38 +231,29 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
                         if (drawerItem != null){
 
-                            if (drawerItem.getIdentifier() == 1){
-
-                                startActivity(new Intent(OlcumNoktalariEkle.this, LabelOlustur.class));
-                            }
-
-                            else if(drawerItem.getIdentifier() == 2){
+                            if(drawerItem.getIdentifier() == 1){
 
                                 startActivity(new Intent(OlcumNoktalariEkle.this, Gorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 3){
+                            else if (drawerItem.getIdentifier() == 2){
 
-                                //startActivity(new Intent(Activity_StartMenu.this, Activity_Settings.class));
+                                startActivity(new Intent(OlcumNoktalariEkle.this, DevamEdenGorevler.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 4){
-
-
-                            }
-
-                            else if(drawerItem.getIdentifier() == 5){
+                            else if (drawerItem.getIdentifier() == 3){
 
                                 startActivity(new Intent(OlcumNoktalariEkle.this, Activity_Settings.class));
                             }
 
-                            else if(drawerItem.getIdentifier() == 6){
+                            else if (drawerItem.getIdentifier() == 4){
 
                                 session.logoutUser();
 
                                 Intent i = new Intent(getApplicationContext(), KullaniciGirisi.class);
                                 i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP | i.FLAG_ACTIVITY_CLEAR_TASK | i.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
+                                //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
 
                         }
@@ -721,23 +708,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             StIaa = String.valueOf(Iaa);
             StRaa = String.valueOf(Raa);
 
-           /* params.add(new BasicNameValuePair("gorevDetayId", "1"));
-            params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
-            params.add(new BasicNameValuePair("olcumBolumAdi", OlcumBolumAdi));
-            params.add(new BasicNameValuePair("olculenTip", OlculenTip));
-            params.add(new BasicNameValuePair("olculenNokta", OlculenNokta));
-            params.add(new BasicNameValuePair("karakteristik", Karakteristik));
-            params.add(new BasicNameValuePair("inn", "8"));
-            params.add(new BasicNameValuePair("anaIletkenKesiti", AnaIletkenKesiti));
-            params.add(new BasicNameValuePair("korumaIletkenKesiti", "37"));
-            params.add(new BasicNameValuePair("kacakAkimRolesi", "1"));
-            params.add(new BasicNameValuePair("rx", "78"));
-            params.add(new BasicNameValuePair("iaa", "30"));
-            params.add(new BasicNameValuePair("raa", "44"));
-            params.add(new BasicNameValuePair("sonucOlcumeGore", olcumeGore));
-            params.add(new BasicNameValuePair("sonucKabloyaGore", kabloyaGore));*/
-
-            params.add(new BasicNameValuePair("gorevDetayId", "1"));
+            params.add(new BasicNameValuePair("olcumYeriId", olcumYeriId));
             params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
             params.add(new BasicNameValuePair("olcumBolumAdi", OlcumBolumAdi));
             params.add(new BasicNameValuePair("olculenTip", OlculenTip));
@@ -772,13 +743,41 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
                 if (kontrol == 1){
 
-                    Toast.makeText(getApplicationContext(), "Başarılı. => " + StKacakAkimRolesi + " " + " "
-                            + StIn + " " + StKorumaIletkenKesiti + " " + StRx + " " + StIaa + " " + StRaa, Toast.LENGTH_LONG).show();
+                    //eğer checkbox işaretli ise bu kısmı gösterme!, değilse göster
+                    alertDialog = new AlertDialog.Builder(OlcumNoktalariEkle.this)
+                            .setTitle("Başarılı!")
+                            .setMessage("Ölçüm Noktası Başarıyla Eklendi. Yeni ölçüm noktası eklemek için YENİ EKLE ye, Ölçüm noktalarını görmek için ÖLÇÜM NOKTALARI na tıkla.")
+                            .setCancelable(false)
+                            .setPositiveButton("Yeni Ekle",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalariEkle.class);
+                                            in.putExtra("olcumyeriid", olcumYeriId);
+                                            startActivity(in);
+                                        }
+                                    })
+                            .setNegativeButton("Ölçüm Noktaları",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
+                                            in.putExtra("olcumyeriid", olcumYeriId);
+                                            startActivity(in);
+                                        }
+                                    }).create();
+                    alertDialog.show();
+
+                    //startActivity(new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class));
                 }
 
                 else{
 
-                    Toast.makeText(getApplicationContext(), "Başarısız.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Başarısız. Lütfen Tekrar Deneyin.", Toast.LENGTH_LONG).show();
                 }
             }
             catch (JSONException e) {
@@ -787,10 +786,6 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             }
         }
     }
-
-
-
-
 
 
     public void hesapla(String SebekeTipi, String OlculenTip, String Karakteristik, Double doubleAnaIletkenKesit,
@@ -996,9 +991,9 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), olcumeGore + " & " + kabloyaGore + " & " + Rx, Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getApplicationContext(), getString(R.string.about_text), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), getString(R.string.about_text), Toast.LENGTH_LONG).show();
 
-        Calendar cal = Calendar.getInstance();
+        /*Calendar cal = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");
         formattedDate = df.format(cal.getTime());
@@ -1104,7 +1099,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                         Log.i("ExternalStorage", "Scanned " + path + ":");
                         Log.i("ExternalStorage", "-> uri=" + uri);
                     }
-        });
+        });*/
 
     //Checkbox yazdır tikli ise
       /*  if (cbYazdir.isChecked()){

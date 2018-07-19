@@ -1,23 +1,19 @@
 package com.gobletsoft.ptouchprintercontrol;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,96 +31,100 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class KullaniciAyarlari extends AppCompatActivity {
-
-    private ProgressDialog pDialog;
-
-    //php connections
-    JSONParser jsonParser = new JSONParser();
-    private static String url_hesapbilgilerini_getir = "";
-    private static String url_hesapbilgilerini_guncelle = "";
-    private static final String TAG_SUCCESS = "success";
-    private JSONObject json;
-
-    private String email;
-    private EditText etKullaniciAdi;
-    private EditText etAd;
-    private EditText etSoyad;
-    private EditText etEposta;
-    private EditText etSifre;
-    private Button btnKullaniciAyarlariGuncelle;
-
-    private String GuncelKullaniciAdi;
-    private String GuncelAd;
-    private String GuncelSoyad;
-    private String GuncelEmail;
-    private String GuncelSifre;
+public class OlcumNoktaDuzenle extends AppCompatActivity {
 
     // Session Manager Class
     SessionManager session;
-    //private String kullaniciAdiSession;
+    private String kullaniciAdiSession;
     private String adiSession;
     private String soyadiSession;
-    //private String emailSession;
+    private String emailSession;
 
+    //drawer
     private AccountHeader headerResult = null;
     Drawer result;
 
+    //php stuff
+    private JSONObject json;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_olcumnoktadetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/.php";
+
+    private ProgressDialog pDialog;
+
+
+    String olcumNoktaId, sebekeTipi, olculenTip, olculenNokta, karakteristik, inn, anaIletkenKesiti, korumaIletkenKesiti,
+            kacakAkimRolesi, rx, iaa, raa, olcumeGoreSonuc, kabloyaGoreSonuc, olcumBolumAdi;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_kullanici_ayarlari);
+        setContentView(R.layout.activity_olcum_nokta_duzenle);
 
+        // Session class instance
         session = new SessionManager(getApplicationContext());
 
         session.checkLogin();
 
+        // get user data from session
         HashMap<String, String> user = session.getUserDetails();
 
-        etKullaniciAdi = findViewById(R.id.editTextKullaniciAdi);
-        etAd = findViewById(R.id.editTextAd);
-        etSoyad = findViewById(R.id.editTextSoyad);
-        etEposta = findViewById(R.id.editTextEmailKa);
-        etSifre = findViewById(R.id.editTextSifre);
-        btnKullaniciAyarlariGuncelle = findViewById(R.id.buttonKullaniciAyarlariGuncelle);
-
-        etEposta.setFocusable(false);
-
-        email = user.get(SessionManager.KEY_NAME);
-        String sifre = user.get(SessionManager.KEY_EMAIL);
-        //kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
+        kullaniciAdiSession = user.get(SessionManager.KEY_KULLANICIADI);
         adiSession = user.get(SessionManager.KEY_ADI);
         soyadiSession = user.get(SessionManager.KEY_SOYADI);
-        //emailSession = user.get(SessionManager.KEY_NAME);
-        //tvEmail.setText(email + sifre);
+        emailSession = user.get(SessionManager.KEY_NAME);
 
-
-        //session var mı kontrol et, yok ise Giriş sayfasına at.
         if (adiSession == null || adiSession.isEmpty()){
 
             Toast.makeText(getApplicationContext(), "Lütfen Giriş Yapınız.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(KullaniciAyarlari.this, KullaniciGirisi.class));
+            startActivity(new Intent(getApplicationContext(), KullaniciGirisi.class));
         }
 
+        /*
+        *       inten.putExtra("olcumnoktaid", olcumNoktaIdDB);
+                inten.putExtra("sebekeTipi", sebekeTipi);
+                inten.putExtra("olculenTip", olculenTip);
+                inten.putExtra("olculenNokta", olculenNokta);
+                inten.putExtra("karakteristik", karakteristik);
+                inten.putExtra("in", in);
+                inten.putExtra("anaIletkenKesiti", anaIletkenKesiti);
+                inten.putExtra("korumaIletkenKesiti", korumaIletkenKesiti);
+                inten.putExtra("kacakAkimRolesi", kacakAkimRolesi);
+                inten.putExtra("rx", rx);
+                inten.putExtra("iaa", iaa);
+                inten.putExtra("raa", raa);
+                inten.putExtra("olcumeGoreSonuc", olcumeGoreSonuc);
+                inten.putExtra("kabloyaGoreSonuc", kabloyaGoreSonuc);
+        *
+        * */
 
+        //OlcumnoktaDetaylarından alınan veriler ...
+        olcumNoktaId = getIntent().getStringExtra("olcumnoktaid");
 
+        sebekeTipi = getIntent().getStringExtra("sebekeTipi");
+        olculenTip = getIntent().getStringExtra("olculenTip");
+        karakteristik = getIntent().getStringExtra("karakteristik");
+        anaIletkenKesiti = getIntent().getStringExtra("anaIletkenKesiti");
+        kacakAkimRolesi = getIntent().getStringExtra("kacakAkimRolesi");
+        olcumBolumAdi = getIntent().getStringExtra("olcumBolumAdi");
+        olculenNokta = getIntent().getStringExtra("olculenNokta");
+        inn = getIntent().getStringExtra("in");
+        korumaIletkenKesiti = getIntent().getStringExtra("korumaIletkenKesiti");
+        rx = getIntent().getStringExtra("rx");
 
-
+        /*iaa = getIntent().getStringExtra("iaa");
+        raa = getIntent().getStringExtra("raa");
+        olcumeGoreSonuc = getIntent().getStringExtra("olcumeGoreSonuc");
+        kabloyaGoreSonuc = getIntent().getStringExtra("kabloyaGoreSonuc");*/
 
         //navigation drawer header
 
@@ -170,13 +170,14 @@ public class KullaniciAyarlari extends AppCompatActivity {
         //profil eklendiği zaman düzenle. ->
 
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
-        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(email).withIdentifier(100);
+        final IProfile profile = new ProfileDrawerItem().withName(adiSession + " " + soyadiSession).withEmail(emailSession).withIdentifier(100);
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.headerradsan)
                 .addProfiles(
+                        //profil ekleme kısmı, giriş yapılan verileri al ve ekle.
                         profile
 
                         //new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIdentifier(PROFILE_SETTING)
@@ -228,17 +229,17 @@ public class KullaniciAyarlari extends AppCompatActivity {
 
                             if(drawerItem.getIdentifier() == 1){
 
-                                startActivity(new Intent(KullaniciAyarlari.this, Gorevler.class));
+                                startActivity(new Intent(OlcumNoktaDuzenle.this, Gorevler.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 2){
 
-                                startActivity(new Intent(KullaniciAyarlari.this, DevamEdenGorevler.class));
+                                startActivity(new Intent(OlcumNoktaDuzenle.this, DevamEdenGorevler.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 3){
 
-                                startActivity(new Intent(KullaniciAyarlari.this, Activity_Settings.class));
+                                startActivity(new Intent(OlcumNoktaDuzenle.this, Activity_Settings.class));
                             }
 
                             else if (drawerItem.getIdentifier() == 4){
@@ -250,7 +251,6 @@ public class KullaniciAyarlari extends AppCompatActivity {
                                 startActivity(i);
                                 //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
-
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
                         return false;
@@ -258,153 +258,20 @@ public class KullaniciAyarlari extends AppCompatActivity {
                 })
                 .build();
 
+        //button Id lerinin kullanılması.
+        Spinner spSebekeTipi = findViewById(R.id.spinnerDuzenleSebekeTipi);
+        Spinner spOlculenTip = findViewById(R.id.spinnerDuzenleOlculenTip);
+        Spinner spKarakteristik = findViewById(R.id.spinnerDuzenleKarakteristik);
+        Spinner spKacakAkimRolesi = findViewById(R.id.spinnerDuzenleKacakAkimRolesi);
+        Spinner spIn = findViewById(R.id.spinnerDuzenleIn);
+        Spinner spAnaIletkenKesit = findViewById(R.id.spinnerDuzenleAnaIletkenKesiti);
+
+        EditText etOlcumBolumAdi = findViewById(R.id.editTextDuzenleOlcumBolumAdi);
+        EditText etOlculenNokta = findViewById(R.id.editTextDuzenleOlculenNokta);
+        EditText etKorumaIletkenKesiti = findViewById(R.id.editTextDuzenleKorumaIletkenKesiti);
+        EditText etRx = findViewById(R.id.editTextDuzenleRx);
 
 
 
-
-
-
-
-
-
-
-        new kullaniciBilgileriniGetir().execute();
-
-        btnKullaniciAyarlariGuncelle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (etKullaniciAdi.getText().toString().isEmpty() || etAd.getText().toString().isEmpty() || etSoyad.getText().toString().isEmpty() ||
-                        etEposta.getText().toString().isEmpty() || etSifre.getText().toString().isEmpty()){
-
-                    Toast.makeText(getApplicationContext(), "Lütfen Tüm Boşlukları Doldurunuz.", Toast.LENGTH_LONG);
-                }
-
-                else{
-
-                    GuncelKullaniciAdi = etKullaniciAdi.getText().toString();
-                    GuncelAd = etAd.getText().toString();
-                    GuncelSoyad = etSoyad.getText().toString();
-                    GuncelEmail = etEposta.getText().toString();
-                    GuncelSifre = etSifre.getText().toString();
-
-                    //Toast.makeText(getApplicationContext(), GuncelKullaniciAdi + GuncelSifre + GuncelEmail + GuncelAd + GuncelSoyad, Toast.LENGTH_LONG).show();
-
-                    new kullaniciBilgileriniGuncelle().execute();
-                }
-            }
-        });
-    }
-
-    class kullaniciBilgileriniGetir extends AsyncTask<String,String,String> {
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-            pDialog = new ProgressDialog(KullaniciAyarlari.this);
-            pDialog.setMessage("Kullanıcı Bilgileri Getiriliyor...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        protected String doInBackground(String... args){
-
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
-
-            params.add(new BasicNameValuePair("kullanici_email", email));
-
-            json = jsonParser.makeHttpRequest(url_hesapbilgilerini_getir,
-                    "POST", params);
-
-            // check log cat for response
-            Log.d("Create Response", json.toString());
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url){
-
-            pDialog.dismiss();
-
-            try {
-
-                String kullaniciAdi = json.getString("kullaniciad");
-                String ad = json.getString("ad");
-                String soyad = json.getString("soyad");
-                String email = json.getString("email");
-                String sifre = json.getString("sifre");
-
-                etKullaniciAdi.setText(kullaniciAdi);
-                etAd.setText(ad);
-                etSoyad.setText(soyad);
-                etEposta.setText(email);
-                etSifre.setText(sifre);
-            }
-            catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
-    }
-
-    class kullaniciBilgileriniGuncelle extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-            pDialog = new ProgressDialog(KullaniciAyarlari.this);
-            pDialog.setMessage("Bilgileriniz Güncelleniyor...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        protected String doInBackground(String... args){
-
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
-
-            params.add(new BasicNameValuePair("email", GuncelEmail));
-            params.add(new BasicNameValuePair("kullanici_adi", GuncelKullaniciAdi));
-            params.add(new BasicNameValuePair("ad", GuncelAd));
-            params.add(new BasicNameValuePair("soyad", GuncelSoyad));
-            params.add(new BasicNameValuePair("sifre", GuncelSifre));
-
-            json = jsonParser.makeHttpRequest(url_hesapbilgilerini_guncelle,
-                    "POST", params);
-
-            // check log cat for response
-            Log.d("Create Response", json.toString());
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url){
-
-            pDialog.dismiss();
-
-            try {
-
-                int success = json.getInt("success");
-
-                if (success == 1){
-
-                    Toast.makeText(getApplicationContext(), "Bilgileriniz Başarı ile Güncellendi.", Toast.LENGTH_LONG).show();
-                }
-
-                else{
-
-                    Toast.makeText(getApplicationContext(), "Verilen Bilgilerde Bir Sıkıntı Oldu, Lütfen Tekrar Deneyin.",Toast.LENGTH_LONG);
-                }
-            }
-            catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
     }
 }
