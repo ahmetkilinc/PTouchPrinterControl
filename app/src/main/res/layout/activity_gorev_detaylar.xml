@@ -78,7 +78,7 @@
 
         <Button
             android:id="@+id/buttonGeriGorevDetaylar"
-            android:layout_width="100dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="2dp"
             android:layout_weight="0"
@@ -103,6 +103,14 @@
             android:background="@color/colorAccent"
             android:gravity="center" />
 
+        <Button
+            android:id="@+id/buttonGorevSonlandirv"
+            android:layout_width="72dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="0"
+            android:background="@color/colorAccent"
+            android:gravity="center" />
 
     </LinearLayout>
 

@@ -372,86 +372,99 @@ public class Activity_StartMenu extends Activity {
         if (sharedPreferences.getString("printerModel", "").equals("")) {
 
             String printerModel = printerInfo.printerModel.toString();
-            PrinterModelInfo.Model model = PrinterModelInfo.Model.valueOf(printerModel);
+            PrinterModelInfo.Model model = PrinterModelInfo.Model.valueOf("PT_E550W");
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("printerModel", printerModel);
-            editor.putString("port", printerInfo.port.toString());
+            //editor.putString("printerModel", printerModel);
+            editor.putString("printerModel", "PT_E550W");
+            editor.putString("port", Common.NET);
             editor.putString("address", printerInfo.ipAddress);
             editor.putString("macAddress", printerInfo.macAddress);
 
             // Override SDK default paper size
             editor.putString("paperSize", model.getDefaultPaperSize());
 
-            editor.putString("orientation", printerInfo.orientation.toString());
-            editor.putString("numberOfCopies",
-                    Integer.toString(printerInfo.numberOfCopies));
+            //editor.putString("orientation", printerInfo.orientation.toString());
+            editor.putString("orientation", "LANDSCAPE");
+
+            editor.putString("numberOfCopies", Integer.toString(printerInfo.numberOfCopies));
+
             editor.putString("halftone", printerInfo.halftone.toString());
+
             editor.putString("printMode", printerInfo.printMode.toString());
+
             editor.putString("pjCarbon", Boolean.toString(printerInfo.pjCarbon));
-            editor.putString("pjDensity",
-                    Integer.toString(printerInfo.pjDensity));
+
+            editor.putString("pjDensity", Integer.toString(printerInfo.pjDensity));
+
             editor.putString("pjFeedMode", printerInfo.pjFeedMode.toString());
+
             editor.putString("align", printerInfo.align.toString());
-            editor.putString("leftMargin",
-                    Integer.toString(printerInfo.margin.left));
+
+            editor.putString("leftMargin", Integer.toString(printerInfo.margin.left));
+
             editor.putString("valign", printerInfo.valign.toString());
-            editor.putString("topMargin",
-                    Integer.toString(printerInfo.margin.top));
-            editor.putString("customPaperWidth",
-                    Integer.toString(printerInfo.customPaperWidth));
-            editor.putString("customPaperLength",
-                    Integer.toString(printerInfo.customPaperLength));
-            editor.putString("customFeed",
-                    Integer.toString(printerInfo.customFeed));
-            editor.putString("paperPosition",
-                    printerInfo.paperPosition.toString());
-            editor.putString("customSetting",
-                    sharedPreferences.getString("customSetting", ""));
-            editor.putString("rjDensity",
-                    Integer.toString(printerInfo.rjDensity));
-            editor.putString("rotate180",
-                    Boolean.toString(printerInfo.rotate180));
+
+            editor.putString("topMargin", Integer.toString(printerInfo.margin.top));
+
+            editor.putString("customPaperWidth", Integer.toString(printerInfo.customPaperWidth));
+
+            editor.putString("customPaperLength", Integer.toString(printerInfo.customPaperLength));
+
+            editor.putString("customFeed", Integer.toString(printerInfo.customFeed));
+
+            editor.putString("paperPosition", printerInfo.paperPosition.toString());
+
+            editor.putString("customSetting", sharedPreferences.getString("customSetting", ""));
+
+            editor.putString("rjDensity", Integer.toString(printerInfo.rjDensity));
+
+            editor.putString("rotate180", Boolean.toString(printerInfo.rotate180));
+
             editor.putString("dashLine", Boolean.toString(printerInfo.dashLine));
 
             editor.putString("peelMode", Boolean.toString(printerInfo.peelMode));
-            editor.putString("mode9", Boolean.toString(printerInfo.mode9));
-            editor.putString("pjSpeed", Integer.toString(printerInfo.pjSpeed));
-            editor.putString("pjPaperKind", printerInfo.pjPaperKind.toString());
-            editor.putString("printerCase",
-                    printerInfo.rollPrinterCase.toString());
-            editor.putString("printQuality", printerInfo.printQuality.toString());
-            editor.putString("skipStatusCheck",
-                    Boolean.toString(printerInfo.skipStatusCheck));
-            editor.putString("checkPrintEnd", printerInfo.checkPrintEnd.toString());
-            editor.putString("imageThresholding",
-                    Integer.toString(printerInfo.thresholdingValue));
-            editor.putString("scaleValue",
-                    Double.toString(printerInfo.scaleValue));
-            editor.putString("trimTapeAfterData",
-                    Boolean.toString(printerInfo.trimTapeAfterData));
-            editor.putString("enabledTethering",
-                    Boolean.toString(printerInfo.enabledTethering));
 
+            editor.putString("mode9", Boolean.toString(printerInfo.mode9));
+
+            editor.putString("pjSpeed", Integer.toString(printerInfo.pjSpeed));
+
+            editor.putString("pjPaperKind", printerInfo.pjPaperKind.toString());
+
+            editor.putString("printerCase", printerInfo.rollPrinterCase.toString());
+
+            editor.putString("printQuality", printerInfo.printQuality.toString());
+
+            editor.putString("skipStatusCheck", Boolean.toString(printerInfo.skipStatusCheck));
+
+            editor.putString("checkPrintEnd", printerInfo.checkPrintEnd.toString());
+
+            editor.putString("imageThresholding", Integer.toString(printerInfo.thresholdingValue));
+
+            editor.putString("scaleValue", Double.toString(printerInfo.scaleValue));
+
+            editor.putString("trimTapeAfterData", Boolean.toString(printerInfo.trimTapeAfterData));
+
+            editor.putString("enabledTethering", Boolean.toString(printerInfo.enabledTethering));
 
             editor.putString("processTimeout",
                     Integer.toString(printerInfo.timeout.processTimeoutSec));
-            editor.putString("sendTimeout",
-                    Integer.toString(printerInfo.timeout.sendTimeoutSec));
-            editor.putString("receiveTimeout",
-                    Integer.toString(printerInfo.timeout.receiveTimeoutSec));
-            editor.putString("connectionTimeout",
-                    Integer.toString(printerInfo.timeout.connectionWaitMSec));
-            editor.putString("closeWaitTime",
-                    Integer.toString(printerInfo.timeout.closeWaitDisusingStatusCheckSec));
+            editor.putString("sendTimeout", Integer.toString(printerInfo.timeout.sendTimeoutSec));
 
-            editor.putString("overwrite",
-                    Boolean.toString(printerInfo.overwrite));
+            editor.putString("receiveTimeout", Integer.toString(printerInfo.timeout.receiveTimeoutSec));
+
+            editor.putString("connectionTimeout", Integer.toString(printerInfo.timeout.connectionWaitMSec));
+
+            editor.putString("closeWaitTime", Integer.toString(printerInfo.timeout.closeWaitDisusingStatusCheckSec));
+
+            editor.putString("overwrite", Boolean.toString(printerInfo.overwrite));
+
             editor.putString("savePrnPath", printerInfo.savePrnPath);
-            editor.putString("softFocusing",
-                    Boolean.toString(printerInfo.softFocusing));
-            editor.putString("rawMode",
-                    Boolean.toString(printerInfo.rawMode));
+
+            editor.putString("softFocusing", Boolean.toString(printerInfo.softFocusing));
+
+            editor.putString("rawMode", Boolean.toString(printerInfo.rawMode));
+
             editor.putString("workPath", printerInfo.workPath);
 
             editor.apply();

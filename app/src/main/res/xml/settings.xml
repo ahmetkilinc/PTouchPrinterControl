@@ -6,6 +6,7 @@
         android:summary="@string/setting_printer"
         android:title="@string/setting_printer">
         <ListPreference
+            android:defaultValue="PT_E550W"
             android:key="printerModel"
             android:summary="@string/printer_model_value"
             android:title="@string/printer_model_title" />
@@ -94,13 +95,6 @@
                 android:summary="@string/overwrite_value"
                 android:title="@string/overwrite_title" />
         </PreferenceScreen>
-
-        <ListPreference
-            android:entries="@array/yes_no_entries"
-            android:entryValues="@array/yes_no_value"
-            android:key="skipStatusCheck"
-            android:summary="@string/is_skip_status_check_value"
-            android:title="@string/is_skip_status_check_title" />
 
         <ListPreference
             android:entries="@array/check_print_end"
@@ -346,6 +340,12 @@
             android:key="peelMode"
             android:summary="@string/is_peel_mode_value"
             android:title="@string/is_peel_mode_title" />
+        <ListPreference
+            android:entries="@array/yes_no_entries"
+            android:entryValues="@array/yes_no_value"
+            android:key="skipStatusCheck"
+            android:summary="@string/is_skip_status_check_value"
+            android:title="@string/is_skip_status_check_title" />
     </PreferenceScreen>
     <PreferenceScreen
         android:key="prefCutSettings"
