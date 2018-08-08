@@ -12,27 +12,42 @@ public class PrinterModelInfo {
      * The PocketJet variant for Locale.US is the same as non-US
      * except the order changes to set a different default.
      */
+
+
     private static final String[] PS_A6_ONLY = {"A6"};
+    private static final String[] PS_PT = {"W24"};
+
+    private static final String[] PORTS_NET_USB = {Common.NET};
+
+
     private static final String[] PS_A7_ONLY = {"A7"};
     private static final String[] PS_CUSTOM_ONLY = {"CUSTOM"};
     private static final String[] PS_PJ = {"A4", "LETTER", "LEGAL", "A5", "A5_LANDSCAPE", "CUSTOM"};
     private static final String[] PS_PJ_US = {"LETTER", "LEGAL", "A4", "A5", "A5_LANDSCAPE", "CUSTOM"};
-    private static final String[] PS_PT = {"W3_5", "W6", "W9", "W12", "W18", "W24", "HS_W6", "HS_W9", "HS_W12", "HS_W18", "HS_W24"};
-    private static final String[] PS_QL = {"W17H54", "W17H87", "W23H23", "W29H42", "W29H90", "W38H90", "W39H48", "W52H29", "W54H29", "W62H29", "W62H100", "W60H86", "W12", "W29", "W38", "W50", "W54", "W62", "W62RB"};
+
+
+
+
+    //private static final String[] PS_PT = {"W3_5", "W6", "W9", "W12", "W18", "W24", "HS_W6", "HS_W9", "HS_W12", "HS_W18", "HS_W24"};
+
+
+    /*private static final String[] PS_QL = {"W17H54", "W17H87", "W23H23", "W29H42", "W29H90", "W38H90", "W39H48", "W52H29", "W54H29", "W62H29", "W62H100", "W60H86", "W12", "W29", "W38", "W50", "W54", "W62", "W62RB"};
 
     private static final String[] PS_QL1100 = {"W17H54", "W17H87", "W23H23", "W29H42", "W29H90", "W38H90", "W39H48", "W52H29", "W62H29", "W62H100", "W60H86","W102H51","W102H152", "W103H164", "W12", "W29", "W38", "W50", "W54", "W62", "W102", "W103"};
     private static final String[] PS_QL1115 = {"W17H54", "W17H87", "W23H23", "W29H42", "W29H90", "W38H90", "W39H48", "W52H29", "W62H29", "W62H100", "W60H86","W102H51","W102H152", "W12", "W29", "W38", "W50", "W54", "W62", "W102", "DT_W90", "DT_W102", "DT_W102H51", "DT_W102H152"};
 
     private static final String[] PS_PT_E8 = {"W3_5", "W6", "W9", "W12", "W18", "W24", "HS_W6", "HS_W9", "HS_W12", "HS_W18", "HS_W24", "W36", "R6_5", "R6_0", "R5_0", "R4_0", "R3_5", "R3_0", "R2_5", "FLE_W21H45"};
     private static final String[] PS_PT_P9 = {"W3_5", "W6", "W9", "W12", "W18", "W24", "HS_W6", "HS_W9", "HS_W12", "HS_W18", "HS_W24", "W36", "FLE_W21H45"};
-    private static final String[] PS_PT3 = {"W3_5", "W6", "W9", "W12"};
+    private static final String[] PS_PT3 = {"W3_5", "W6", "W9", "W12"};*/
 
     /**
      * Arrays of printer ports.
      * Element 0 is default.
      */
 
-    private static final String[] PORTS_NET_USB = {Common.NET, Common.USB};
+    //private static final String[] PORTS_NET_USB = {Common.NET, Common.USB};
+
+
     private static final String[] PORTS_USB = {Common.USB};
     private static final String[] PORTS_BT_USB = {Common.BLUETOOTH, Common.USB};
     private static final String[] PORTS_NET_BT_USB = {Common.NET, Common.BLUETOOTH, Common.USB};
@@ -53,7 +68,9 @@ public class PrinterModelInfo {
      * @return array of names of all printer models
      */
     public static String[] getModelNames() {
+
         if (model != null) {
+
             return model;
         }
         // Lazy initialization
@@ -76,15 +93,19 @@ public class PrinterModelInfo {
      * @return the requested information, if input parameters are valid, otherwise return null
      */
     public static String[] getPortOrPaperSizeInfo(String model, String value) {
+
         String name = model.trim();
         Model m;
         String[] result = null;
 
         try {
+
             m = Model.valueOf(name);
             if (value.equalsIgnoreCase(Common.SETTINGS_PORT)) {
+
                 result = m.getPorts();
             } else if (value.equalsIgnoreCase(Common.SETTINGS_PAPERSIZE)) {
+
                 result = m.getPaperSizes();
             }
         } catch (IllegalArgumentException ignored) {
@@ -99,7 +120,7 @@ public class PrinterModelInfo {
      */
     public enum Model {
 
-        MW_140BT(PORTS_BT_USB, PS_A7_ONLY),
+       /* MW_140BT(PORTS_BT_USB, PS_A7_ONLY),
         MW_145BT(MW_140BT),
         MW_145MFi(MW_140BT),
         MW_260(PORTS_BT_USB, PS_A6_ONLY),
@@ -115,7 +136,7 @@ public class PrinterModelInfo {
         PJ_562(PJ_560),
         PJ_563(PJ_560),
         PJ_662(PJ_560),
-        PJ_663(PJ_560),
+        //PJ_663(PJ_560),
         PJ_762(PJ_560),
         PJ_763(PJ_560),
         PJ_763MFi(PJ_560),
@@ -132,9 +153,12 @@ public class PrinterModelInfo {
         TD_4100N(PORTS_NET_USB_BT, PS_CUSTOM_ONLY),
         QL_710W(PORTS_NET_USB, PS_QL),
         QL_720NW(QL_710W),
-        QL_580N(QL_710W),
-        PT_E550W(PORTS_NET_USB, PS_PT),
-        PT_E500(PORTS_USB,PS_PT),
+        QL_580N(QL_710W),*/
+        PT_E550W(PORTS_NET_USB, PS_PT);
+        /*PJ_560(PORTS_BT_USB, PS_PJ, PS_PJ_US),
+        PJ_663(PJ_560);*/
+
+        /*PT_E500(PORTS_USB,PS_PT),
         PT_P750W(PT_E550W),
         PT_D800W(PORTS_NET_USB, PS_PT_P9),
         PT_E800W(PT_D800W),
@@ -152,7 +176,7 @@ public class PrinterModelInfo {
         RJ_3150Ai(RJ_3050),
         QL_1100(PORTS_USB, PS_QL1100),
         QL_1110NWB(PORTS_NET_USB_BT, PS_QL1100),
-        QL_1115NWB(PORTS_NET_USB_BT, PS_QL1115);
+        QL_1115NWB(PORTS_NET_USB_BT, PS_QL1115);*/
 
 
         private final String[] mPorts;
@@ -160,29 +184,35 @@ public class PrinterModelInfo {
         private final String[] mPaperSizesUS;
 
         Model(String[] ports, String[] paperSizes, String[] paperSizesUS) {
+
             mPorts = ports;
             mPaperSizes = paperSizes;
             mPaperSizesUS = paperSizesUS;
         }
 
         Model(String[] ports, String[] paperSizes) {
+
             this(ports, paperSizes, null);
         }
 
         Model(Model alias) {
+
             this(alias.mPorts, alias.mPaperSizes, alias.mPaperSizesUS);
         }
 
         public String[] getPorts() {
+
             return mPorts;
         }
 
         public String[] getPaperSizes() {
+
             return (Locale.getDefault().equals(Locale.US) && (mPaperSizesUS != null))
                     ? mPaperSizesUS : mPaperSizes;
         }
 
         public String getDefaultPaperSize() {
+
             String[] paperSizes = getPaperSizes();
             String paperSize = (paperSizes != null) ? paperSizes[0] : "";
             return (paperSize != null) ? paperSize : "";

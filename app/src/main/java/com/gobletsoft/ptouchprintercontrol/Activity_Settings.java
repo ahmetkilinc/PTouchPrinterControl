@@ -90,6 +90,7 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
         // initialize the custom paper size's settings
         File newdir = new File(Common.CUSTOM_PAPER_FOLDER);
         if (!newdir.exists()) {
+
             newdir.mkdir();
         }
         File[] files = new File(Common.CUSTOM_PAPER_FOLDER).listFiles();
@@ -97,11 +98,13 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
         String[] entryValues = new String[files.length];
         int i = 0;
         for (File file : files) {
+
             String filename = file.getName();
             String extention = filename.substring(
                     filename.lastIndexOf(".", filename.length()) + 1,
                     filename.length());
             if (extention.equalsIgnoreCase("bin")) {
+
                 entries[i] = filename;
                 entryValues[i] = filename;
                 i++;
@@ -298,7 +301,9 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
                 editor.apply();
             }
         } else if (Common.SAVE_PATH == requestCode) {
+
             if (resultCode == RESULT_OK) {
+
                 PreferenceScreen saveFilePreference = (PreferenceScreen) getPreferenceScreen()
                         .findPreference("savePrnPath");
 
@@ -316,6 +321,7 @@ public class Activity_Settings extends PreferenceActivity implements Preference.
      * set data of a particular ListPreference
      */
     private void setPreferenceValue(String value) {
+
         String data = sharedPreferences.getString(value, "");
 
         ListPreference printerValuePreference = (ListPreference) getPreferenceScreen()

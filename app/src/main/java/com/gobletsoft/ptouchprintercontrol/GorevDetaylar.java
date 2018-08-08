@@ -69,6 +69,7 @@ public class GorevDetaylar extends AppCompatActivity {
     JSONParser jsonParser = new JSONParser();
     private static String url_gorevdetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/gorevdetaylarinigetir.php";
     private static String url_gorevi_kabul_et = "http://10.0.0.100:85/ptouchAndroid/gorevikabulet.php";
+    private static String url_gorevi_sonlandir = "http://10.0.0.100:85/ptouchAndroid/gorevisonlandir.php";
 
     private ProgressDialog pDialog;
 
@@ -275,6 +276,7 @@ public class GorevDetaylar extends AppCompatActivity {
         Button btnGeriDon = findViewById(R.id.buttonGeriGorevDetaylar);
         Button btnIlerle = findViewById(R.id.buttonIlerleGorevDetay);
         Button btnTumOlcumNoktalari = findViewById(R.id.buttonTumOlcumNoktalari);
+        Button btnGorevSonlandir = findViewById(R.id.buttonGorevSonlandirv);
 
         btnTumOlcumNoktalari.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,6 +300,7 @@ public class GorevDetaylar extends AppCompatActivity {
         if (gorevTuru == 1){
 
             btnIlerle.setText("Ölçüm Noktası Ekle");
+            btnGorevSonlandir.setText("Görevi Sonlandır");
 
             btnIlerle.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -310,10 +313,42 @@ public class GorevDetaylar extends AppCompatActivity {
                     startActivity(in);;
                 }
             });
+
+            btnGorevSonlandir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    alertDialog = new AlertDialog.Builder(GorevDetaylar.this)
+                            .setTitle("Görevi Sonlandır?")
+                            .setMessage("Görevle alakalı her durum kontrol edildi ise, Görevi sonlandırmak için Tamam'a Tıklayın.")
+                            .setCancelable(false)
+                            .setPositiveButton("Tamam",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+
+                                            new gorevisonlandir().execute();
+                                        }
+                                    })
+                            .setNegativeButton("Vazgeç",
+                                    new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(final DialogInterface dialog,
+                                                            final int which) {
+
+                                        }
+                                    }).create();
+                    alertDialog.show();
+                }
+            });
         }
         else if (gorevTuru == 2){
 
             btnIlerle.setText("Kabul Et");
+            btnGorevSonlandir.setText("Bilgi Al");
 
             btnTumOlcumNoktalari.setVisibility(View.GONE);
 
@@ -361,6 +396,59 @@ public class GorevDetaylar extends AppCompatActivity {
 
             btnIlerle.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Lütfen anasayfaya dönerek tekrar deneyiniz.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    class gorevisonlandir extends AsyncTask<String, String, String>{
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(GorevDetaylar.this);
+            pDialog.setMessage("Görev Sonlandırılıyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("lokasyon", lokasyonAdiGelen));
+            params.add(new BasicNameValuePair("firmaadi", firmaAdiGelen));
+
+            json = jsonParser.makeHttpRequest(url_gorevi_sonlandir,"GET", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                //ilgilikisi = json.getString("olcumdurumadi");
+                int basari = json.getInt("success");
+
+                if (basari == 1){
+
+                    Toast.makeText(getApplicationContext(), "Görev Başarı ile Sonlandırıldı.", Toast.LENGTH_LONG).show();
+
+                    startActivity(new Intent(GorevDetaylar.this, Activity_StartMenu.class));
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
         }
     }
 

@@ -143,6 +143,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
+
                 Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
@@ -161,10 +162,12 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
 
                     return DrawerUIUtils.getPlaceHolder(ctx);
                 }
+
                 else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
 
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(com.mikepenz.materialdrawer.R.color.primary).sizeDp(56);
                 }
+
                 else if ("customUrlItem".equals(tag)) {
 
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
@@ -306,49 +309,49 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 String textOlcumDegeri = rx + "";
                 Paint p = new Paint();
                 p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p.setTextSize(160);
+                p.setTextSize(180);
                 p.setColor(Color.BLACK);
 
                 //yazının fotoda nerede olacağı (aşağı yukarı)
-                int yPos = (int) (c.getHeight() / 1.95);
+                int yPos = (int) (c.getHeight() / 2.30);
 
                 String textAciklama = olcumBolumAdi;
                 Paint p1 = new Paint();
                 p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p1.setTextSize(160);
+                p1.setTextSize(180);
                 p1.setColor(Color.BLACK);
 
-                int yPosAciklama = (int) (c.getHeight() / 1.35);
+                int yPosAciklama = (int) (c.getHeight() / 1.45);
 
                 String textAciklama2 = olculenNokta;
                 Paint p2 = new Paint();
                 p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p2.setTextSize(160);
+                p2.setTextSize(180);
                 p2.setColor(Color.BLACK);
 
-                int yPosAciklama2 = (int) (c.getHeight() / 1.04);
+                int yPosAciklama2 = (int) (c.getHeight() / 1.07);
 
                 String Tarih = formattedDate;
                 Paint p3 = new Paint();
                 p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p3.setTextSize(130);
+                p3.setTextSize(170);
                 p3.setColor(Color.BLACK);
 
-                int yPosAciklama3 = (int) (c.getHeight() / 5.5);
+                int yPosAciklama3 = (int) (c.getHeight() / 8);
 
                 String saat = formattedSaat;
                 Paint p4 = new Paint();
                 p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p4.setTextSize(130);
+                p4.setTextSize(170);
                 p4.setColor(Color.BLACK);
 
-                int yPosAciklama4 = (int)  (c.getHeight() / 3.5 );
+                int yPosAciklama4 = (int)  (c.getHeight() / 4.5 );
 
                 c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
-                c.drawText(textAciklama, (c.getWidth() / 6), yPosAciklama, p1);
-                c.drawText(textAciklama2, (c.getWidth() / 6), yPosAciklama2, p2);
-                c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama3, p3);
-                c.drawText(saat, (c.getWidth() - (c.getWidth() / 4)), yPosAciklama4, p4);
+                c.drawText(textAciklama, (c.getWidth() / 15), yPosAciklama, p1);
+                c.drawText(textAciklama2, (c.getWidth() / 15), yPosAciklama2, p2);
+                c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama3, p3);
+                c.drawText(saat, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama4, p4);
 
                 final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
 
