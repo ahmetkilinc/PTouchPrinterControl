@@ -53,6 +53,8 @@ public class Activity_PrintImage extends BaseActivity {
 
     Drawer result;
 
+    private String etiketAdresi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,9 +66,13 @@ public class Activity_PrintImage extends BaseActivity {
 
         setContentView(R.layout.activity_print_image);
 
-        String etiketAdresi = getIntent().getExtras().getString("labelAdress");
+        etiketAdresi = getIntent().getExtras().getString("labelAdress");
 
         Toast.makeText(getApplicationContext(), etiketAdresi, Toast.LENGTH_LONG).show();
+
+        //deneme display**
+        //setImageOrPrnFile(etiketAdresi);
+        //setDisplayFile(etiketAdresi);
 
         //navigation drawer header
 
@@ -298,7 +304,7 @@ public class Activity_PrintImage extends BaseActivity {
         if (extras != null) {
 
             String file = extras.getString(Common.INTENT_FILE_NAME);
-            setDisplayFile(file);
+            setDisplayFile(etiketAdresi);
             mBtnPrint.setEnabled(true);
         }
 
@@ -461,6 +467,7 @@ public class Activity_PrintImage extends BaseActivity {
                 tvSelectedFiles.setText(str);
             }
         } else {
+
             setDisplayFile(file);
         }
         mMultiPrint.setEnabled(true);
@@ -478,9 +485,11 @@ public class Activity_PrintImage extends BaseActivity {
 
         ((TextView) findViewById(R.id.tvSelectedFiles)).setText(file);
 
-        Toast.makeText(getApplicationContext(), file,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"BURADA: " + file, Toast.LENGTH_LONG).show();
 
         if (Common.isImageFile(file)) {
+
+            Toast.makeText(getApplicationContext(), "hop hop hop", Toast.LENGTH_LONG).show();
 
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
             Display display = windowManager.getDefaultDisplay();
@@ -496,6 +505,7 @@ public class Activity_PrintImage extends BaseActivity {
             Bitmap mBitmap = Common.fileToBitmap(file, displayWidth, height);
 
             mImageView.setImageBitmap(mBitmap);
+
         } else {
 
             mImageView.setImageBitmap(null);
