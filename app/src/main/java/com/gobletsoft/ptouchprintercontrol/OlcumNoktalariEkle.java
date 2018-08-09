@@ -89,7 +89,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcum_noktalari_ekle = "http://10.0.0.100:85/ptouchAndroid/olcumnoktalariekle.php";
+    private static String url_olcum_noktalari_ekle = "";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 

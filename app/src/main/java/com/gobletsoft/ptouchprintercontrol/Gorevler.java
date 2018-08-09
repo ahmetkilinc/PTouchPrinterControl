@@ -66,7 +66,7 @@ public class Gorevler extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_atanangorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/atanangorevlerigetir.php";
+    private static String url_atanangorevleri_getir = "";
 
     private ProgressDialog pDialog;
 
