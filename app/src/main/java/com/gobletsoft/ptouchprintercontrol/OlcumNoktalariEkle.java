@@ -102,6 +102,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
     private AlertDialog alertDialog;
 
+    private Calendar takvim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +140,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
+
                 Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
@@ -255,7 +258,6 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                                 startActivity(i);
                                 //startActivity(new Intent(Activity_StartMenu.this, KullaniciGirisi.class));
                             }
-
                         }
                         //istenilen event gerçekleştikten sonra drawer'ı kapat ->
                         return false;
@@ -672,10 +674,6 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         });
     }
 
-
-
-
-
     class olcumNoktalariEkle extends AsyncTask<String,String,String> {
 
         @Override
@@ -743,36 +741,45 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
                 if (kontrol == 1){
 
-                    //eğer checkbox işaretli ise bu kısmı gösterme!, değilse göster
-                    alertDialog = new AlertDialog.Builder(OlcumNoktalariEkle.this)
-                            .setTitle("Başarılı!")
-                            .setMessage("Ölçüm Noktası Başarıyla Eklendi. Yeni ölçüm noktası eklemek için YENİ EKLE ye, Ölçüm noktalarını görmek için ÖLÇÜM NOKTALARI na tıkla.")
-                            .setCancelable(false)
-                            .setPositiveButton("Yeni Ekle",
-                                    new DialogInterface.OnClickListener() {
+                    if (cbYazdir.isChecked()){
 
-                                        @Override
-                                        public void onClick(final DialogInterface dialog, final int which) {
+                        Toast.makeText(getApplicationContext(), "Checked!", Toast.LENGTH_LONG).show();
+                        labelOlustur(Rx, OlcumBolumAdi, OlculenNokta);
+                    }
 
-                                            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalariEkle.class);
-                                            in.putExtra("olcumyeriid", olcumYeriId);
-                                            startActivity(in);
-                                        }
-                                    })
-                            .setNegativeButton("Ölçüm Noktaları",
-                                    new DialogInterface.OnClickListener() {
+                    else{
 
-                                        @Override
-                                        public void onClick(final DialogInterface dialog, final int which) {
+                        //eğer checkbox işaretli ise bu kısmı gösterme!, değilse göster
+                        alertDialog = new AlertDialog.Builder(OlcumNoktalariEkle.this)
+                                .setTitle("Başarılı!")
+                                .setMessage("Ölçüm Noktası Başarıyla Eklendi. Yeni ölçüm noktası eklemek için YENİ EKLE ye, Ölçüm noktalarını görmek için ÖLÇÜM NOKTALARI na tıkla.")
+                                .setCancelable(false)
+                                .setPositiveButton("Yeni Ekle",
+                                        new DialogInterface.OnClickListener() {
 
-                                            Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
-                                            in.putExtra("olcumyeriid", olcumYeriId);
-                                            startActivity(in);
-                                        }
-                                    }).create();
-                    alertDialog.show();
+                                            @Override
+                                            public void onClick(final DialogInterface dialog, final int which) {
 
-                    //startActivity(new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class));
+                                                Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalariEkle.class);
+                                                in.putExtra("olcumyeriid", olcumYeriId);
+                                                startActivity(in);
+                                            }
+                                        })
+                                .setNegativeButton("Ölçüm Noktaları",
+                                        new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(final DialogInterface dialog, final int which) {
+
+                                                Intent in = new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class);
+                                                in.putExtra("olcumyeriid", olcumYeriId);
+                                                startActivity(in);
+                                            }
+                                        }).create();
+                        alertDialog.show();
+
+                        //startActivity(new Intent(OlcumNoktalariEkle.this, OlcumNoktalari.class));
+                    }
                 }
 
                 else{
@@ -1137,6 +1144,116 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             in.putExtra("olcumeGoreSonuc", olcumeGore);
             startActivity(in);
         }*/
+    }
+
+    public void labelOlustur(double Rx, String OlcumBolumAdi, String OlculenNokta){
+
+        takvim = Calendar.getInstance();
+
+        //tarihi belirlemek
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yy");
+        final String formattedDate = dateformat.format(takvim.getTime());
+
+        //saati belirlemek
+        SimpleDateFormat dateformatSaat = new SimpleDateFormat("HH:mm");
+        final String formattedSaat = dateformatSaat.format(takvim.getTime());
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.labeltemplate);
+
+        final Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        final Canvas c = new Canvas(bmp);
+
+        String textOlcumDegeri = Rx + "";
+        Paint p = new Paint();
+        p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p.setTextSize(220);
+        p.setColor(Color.BLACK);
+
+        //yazının fotoda nerede olacağı (aşağı yukarı)
+        int yPos = (int) (c.getHeight() / 2.30);
+
+        String textAciklama = OlcumBolumAdi;
+        Paint p1 = new Paint();
+        p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p1.setTextSize(220);
+        p1.setColor(Color.BLACK);
+
+        int yPosAciklama = (int) (c.getHeight() / 1.45);
+
+        String textAciklama2 = OlculenNokta;
+        Paint p2 = new Paint();
+        p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p2.setTextSize(220);
+        p2.setColor(Color.BLACK);
+
+        int yPosAciklama2 = (int) (c.getHeight() / 1.07);
+
+        String Tarih = formattedDate;
+        Paint p3 = new Paint();
+        p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p3.setTextSize(170);
+        p3.setColor(Color.BLACK);
+
+        int yPosAciklama3 = (int) (c.getHeight() / 8);
+
+        String saat = formattedSaat;
+        Paint p4 = new Paint();
+        p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p4.setTextSize(170);
+        p4.setColor(Color.BLACK);
+
+        int yPosAciklama4 = (int)  (c.getHeight() / 4.5 );
+
+        c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
+        c.drawText(textAciklama, (c.getWidth() / 15), yPosAciklama, p1);
+        c.drawText(textAciklama2, (c.getWidth() / 15), yPosAciklama2, p2);
+        c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama3, p3);
+        c.drawText(saat, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama4, p4);
+
+        final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
+
+        String root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES).toString();
+        File myDir = new File(root + "/saved_images");
+        myDir.mkdirs();
+        Random generator = new Random();
+
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "Image-"+ n +".png";
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+
+        try {
+
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        // Tell the media scanner about the new file so that it is
+        // immediately available to the user.
+        MediaScannerConnection.scanFile(OlcumNoktalariEkle.this, new String[]{file.toString()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+
+                    public void onScanCompleted(String path, Uri uri) {
+
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
+
+        String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
+
+        Intent i = new Intent(OlcumNoktalariEkle.this, Activity_PrintImage.class);
+        i.putExtra("labelAdress", hop);
+        startActivity(i);
     }
 
     public String olcumSonuc(Double Raa, Double Rx){
