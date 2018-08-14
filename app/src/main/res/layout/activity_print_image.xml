@@ -64,7 +64,8 @@
                 android:layout_margin="5dp"
                 android:background="@color/colorAccent"
                 android:enabled="true"
-                android:text="@string/button_select_file" />
+                android:text="@string/button_select_file"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -79,7 +80,8 @@
                 android:layout_margin="5dp"
                 android:background="@color/colorAccent"
                 android:enabled="true"
-                android:text="@string/button_printer_status" />
+                android:text="@string/button_printer_status"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

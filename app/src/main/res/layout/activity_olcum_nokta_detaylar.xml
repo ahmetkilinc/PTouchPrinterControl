@@ -87,7 +87,7 @@
             android:text="@string/dn_go_back" />
 
         <Button
-            android:id="@+id/buttonSil"
+            android:id="@+id/buttonSilNoktaDetaylar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
