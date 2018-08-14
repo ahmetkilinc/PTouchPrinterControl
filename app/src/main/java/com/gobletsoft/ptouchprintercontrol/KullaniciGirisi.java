@@ -34,7 +34,7 @@ public class KullaniciGirisi extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_login = "http://10.0.0.100:85/ptouchAndroid/logins.php";
+    private static String url_login = "";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
