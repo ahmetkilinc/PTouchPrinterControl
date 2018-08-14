@@ -69,7 +69,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcum_ortam_bilgileri_ekle = "";
+    private static String url_olcum_ortam_bilgileri_ekle = "http://10.0.0.100:85/ptouchAndroid/olcumortambilgileriekle.php";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 

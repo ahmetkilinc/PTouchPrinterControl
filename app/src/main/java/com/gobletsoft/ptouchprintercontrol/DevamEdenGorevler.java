@@ -63,7 +63,7 @@ public class DevamEdenGorevler extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_devamedengorevleri_getir = "";
+    private static String url_devamedengorevleri_getir = "http://10.0.0.100:85/ptouchAndroid/devamedengorevlerigetir.php";
 
     private ProgressDialog pDialog;
 

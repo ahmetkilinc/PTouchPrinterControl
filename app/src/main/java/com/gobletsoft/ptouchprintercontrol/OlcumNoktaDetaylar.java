@@ -78,7 +78,8 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcumnoktadetaylar_getir = "";
+    private static String url_olcumnoktadetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/olcumnoktadetaylarinigetir.php";
+    private static String url_olcumnokta_sil = "http://10.0.0.100:85/ptouchAndroid/olcumnoktasisil.php";
 
     private ProgressDialog pDialog;
 
@@ -275,7 +276,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
         Button btnCiktiAl = findViewById(R.id.buttonCiktiAlOlcumNoktaDetay);
         Button btnGeriDon = findViewById(R.id.buttonGeriOlcumNoktaDetaylar);
         Button btnDuzenle = findViewById(R.id.buttonOlcumNoktaDuzenle);
-        Button btnSil = findViewById(R.id.buttonSil);
+        Button btnSil = findViewById(R.id.buttonSilNoktaDetaylar);
 
         listView = findViewById(R.id.listViewOlcumNoktaDetaylar);
 
@@ -454,6 +455,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                                     public void onClick(final DialogInterface dialog, final int which) {
 
                                         Toast.makeText(getApplicationContext(), "Ölçüm Noktası Silinecek", Toast.LENGTH_LONG).show();
+                                        new olcumnoktasil().execute();
                                     }
                                 })
                         .setNegativeButton("Silme, Devam Et.",
@@ -468,6 +470,57 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
+
+    class  olcumnoktasil extends AsyncTask<String, String, String>{
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(OlcumNoktaDetaylar.this);
+            pDialog.setMessage("Seçilen Nokta Silinior...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("olcumnoktaid", olcumNoktaIdDB));
+
+            json = jsonParser.makeHttpRequest(url_olcumnokta_sil,"GET", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                int basari = json.getInt("success");
+
+                if (basari == 1){
+
+                    Toast.makeText(getApplicationContext(), "Ölçüm Noktası Başarı ile Silindi.", Toast.LENGTH_LONG).show();
+
+                    startActivity(new Intent(OlcumNoktaDetaylar.this, DevamEdenGorevler.class));
+                }
+
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 
     class olcumnoktadetaylarinigetir extends AsyncTask<String, String, String>{
