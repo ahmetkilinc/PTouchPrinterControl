@@ -78,8 +78,8 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcumnoktadetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/olcumnoktadetaylarinigetir.php";
-    private static String url_olcumnokta_sil = "http://10.0.0.100:85/ptouchAndroid/olcumnoktasisil.php";
+    private static String url_olcumnoktadetaylar_getir = "";
+    private static String url_olcumnokta_sil = "";
 
     private ProgressDialog pDialog;
 
