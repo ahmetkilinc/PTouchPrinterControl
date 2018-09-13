@@ -118,7 +118,7 @@ public class Activity_PrintImage extends BaseActivity {
         //profil eklendiği zaman düzenle. ->
 
         //final IProfile profile = new ProfileDrawerItem().withName(displayName).withEmail(displayEmail).withIcon(displayPhotoUrl).withIdentifier(100);
-
+/*
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
@@ -216,7 +216,7 @@ public class Activity_PrintImage extends BaseActivity {
                         return false;
                     }
                 })
-                .build();
+                .build();*/
 
         Button btnSelectFile = findViewById(R.id.btnSelectFile);
         btnSelectFile.setOnClickListener(new View.OnClickListener() {

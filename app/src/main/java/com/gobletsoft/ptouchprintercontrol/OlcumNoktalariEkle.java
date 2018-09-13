@@ -89,7 +89,8 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcum_noktalari_ekle = "";
+    private static String url_olcum_noktalari_ekle = "http://10.0.0.100:85/ptouchAndroid/olcumnoktalariekle.php";
+    private static String url_sistem_tipini_al = "http://10.0.0.100:85/ptouchAndroid/sistemtipinial.php";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
@@ -265,7 +266,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                 })
                 .build();
 
-        final Spinner sSebekeTipi = findViewById(R.id.spinnerSebekeTipi);
+        //final Spinner sSebekeTipi = findViewById(R.id.spinnerSebekeTipi);
         final Spinner sOlculenTip = findViewById(R.id.spinnerOlculenTip);
         final Spinner sKarakteristik = findViewById(R.id.spinnerKarakteristik);
         final Spinner sAnaIletkenKesiti = findViewById(R.id.spinnerAnaIletkenKesiti);
@@ -279,11 +280,18 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
 
         cbYazdir = findViewById(R.id.checkBoxYazdir);
 
+        Toast.makeText(getApplicationContext(), olcumYeriId, Toast.LENGTH_LONG).show();
+
+        new sistemTipiniAl().execute();
+
+
         Button btnEkle = findViewById(R.id.buttonEkle);
 
         btnEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Toast.makeText(getApplicationContext(), "Sebeke tipi: " + SebekeTipi, Toast.LENGTH_SHORT).show();
 
                 if (etOlculenNokta.getText().toString().isEmpty() || etKorumaIletkenKesiti.getText().toString().isEmpty() ||
                         etRx.getText().toString().isEmpty()){
@@ -299,7 +307,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     }
 
 
-                    SebekeTipi = sSebekeTipi.getSelectedItem().toString();
+                    //SebekeTipi = sSebekeTipi.getSelectedItem().toString();
                     OlculenTip = sOlculenTip.getSelectedItem().toString();
                     Karakteristik = sKarakteristik.getSelectedItem().toString();
                     AnaIletkenKesiti = sAnaIletkenKesiti.getSelectedItem().toString();
@@ -671,6 +679,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     }
 
                     //verileri hesapla fonksiyonuna yolla.
+                    //SistemTipi ni al ve gönder.
                     hesapla(SebekeTipi, OlculenTip, Karakteristik, doubleAnaIletkenKesit,
                             KacakAkimRolesi, In, OlcumBolumAdi, OlculenNokta, KorumaIletkenKesiti, Rx);
 
@@ -678,6 +687,67 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //sistemTipini aldığımız AsyncTask
+
+    class  sistemTipiniAl extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(OlcumNoktalariEkle.this);
+            pDialog.setMessage("Ölçüm Ortam Bilgileri Kaydediliyor...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args){
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+
+            params.add(new BasicNameValuePair("olcumyeriid", olcumYeriId));
+
+
+            json = jsonParser.makeHttpRequest(url_sistem_tipini_al,
+                    "GET", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url){
+
+            pDialog.dismiss();
+
+            try {
+
+                int kontrol = json.getInt("success");
+
+                Toast.makeText(getApplicationContext(), "kontrol: " + kontrol, Toast.LENGTH_SHORT).show();
+
+                if (kontrol == 1){
+
+                    SebekeTipi = json.getString("sistemtipi");
+
+                    Toast.makeText(getApplicationContext(), "Sebeke tipi: " + SebekeTipi, Toast.LENGTH_SHORT).show();
+                }
+
+                else{
+
+                    Toast.makeText(getApplicationContext(), "Sistem Tipi hatalı, lütfen uygulamayı tekrar başlatın.", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 
     class olcumNoktalariEkle extends AsyncTask<String,String,String> {
@@ -713,7 +783,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
             StRaa = String.valueOf(Raa);
 
             params.add(new BasicNameValuePair("olcumYeriId", olcumYeriId));
-            params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
+            //params.add(new BasicNameValuePair("sebekeTipi", SebekeTipi));
             params.add(new BasicNameValuePair("olcumBolumAdi", OlcumBolumAdi));
             params.add(new BasicNameValuePair("olculenTip", OlculenTip));
             params.add(new BasicNameValuePair("olculenNokta", OlculenNokta));
@@ -1026,7 +1096,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         String textOlcumDegeri = Rx + "";
         Paint p = new Paint();
         p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p.setTextSize(220);
+        p.setTextSize(320);
         p.setColor(Color.BLACK);
 
         //yazının fotoda nerede olacağı (aşağı yukarı)
@@ -1035,15 +1105,15 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         String textAciklama = OlcumBolumAdi;
         Paint p1 = new Paint();
         p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p1.setTextSize(220);
+        p1.setTextSize(320);
         p1.setColor(Color.BLACK);
 
-        int yPosAciklama = (int) (c.getHeight() / 1.45);
+        int yPosAciklama = (int) (c.getHeight() / 1.5);
 
         String textAciklama2 = OlculenNokta;
         Paint p2 = new Paint();
         p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p2.setTextSize(220);
+        p2.setTextSize(320);
         p2.setColor(Color.BLACK);
 
         int yPosAciklama2 = (int) (c.getHeight() / 1.07);
@@ -1051,7 +1121,7 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         String Tarih = formattedDate;
         Paint p3 = new Paint();
         p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p3.setTextSize(170);
+        p3.setTextSize(270);
         p3.setColor(Color.BLACK);
 
         int yPosAciklama3 = (int) (c.getHeight() / 8);
@@ -1059,16 +1129,16 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
         String saat = formattedSaat;
         Paint p4 = new Paint();
         p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p4.setTextSize(170);
+        p4.setTextSize(270);
         p4.setColor(Color.BLACK);
 
-        int yPosAciklama4 = (int)  (c.getHeight() / 4.5 );
+        int yPosAciklama4 = (int)  (c.getHeight() / 8);
 
         c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
         c.drawText(textAciklama, (c.getWidth() / 15), yPosAciklama, p1);
         c.drawText(textAciklama2, (c.getWidth() / 15), yPosAciklama2, p2);
-        c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama3, p3);
-        c.drawText(saat, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama4, p4);
+        c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 2)), yPosAciklama3, p3);
+        c.drawText(saat, (c.getWidth() - (c.getWidth() / 5)), yPosAciklama4, p4);
 
         final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
 
@@ -1076,11 +1146,19 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                 Environment.DIRECTORY_PICTURES).toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
-        Random generator = new Random();
 
-        int n = 10000;
+        //Random generator = new Random();
+
+        /*int n = 10000;
         n = generator.nextInt(n);
         String fname = "Image-"+ n +".png";
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();*/
+
+
+        //int n = 10000;
+        //n = generator.nextInt(n);
+        String fname = "Image-1.png";
         File file = new File (myDir, fname);
         if (file.exists ()) file.delete ();
 
@@ -1109,7 +1187,9 @@ public class OlcumNoktalariEkle extends AppCompatActivity {
                     }
                 });
 
-        String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
+        //String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
+
+        String hop = "/storage/emulated/0/Pictures/saved_images/Image-1.png";
 
         Intent i = new Intent(OlcumNoktalariEkle.this, Activity_PrintImage.class);
         i.putExtra("labelAdress", hop);

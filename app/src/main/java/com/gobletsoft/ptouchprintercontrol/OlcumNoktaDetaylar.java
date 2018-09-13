@@ -58,6 +58,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.transform.sax.SAXResult;
+
 public class OlcumNoktaDetaylar extends AppCompatActivity {
 
     ArrayList<OlcumNoktaDetaylarDataModel> olcumNoktaDetaylarDataModels;
@@ -78,16 +80,14 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
     //php stuff
     private JSONObject json;
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcumnoktadetaylar_getir = "";
-    private static String url_olcumnokta_sil = "";
+    private static String url_olcumnoktadetaylar_getir = "http://10.0.0.100:85/ptouchAndroid/olcumnoktadetaylarinigetir.php";
+    private static String url_olcumnokta_sil = "http://10.0.0.100:85/ptouchAndroid/olcumnoktasisil.php";
 
     private ProgressDialog pDialog;
-
     private String olcumBolumAdiTY, olculenNoktaTY;
-
     private String olcumNoktaIdDB;
     private String olcumYeriIdDB;
-    private String sebekeTipi;
+    //private String sebekeTipi;
     private String olcumBolumAdi;
     private String olculenTip;
     private String olculenNokta;
@@ -302,6 +302,13 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //sp denemesi textsize için.
+
+                //try IT!!!
+
+                //int spSize = 180;
+                //float scaledSizeInPixels = spSize * getResources().getDisplayMetrics().scaledDensity;
+
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.labeltemplate);
 
                 final Bitmap bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -310,7 +317,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 String textOlcumDegeri = rx + "";
                 Paint p = new Paint();
                 p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p.setTextSize(180);
+                p.setTextSize(320);
                 p.setColor(Color.BLACK);
 
                 //yazının fotoda nerede olacağı (aşağı yukarı)
@@ -319,15 +326,15 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 String textAciklama = olcumBolumAdi;
                 Paint p1 = new Paint();
                 p1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p1.setTextSize(180);
+                p1.setTextSize(320);
                 p1.setColor(Color.BLACK);
 
-                int yPosAciklama = (int) (c.getHeight() / 1.45);
+                int yPosAciklama = (int) (c.getHeight() / 1.5);
 
                 String textAciklama2 = olculenNokta;
                 Paint p2 = new Paint();
                 p2.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p2.setTextSize(180);
+                p2.setTextSize(320);
                 p2.setColor(Color.BLACK);
 
                 int yPosAciklama2 = (int) (c.getHeight() / 1.07);
@@ -335,7 +342,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 String Tarih = formattedDate;
                 Paint p3 = new Paint();
                 p3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p3.setTextSize(170);
+                p3.setTextSize(270);
                 p3.setColor(Color.BLACK);
 
                 int yPosAciklama3 = (int) (c.getHeight() / 8);
@@ -343,16 +350,16 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 String saat = formattedSaat;
                 Paint p4 = new Paint();
                 p4.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                p4.setTextSize(170);
+                p4.setTextSize(270);
                 p4.setColor(Color.BLACK);
 
-                int yPosAciklama4 = (int)  (c.getHeight() / 4.5 );
+                int yPosAciklama4 = (int)  (c.getHeight() / 8 );
 
                 c.drawText(textOlcumDegeri, (c.getWidth() / 6), yPos, p);
                 c.drawText(textAciklama, (c.getWidth() / 15), yPosAciklama, p1);
                 c.drawText(textAciklama2, (c.getWidth() / 15), yPosAciklama2, p2);
-                c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama3, p3);
-                c.drawText(saat, (c.getWidth() - (c.getWidth() / 3)), yPosAciklama4, p4);
+                c.drawText(Tarih, (c.getWidth() - (c.getWidth() / 2)), yPosAciklama3, p3);
+                c.drawText(saat, (c.getWidth() - (c.getWidth() / 5)), yPosAciklama4, p4);
 
                 final BitmapDrawable drawable = new BitmapDrawable(getResources(), bmp);
 
@@ -360,11 +367,11 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                         Environment.DIRECTORY_PICTURES).toString();
                 File myDir = new File(root + "/saved_images");
                 myDir.mkdirs();
-                Random generator = new Random();
+                //Random generator = new Random();
 
-                int n = 10000;
-                n = generator.nextInt(n);
-                String fname = "Image-"+ n +".png";
+                //int n = 10000;
+                //n = generator.nextInt(n);
+                String fname = "Image-1.png";
                 File file = new File (myDir, fname);
                 if (file.exists ()) file.delete ();
 
@@ -393,7 +400,9 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                             }
                         });
 
-                String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
+                //String hop = "/storage/emulated/0/Pictures/saved_images/Image-" + n + ".png";
+
+                String hop = "/storage/emulated/0/Pictures/saved_images/Image-1.png";
 
                 Intent i = new Intent(OlcumNoktaDetaylar.this, Activity_PrintImage.class);
                 i.putExtra("labelAdress", hop);
@@ -423,7 +432,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 Intent inten = new Intent(OlcumNoktaDetaylar.this, OlcumNoktaDuzenle.class);
                 inten.putExtra("olcumnoktaid", olcumNoktaIdDB);
                 inten.putExtra("olcumBolumAdi", olcumBolumAdi);
-                inten.putExtra("sebekeTipi", sebekeTipi);
+                //inten.putExtra("sebekeTipi", sebekeTipi);
                 inten.putExtra("olculenTip", olculenTip);
                 inten.putExtra("olculenNokta", olculenNokta);
                 inten.putExtra("karakteristik", karakteristik);
@@ -440,6 +449,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
             }
         });
 
+        //ölçüm noktasını silme bölümü.
         btnSil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -464,7 +474,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                                     @Override
                                     public void onClick(final DialogInterface dialog, final int which) {
 
-
+                                        //Hayır denirse hiçbir şey yapma.
                                     }
                                 }).create();
                 alertDialog.show();
@@ -512,9 +522,12 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "Ölçüm Noktası Başarı ile Silindi.", Toast.LENGTH_LONG).show();
 
-                    startActivity(new Intent(OlcumNoktaDetaylar.this, DevamEdenGorevler.class));
+                    //başarılı ise db işlemleri, geri ölçüm noktalarına yönlendirildi.
+                    Intent in = new Intent(OlcumNoktaDetaylar.this, OlcumNoktalari.class);
+                    in.putExtra("olcumyeriid", olcumYeriIdDB);
+                    startActivity(in);
+                    //startActivity(new Intent(OlcumNoktaDetaylar.this, DevamEdenGorevler.class));
                 }
-
             }
             catch (JSONException e) {
 
@@ -561,7 +574,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 olcumNoktaIdDB = json.getString("id");
                 olcumYeriIdDB = json.getString("olcumyeriid");
 
-                sebekeTipi = json.getString("sebeketip");
+                //sebekeTipi = json.getString("sebeketip");
                 olcumBolumAdi = json.getString("olcumbolumad");
                 olculenTip = json.getString("olculentip");
                 olculenNokta = json.getString("olculennokta");
@@ -581,7 +594,7 @@ public class OlcumNoktaDetaylar extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            olcumNoktaDetaylarDataModels.add(new OlcumNoktaDetaylarDataModel("Sebeke Tipi:", sebekeTipi));
+            //olcumNoktaDetaylarDataModels.add(new OlcumNoktaDetaylarDataModel("Sebeke Tipi:", sebekeTipi));
             olcumNoktaDetaylarDataModels.add(new OlcumNoktaDetaylarDataModel("Olçüm Bölüm Adı:", olcumBolumAdi));
             olcumNoktaDetaylarDataModels.add(new OlcumNoktaDetaylarDataModel("Ölçülen Tip:", olculenTip));
             olcumNoktaDetaylarDataModels.add(new OlcumNoktaDetaylarDataModel("Ölçülen Nokta:", olculenNokta));

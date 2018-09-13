@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +59,8 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
     private String TemelTopraklayiciSekli, DerinTopraklayiciSekli, RingTopraklayiciSekli, BelirsizTopraklayiciSekli, TopraklayiciSekli;
 
+    private String SistemTipi, AnaEsPotansiyelBara;
+
     private String TesiseAitProje, HavaDurumu, ToprakDurumu;
 
     private AccountHeader headerResult = null;
@@ -69,7 +72,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_olcum_ortam_bilgileri_ekle = "";
+    private static String url_olcum_ortam_bilgileri_ekle = "http://10.0.0.100:85/ptouchAndroid/olcumortambilgileriekle.php";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
@@ -89,6 +92,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -351,6 +355,8 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         final EditText etModel = findViewById(R.id.editTextModel);
         final EditText etSeriNumarasi = findViewById(R.id.editTextSerialNo);
 
+        final Spinner sSistemTipi = findViewById(R.id.spinnerSistemTipi);
+
 
         //önceden tanımlı oldukları için editlemeyi kapat.
         etMarka.setFocusable(false);
@@ -364,6 +370,7 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
         final RadioGroup rgTesiseAitProje = findViewById(R.id.RadioGrouptesiseAitProje);
         final RadioGroup rgHavaDurumu = findViewById(R.id.RadioGroupHavaDurumu);
         final RadioGroup rgToprakDurumu = findViewById(R.id.RadioButtonToprakDurumu);
+        final RadioGroup rgAnaEsPotansiyelBara = findViewById(R.id.RadioGroupAnaEsPotantiselBara);
 
         final CheckBox cbTemel = findViewById(R.id.checkBoxTemel);
         final CheckBox cbDerin = findViewById(R.id.checkBoxDerin);
@@ -459,8 +466,16 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
 
                     //radio buttons
                     int tesiseAitProje = rgTesiseAitProje.getCheckedRadioButtonId();
-                    RadioButton rbTesiseAitProje =findViewById(tesiseAitProje);
+                    RadioButton rbTesiseAitProje = findViewById(tesiseAitProje);
                     TesiseAitProje = rbTesiseAitProje.getText().toString();
+
+                    //anaespotansiyelBara ve sistem tipi eklendi.
+
+                    int anaEsPotalsiyelBara = rgAnaEsPotansiyelBara.getCheckedRadioButtonId();
+                    RadioButton rbAnaEsPotansiyelBara = findViewById(anaEsPotalsiyelBara);
+                    AnaEsPotansiyelBara = rbAnaEsPotansiyelBara.getText().toString();
+
+                    SistemTipi = sSistemTipi.getSelectedItem().toString();
 
                     int havaDurumu = rgHavaDurumu.getCheckedRadioButtonId();
                     RadioButton rbHavaDurumu = findViewById(havaDurumu);
@@ -519,6 +534,8 @@ public class OlcumOrtamBilgileri extends AppCompatActivity {
             params.add(new BasicNameValuePair("havaDurumu", HavaDurumu));
             params.add(new BasicNameValuePair("toprakDurumu", ToprakDurumu));
             params.add(new BasicNameValuePair("tesisSekli", TopraklayiciSekli));
+            params.add(new BasicNameValuePair("anaespotansiyelbara", AnaEsPotansiyelBara));
+            params.add(new BasicNameValuePair("sistemtipi", SistemTipi));
 
             json = jsonParser.makeHttpRequest(url_olcum_ortam_bilgileri_ekle,
                     "GET", params);
