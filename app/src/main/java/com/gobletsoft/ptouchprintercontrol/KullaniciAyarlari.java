@@ -50,8 +50,8 @@ public class KullaniciAyarlari extends AppCompatActivity {
 
     //php connections
     JSONParser jsonParser = new JSONParser();
-    private static String url_hesapbilgilerini_getir = "http://10.0.0.100:85/ptouchAndroid/hesapbilgilerinial.php";
-    private static String url_hesapbilgilerini_guncelle = "http://10.0.0.100:85/ptouchAndroid/hesapbilgileriniguncelle.php";
+    private static String url_hesapbilgilerini_getir = "";
+    private static String url_hesapbilgilerini_guncelle = "";
     private static final String TAG_SUCCESS = "success";
     private JSONObject json;
 
